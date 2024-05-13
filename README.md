@@ -18,7 +18,7 @@
    <br>
 
 <div align= "center">
-    <img align="left" src="https://img.itch.zone/aW1hZ2UvMjcwMzUxMC8xNjExNzc4NS5wbmc=/original/6gHOfC.png" width="300">
-    <img align="left" src="https://img.itch.zone/aW1hZ2UvMjcwMzUxMC8xNjExNzc4NC5wbmc=/original/FyVhlA.png" width="300">
+    <img align="center" src="https://img.itch.zone/aW1hZ2UvMjcwMzUxMC8xNjExNzc4NS5wbmc=/original/6gHOfC.png" width="400">
+    <img align="center" src="https://img.itch.zone/aW1hZ2UvMjcwMzUxMC8xNjExNzc4NC5wbmc=/original/FyVhlA.png" width="400">
 </div>    
 
