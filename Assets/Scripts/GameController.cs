@@ -13,7 +13,6 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
     [SerializeField] private GameObject crosshairSpriteObject; // Fare sprite'ý için oluþturulan nesne
 
-
     public GameObject playerPrefab;
 
     public float minX1;
@@ -123,6 +122,7 @@ public class GameController : MonoBehaviour
         crosshairSpriteObject.transform.position = mousePosition;
     }
 
+   
     private void Update()
     {
         if (player != null)

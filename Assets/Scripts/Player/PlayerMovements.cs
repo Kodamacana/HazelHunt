@@ -6,7 +6,7 @@ using Photon.Pun;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class PlayerMovements : MonoBehaviour
+public class PlayerMovements : MonoBehaviour, IPunObservable
 {
     Rigidbody2D rb;
     BoxCollider2D collider;
@@ -17,6 +17,7 @@ public class PlayerMovements : MonoBehaviour
     Vector2 moveDir;
     PhotonView view;
     Animator anim;
+    private Vector2 networkPosition;
 
     private void Start()
     {
@@ -30,49 +31,69 @@ public class PlayerMovements : MonoBehaviour
         collider = GetComponent<BoxCollider2D>();
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
-        if (view.IsMine && !GetComponent<GunController>().isForceFeedback)
+        if (!view.IsMine)
+        {
+            rb.position = Vector3.MoveTowards(rb.position, networkPosition, Time.fixedDeltaTime * 100);
+            return;
+        }
+        else if (!GetComponent<GunController>().isForceFeedback)
         {
             rb.velocity = moveDir * moveSpeed;
-        }        
+        }
     }
 
     private void Update()
     {
-        if (view.IsMine)
+        if (!view.IsMine)
         {
-            horizontalInput = 0;
-            verticalInput = 0;
+            return;
+        }   
 
-            if (Input.GetKey(KeyCode.W))
-            {
-                verticalInput = 1f;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                verticalInput = -1f;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                horizontalInput = -1f;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                horizontalInput = 1f;
-            }
+        horizontalInput = 0;
+        verticalInput = 0;
 
-            if (horizontalInput == 0 && verticalInput == 0)
-            {
-                anim.SetBool("Run", false);
-            }
-            else
-            {
-                anim.SetBool("Run", true);
-            }
-            moveDir = new Vector2(horizontalInput, verticalInput).normalized;
+        if (Input.GetKey(KeyCode.W))
+        {
+            verticalInput = 1f;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            verticalInput = -1f;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            horizontalInput = -1f;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            horizontalInput = 1f;
+        }
 
-            
-        }        
+        if (horizontalInput == 0 && verticalInput == 0)
+        {
+            anim.SetBool("Run", false);
+        }
+        else
+        {
+            anim.SetBool("Run", true);
+        }
+        moveDir = new Vector2(horizontalInput, verticalInput).normalized;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+        }
+        else
+        {
+            networkPosition = (Vector3)stream.ReceiveNext();
+
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+            networkPosition += (rb.velocity * lag);
+        }
     }
 }

@@ -11,24 +11,19 @@ public class WeaponDamage : MonoBehaviour
 
     private void Awake()
     {
-        view = GetComponent<PhotonView>();
+        view = transform.parent.GetComponent<PhotonView>();
         anim = GetComponent<Animator>();
     }
 
    
     private void Update()
     {
-        if (view.IsMine)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                anim.SetBool("Shot", true);
-            }
-            else
-            {
-                anim.SetBool("Shot", false);
-            }
-        }        
+        if (!view.IsMine)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
+            anim.SetBool("Shot", true);
+        else anim.SetBool("Shot", false);
     }
    
 }

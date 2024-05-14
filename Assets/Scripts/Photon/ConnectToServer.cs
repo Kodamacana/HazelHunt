@@ -9,6 +9,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.SendRate = 360;
+        PhotonNetwork.SerializationRate = 360;
     }
 
     public override void OnConnectedToMaster()
