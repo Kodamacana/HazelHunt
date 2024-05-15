@@ -22,31 +22,17 @@ public class PlayerBase : MonoBehaviour
     private void Start()
     {
         view = GetComponent<PhotonView>();
-        //if (view.IsMine)
-        //{
-        //    usernameText.text = PhotonNetwork.NickName;
-        //}
         currentHealth = maxHealth;
     }
     
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnDamage()
     {
-        if (view != null)
+        for (int i = 0; i < spriteRenderers.Length; i++)
         {
-            if (!view.IsMine) // Eðer sahibi ben deðilsem
-                return;
-
-            if (collision.transform.name.Contains("Bullet")) // Eðer çarpýþan obje bir mermi ise
-            {
-                for (int i = 0; i < spriteRenderers.Length; i++)
-                {
-                    spriteRenderers[i].material = whiteMaterial;
-                }
-                view.RPC("TakeDamage", RpcTarget.All); // Hasarý senkronize et
-                Invoke("InvokeSkin", 0.2f);
-            }
-
+            spriteRenderers[i].material = whiteMaterial;
         }
+        view.RPC("TakeDamage", RpcTarget.All); // Hasarý senkronize et
+        Invoke("InvokeSkin", 0.2f);
     }
 
     private void InvokeSkin()
@@ -55,6 +41,7 @@ public class PlayerBase : MonoBehaviour
         {
             spriteRenderers[i].material = defaultMaterial;
         }
+        view.RPC("ChangeSkin", RpcTarget.All);
     }
 
     [PunRPC]
@@ -94,13 +81,6 @@ public class PlayerBase : MonoBehaviour
             }
         }
 
-    }
-    private void Update()
-    {
-        if (view.IsMine)
-        {
-            view.RPC("ChangeSkin", RpcTarget.All);
-        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

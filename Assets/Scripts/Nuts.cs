@@ -5,79 +5,48 @@ using UnityEngine;
 
 public class Nuts : MonoBehaviour
 {
-    [SerializeField] float forceValue = 750f;
-    [SerializeField] float decelerationRate = 30f; // Zamanla azalma oraný
-    bool isStartForce = false;
+    [SerializeField] float forceValue = 75f;
+    [SerializeField] float damping = 0.1f; // Azalma katsayýsý
 
     Rigidbody2D rb;
-    PhotonView view;
-    Vector2 lastDirection;
-
-    private void Start()
-    {
-        view = GetComponent<PhotonView>();
-        StartCoroutine(PositionNut());
-    }
 
     private void Awake()
     {
-        // Rigidbody 2D bileþenini al
         rb = GetComponent<Rigidbody2D>();
     }
-         
-    public IEnumerator PositionNut()
+
+    private void Start()
+    {
+        StartCoroutine(PositionNut());
+    }
+
+    private IEnumerator PositionNut()
     {
         while (transform.parent == null)
         {
             yield return null;
         }
         transform.localPosition = new Vector3(0.52f, 0, 0);
-        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        GetComponent<Rigidbody2D>().simulated = false;
+        rb.bodyType = RigidbodyType2D.Static;
+        rb.simulated = false;
     }
 
     private void StartMovement(Vector2 direction)
     {
-        isStartForce = true;
-
-        rb = transform.GetComponent<Rigidbody2D>();
-        rb.AddForce(direction * forceValue);
+        rb.velocity = direction *forceValue;
     }
 
-    public void FireNut(Vector2 direction)
+    public void FireNut(Vector2 originalDirection)
     {
-        lastDirection = direction;
-        view.RPC("OnShootNut", RpcTarget.AllBuffered);
-        
-        StartMovement(lastDirection);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.simulated = true;
+        transform.SetParent(null);
+        StartMovement(originalDirection);
     }
 
-    [PunRPC]
-    public void OnShootNut()
+    private void FixedUpdate()
     {
-        transform.SetParent(null);       
-    }
-
-    private void Update()
-    {
-        if (view.IsMine)
-        {
-            if (isStartForce)
-            {
-                // Eðer Rigidbody 2D bileþeni yoksa veya hýz sýfýrsa, iþlem yapma
-                if (rb == null || rb.velocity == Vector2.zero)
-                    return;
-
-                // Zamana baðlý olarak hýzý azalt
-                rb.velocity -= decelerationRate * Time.deltaTime * rb.velocity.normalized;
-
-                // Eðer hýz sýfýrdan küçükse, sýfýrla
-                if (rb.velocity.magnitude < 0.01f)
-                {
-                    rb.velocity = Vector2.zero;
-                    isStartForce = false;
-                }
-            }
-        }        
+        // Hýzý azalt
+        rb.velocity *= (1 - damping);
     }
 }

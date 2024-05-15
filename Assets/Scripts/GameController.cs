@@ -83,6 +83,7 @@ public class GameController : MonoBehaviour
             Debug.LogError("PhotonNetwork is not connected or ready!");
         }
     }
+
     private int GetPlayerNumber()
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
@@ -114,15 +115,13 @@ public class GameController : MonoBehaviour
         return new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
     }
 
-
     private void ShownCrossHair()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0f;
         crosshairSpriteObject.transform.position = mousePosition;
     }
-
-   
+       
     private void Update()
     {
         if (player != null)

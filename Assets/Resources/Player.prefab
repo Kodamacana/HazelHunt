@@ -170,9 +170,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!70 &8242901534531509535
 CapsuleCollider2D:
@@ -234,18 +234,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660e55bbe7c0d7e45af78770a47433be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isForceFeedback: 0
   bulletSpeed: 25
   bulletLifetime: 0.1
   canvasUsername: {fileID: 8196304400227293363}
   gunEndPointTransform: {fileID: 6214078597339516436}
   gunTransform: {fileID: 4966052820479712392}
   firePoint: {fileID: 6214078597339516436}
+  weaponAnim: {fileID: 5582960830927041975}
+  weaponObject: {fileID: 5665244214236823445}
   bulletPrefab: {fileID: 3475642902825876039, guid: f6a019910378ebd4da6de425a246643c, type: 3}
+  nutsCollect: {fileID: 833479291666483826}
   fireCooldownTime: 0.75
   recoilForce: 3
-  nutsCollect: {fileID: 833479291666483826}
-  weaponObject: {fileID: 5665244214236823445}
+  isForceFeedback: 0
 --- !u!114 &833479291666483826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,9 +260,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCollectNut: 0
+  nutClone: {fileID: 0}
   nutPrefab: {fileID: 1156994426993505142, guid: 9c41eba4d5a01734bae67c189840dfab, type: 3}
   spawnNutParent: {fileID: 43064484655435078}
-  nutClone: {fileID: 0}
 --- !u!114 &7837636581340280653
 MonoBehaviour:
   m_ObjectHideFlags: 0
