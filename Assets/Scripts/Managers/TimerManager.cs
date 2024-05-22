@@ -8,14 +8,13 @@ public class TimerManager : MonoBehaviour
 {
     [SerializeField] float duration = 180f;
 
+    [SerializeField]  private Image image;
     private PhotonView view;
-    private Image image;
     private float timer = 0f;
     private bool isGameOver = false;
 
     private void Awake()
     {
-        image = GetComponent<Image>();
         view = GetComponent<PhotonView>();
     }
 
@@ -48,7 +47,7 @@ public class TimerManager : MonoBehaviour
                 image.fillAmount = 0f;
             }
 
-            view.RPC("Timer", RpcTarget.All, fillAmount);
+            view.RPC("Timer", RpcTarget.AllBufferedViaServer, fillAmount);
         }
         else
         {

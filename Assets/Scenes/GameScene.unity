@@ -638,6 +638,13 @@ MonoBehaviour:
   healthText: {fileID: 321438364}
   chosenTree: {fileID: 0}
   player: {fileID: 0}
+  sound_Shotgun: {fileID: 8300000, guid: 2e53ca3a6d6b84b47bb787ec39e7bee5, type: 3}
+  sound_BombExplosion: {fileID: 8300000, guid: 017b6cbe31fc8d14d95587ced2ceb174, type: 3}
+  sound_Button: {fileID: 8300000, guid: 79b06f9bdb4315946a202010dd268790, type: 3}
+  sound_Lose: {fileID: 8300000, guid: 2589221f562a51c48b26734e3dc77479, type: 3}
+  sound_Win: {fileID: 8300000, guid: 29848fb52587806498031d33a234fd41, type: 3}
+  sound_GettingShot: {fileID: 8300000, guid: 9e4518a77c8a82548b6765cc9e936c15, type: 3}
+  sound_NutCollect: {fileID: 8300000, guid: 7b0699a6eaf678e448bfa8a30eda31b9, type: 3}
 --- !u!4 &320371651
 Transform:
   m_ObjectHideFlags: 0
@@ -2496,6 +2503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 180
+  image: {fileID: 2054277434}
 --- !u!114 &1491649002
 MonoBehaviour:
   m_ObjectHideFlags: 0

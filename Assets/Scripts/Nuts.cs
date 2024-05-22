@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Nuts : MonoBehaviourPunCallbacks
@@ -12,6 +13,8 @@ public class Nuts : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 1f);
+
         rb = GetComponent<Rigidbody2D>();
         view = GetComponent<PhotonView>();
     }
@@ -36,6 +39,8 @@ public class Nuts : MonoBehaviourPunCallbacks
     {
         if (view.IsMine || PhotonNetwork.IsMasterClient)
         {
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 1f);
+
             PhotonNetwork.Destroy(gameObject);
         }
     }

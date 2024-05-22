@@ -10,6 +10,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private float bulletSpeed = 100f; // Mermi hýzý
     [SerializeField] private float bulletLifetime = .2f; // Mermi ömrü
 
+    [SerializeField] private Transform playerHead;
     [SerializeField] private RectTransform canvasUsername;
     [SerializeField] private Transform gunEndPointTransform;
     [SerializeField] private Transform gunTransform;
@@ -50,13 +51,14 @@ public class GunController : MonoBehaviour
         Vector3 aimDirection = (mousePosition - transform.position).normalized;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         gunTransform.eulerAngles = new Vector3(0, 0, angle);
-
+        playerHead.eulerAngles = new Vector3(0, 0, angle);
         Vector3 localScale = Vector3.one;
         if (angle > 90 || angle < -90)
         {
             localScale.y = -1f;
             player.transform.localScale = new Vector3(1, 1, 1);
             gunTransform.localScale = new Vector3(1, -1, 1);
+            playerHead.localScale = new Vector3(-1, -1, 1);
             canvasUsername.localScale = new Vector3(1, 1, 1);
         }
         else
@@ -64,6 +66,7 @@ public class GunController : MonoBehaviour
             localScale.y = +1f;
             player.transform.localScale = new Vector3(-1, 1, 1);
             gunTransform.localScale = new Vector3(-1, 1, 1);
+            playerHead.localScale = new Vector3(1, 1, 1);
             canvasUsername.localScale = new Vector3(-1, 1, 1);
         }
     }
@@ -116,6 +119,8 @@ public class GunController : MonoBehaviour
             {
                 if (view.IsMine)
                 {
+                    SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, hitInfo.collider.transform.position, 1f);
+
                     targetPhotonView.RPC("TakeDamage", RpcTarget.All);
                 }
             }
@@ -143,6 +148,7 @@ public class GunController : MonoBehaviour
         bullet.GetComponent<BulletForShootgun>().InitializeBullet(direction, lag, angle, pdir, playerVelocity);
 
         weaponAnim.Play("Shotgun");
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, player.transform.position, 1f);
         GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
         StartCoroutine("ResetForceFeedback");
         #endregion

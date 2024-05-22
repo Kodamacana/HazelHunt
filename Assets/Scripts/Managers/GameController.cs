@@ -24,6 +24,15 @@ public class GameController : MonoBehaviour
     GameObject cloneObject;
     PhotonView view;
 
+    [Header("Audio Clips")]
+    public AudioClip sound_Shotgun;
+    public AudioClip sound_BombExplosion;
+    public AudioClip sound_Button;
+    public AudioClip sound_Lose;
+    public AudioClip sound_Win;
+    public AudioClip sound_GettingShot;
+    public AudioClip sound_NutCollect;
+
     private void Awake()
     {
         Instance = this;
