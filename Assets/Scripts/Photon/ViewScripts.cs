@@ -12,8 +12,6 @@ public class ViewScripts : MonoBehaviour
 
     public void CreateLobby()
     {
-        //PhotonNetwork.ConnectToMaster(serverName, );
-
         if (PhotonNetwork.IsConnected)
         {
             PhotonNetwork.JoinOrCreateRoom(serverName.text, new Photon.Realtime.RoomOptions() { MaxPlayers = 2 }, null);

@@ -2,41 +2,33 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using System;
+using System.Collections;
 
 public class PlayerBase : MonoBehaviour
 {
-    //[SerializeField] TextMeshProUGUI usernameText;
-    [SerializeField]
-    Sprite[] sprites;
+    [SerializeField] TextMeshProUGUI usernameText;
 
-    [SerializeField]
-    SpriteRenderer[] spriteRenderers;
-
-    [SerializeField] private int maxHealth = 100;
-    public int currentHealth;
-    private PhotonView view;
-
+    [SerializeField] Sprite[] sprites;
+    [SerializeField] SpriteRenderer[] spriteRenderers;
     [SerializeField] Material whiteMaterial;
     [SerializeField] Material defaultMaterial;
+
+    [SerializeField] private int maxHealth = 100;
+
+    public int currentHealth = 100;
+    private PhotonView view;
 
     private void Start()
     {
         view = GetComponent<PhotonView>();
         currentHealth = maxHealth;
     }
-    
-    public void OnDamage()
-    {
-        for (int i = 0; i < spriteRenderers.Length; i++)
-        {
-            spriteRenderers[i].material = whiteMaterial;
-        }
-        view.RPC("TakeDamage", RpcTarget.All); // Hasarý senkronize et
-        Invoke("InvokeSkin", 0.2f);
-    }
 
-    private void InvokeSkin()
+    IEnumerator InvokeSkin()
     {
+        GameController.Instance.DamagePlayer();
+        yield return new WaitForSeconds(0.2f);
+
         for (int i = 0; i < spriteRenderers.Length; i++)
         {
             spriteRenderers[i].material = defaultMaterial;
@@ -52,13 +44,17 @@ public class PlayerBase : MonoBehaviour
         {
             currentHealth = 0;
         }
-    }
 
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            spriteRenderers[i].material = whiteMaterial;
+        }
+        StartCoroutine("InvokeSkin");
+    }
 
     [PunRPC]
     public void ChangeSkin()
     {
-
         if (currentHealth > 0 && currentHealth < 35)
         {
             for (int i = 0; i < spriteRenderers.Length; i++)
@@ -80,7 +76,6 @@ public class PlayerBase : MonoBehaviour
                 spriteRenderers[i].sprite = sprites[i];
             }
         }
-
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -93,5 +88,5 @@ public class PlayerBase : MonoBehaviour
         {
             currentHealth = (int)stream.ReceiveNext();
         }
-    }
+    }    
 }

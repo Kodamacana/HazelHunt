@@ -628,20 +628,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crosshairSpriteObject: {fileID: 619191609}
   playerPrefab: {fileID: 1317854603679937745, guid: ab44381dfa0376b4f8e0aff438131838, type: 3}
-  minX1: -7.207783
-  maxX1: -2.07
-  minY1: -2.27
-  maxY1: 2
-  minX2: 5.07
-  maxX2: 1.61
-  minY2: -2.27
-  maxY2: 2
+  minX1Y1: {x: -7.21, y: -2.27}
+  maxX1Y1: {x: -2.07, y: 2}
+  minX2Y2: {x: 5.07, y: -2.27}
+  maxX2Y2: {x: 1.61, y: 2}
   baseTreePrefab: {fileID: 8965069681772903004, guid: 790b6df5d4a51fb4caee5ea9a6bdfc0a, type: 3}
   nutsPoolPrefab: {fileID: 6584369138884404110, guid: 6f3be39353a46b7438c36e9505752dc3, type: 3}
-  chosenTree: {fileID: 0}
-  player: {fileID: 0}
   scoreManager: {fileID: 97386841}
   healthText: {fileID: 321438364}
+  chosenTree: {fileID: 0}
+  player: {fileID: 0}
 --- !u!4 &320371651
 Transform:
   m_ObjectHideFlags: 0
@@ -675,8 +671,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 320371650}
+  ObservedComponents: []
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0

@@ -1,12 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using TMPro;
-using UnityEngine.UI;
 using Photon.Pun;
-using Photon.Realtime;
-using UnityEditor;
 
 public class GameController : MonoBehaviour
 {
@@ -15,29 +10,24 @@ public class GameController : MonoBehaviour
 
     public GameObject playerPrefab;
 
-    public float minX1;
-    public float maxX1;
-    public float minY1;
-    public float maxY1;
-
-    public float minX2;
-    public float maxX2;
-    public float minY2;
-    public float maxY2;
-
-    PhotonView view;
+    [SerializeField] Vector2 minX1Y1;
+    [SerializeField] Vector2 maxX1Y1;
+    [SerializeField] Vector2 minX2Y2;
+    [SerializeField] Vector2 maxX2Y2;
 
     [SerializeField] GameObject baseTreePrefab;
     [SerializeField] GameObject nutsPoolPrefab;
-    public GameObject chosenTree;
-    public GameObject player;
-    GameObject cloneObject;
     [SerializeField] ScoreManager scoreManager;
     [SerializeField] TextMeshProUGUI healthText;
+    [HideInInspector] public GameObject chosenTree;
+    [HideInInspector] public GameObject player;
+    GameObject cloneObject;
+    PhotonView view;
 
     private void Awake()
     {
-       Instance = this;
+        Instance = this;
+        view = GetComponent<PhotonView>();
     }
 
     private void Start()
@@ -52,10 +42,9 @@ public class GameController : MonoBehaviour
 
     private void InitializeGame()
     {
-        view = GetComponent<PhotonView>();
         Cursor.visible = false;
 
-        if (cloneObject == null)
+        if (cloneObject == null && view.IsMine)
         {
             cloneObject = PhotonNetwork.Instantiate(nutsPoolPrefab.name, Vector3.zero, Quaternion.identity);
         }
@@ -65,17 +54,17 @@ public class GameController : MonoBehaviour
             int playerNumber = GetPlayerNumber();
             if (playerNumber == 1)
             {
-                player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX2, maxX2, minY2, maxY2), Quaternion.identity);
+                player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y), Quaternion.identity);
 
                 chosenTree = PhotonNetwork.Instantiate(baseTreePrefab.name, new Vector3(-7.79f, 1.75f, 0), Quaternion.identity);
-                StartCoroutine(GoBaseCollect(chosenTree, true));
+                StartCoroutine(GoBaseCollect(chosenTree));
             }
             else if (playerNumber == 2)
             {
-                player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX1, maxX1, minY1, maxY1), Quaternion.identity);
+                player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y), Quaternion.identity);
 
                 chosenTree = PhotonNetwork.Instantiate(baseTreePrefab.name, new Vector3(7.759f, 1.75f, 0), Quaternion.identity);
-                StartCoroutine(GoBaseCollect( chosenTree, false));
+                StartCoroutine(GoBaseCollect( chosenTree));
             }
         }
         else
@@ -101,13 +90,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-    IEnumerator GoBaseCollect( GameObject obj, bool isFlipX)
+    IEnumerator GoBaseCollect( GameObject obj)
     {
         while (obj.transform.GetChild(0) == null)
         {
             yield return null;
         }
-        StartCoroutine(obj.GetComponentInChildren<BaseCollect>().WaitForObjectCreation(player, isFlipX));
+        StartCoroutine(obj.GetComponentInChildren<BaseCollect>().WaitForObjectCreation(player));
     }
 
     Vector2 GetRandomPosition(float minX, float maxX, float minY, float maxY)
@@ -121,22 +110,19 @@ public class GameController : MonoBehaviour
         mousePosition.z = 0f;
         crosshairSpriteObject.transform.position = mousePosition;
     }
-       
-    private void Update()
+
+    public void DamagePlayer()
     {
-        if (player != null)
+        if (player.GetComponent<PlayerBase>() != null)
         {
-            if (player.GetComponent<PlayerBase>() != null)
+            int healthValue = player.GetComponent<PlayerBase>().currentHealth;
+            if (healthValue <= 0)
             {
-                int healthValue = player.GetComponent<PlayerBase>().currentHealth;
-                if (healthValue <= 0) {
-                    Die();
-                }
-                healthText.text = "+ "+ healthValue.ToString();
+                Die();
+                healthText.text = "+ 100";
             }
+            healthText.text = "+ " + healthValue.ToString();
         }
-       
-        ShownCrossHair();        
     }
 
     private void Die()
@@ -144,5 +130,10 @@ public class GameController : MonoBehaviour
         PhotonNetwork.Destroy(player);
         PhotonNetwork.Destroy(chosenTree);
         InitializeGame();
+    }
+
+    private void Update()
+    {
+        ShownCrossHair();
     }
 }

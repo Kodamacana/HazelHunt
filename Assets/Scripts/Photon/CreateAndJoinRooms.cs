@@ -13,9 +13,11 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.NickName = playerName.text;
 
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.IsVisible = false;
-        roomOptions.MaxPlayers = 2;
+        RoomOptions roomOptions = new()
+        {
+            IsVisible = false,
+            MaxPlayers = 2
+        };
         PhotonNetwork.JoinOrCreateRoom(createLobby.text, roomOptions, TypedLobby.Default);
     }
 

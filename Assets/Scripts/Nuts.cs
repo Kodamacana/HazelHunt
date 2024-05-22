@@ -1,47 +1,43 @@
 using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Nuts : MonoBehaviour
+public class Nuts : MonoBehaviourPunCallbacks
 {
-    [SerializeField] float forceValue = 75f;
     [SerializeField] float damping = 0.1f; // Azalma katsayýsý
 
     Rigidbody2D rb;
+    PhotonView view;
+    bool isOut = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        view = GetComponent<PhotonView>();
     }
 
-    private void Start()
-    {
-        StartCoroutine(PositionNut());
-    }
-
-    private IEnumerator PositionNut()
-    {
-        while (transform.parent == null)
+    private void OnTriggerEnter2D(Collider2D collision)
+    { 
+        if (collision.CompareTag("Player") && isOut)
         {
-            yield return null;
+            if (!collision.GetComponent<PhotonView>().IsMine || collision.GetComponent<NutsCollect>().isCollectNut)
+                return;
+
+            isOut = false;
+            collision.GetComponent<NutsCollect>().DestroyNut();
+
+            view.RPC("DestroyNutObj", RpcTarget.AllBufferedViaServer);
         }
-        transform.localPosition = new Vector3(0.52f, 0, 0);
-        rb.bodyType = RigidbodyType2D.Static;
-        rb.simulated = false;
+        isOut = true;
     }
 
-    private void StartMovement(Vector2 direction)
+    [PunRPC]
+    private void DestroyNutObj()
     {
-        rb.velocity = direction *forceValue;
-    }
-
-    public void FireNut(Vector2 originalDirection)
-    {
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.simulated = true;
-        transform.SetParent(null);
-        StartMovement(originalDirection);
+        if (view.IsMine || PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()

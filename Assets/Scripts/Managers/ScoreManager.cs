@@ -1,35 +1,30 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
 
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI player1ScoreText;
     [SerializeField] TextMeshProUGUI player2ScoreText;
-
-    private int playerNumber;
+    PhotonView view;
 
     private int player1Score = 0;
     private int player2Score = 0;
+
+    private void Awake()
+    {
+        view = GetComponent<PhotonView>();
+    }
+
+    private void Start()
+    {
+        UpdateScoreUI();
+    }
 
     private void UpdateScoreUI()
     {
         player1ScoreText.text = player1Score.ToString();
         player2ScoreText.text = player2Score.ToString();
-    }
-
-    PhotonView view;
-
-    private void Awake()
-    {
-        view = GetComponent<PhotonView>();        
-    }
-    private void Start()
-    {
-        UpdateScoreUI();
     }
 
     public void IncreasePlayerScore()
@@ -47,6 +42,7 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
         view.RPC("SyncScores", RpcTarget.Others, player1Score, player2Score);
     }
+
     private int GetPlayerNumber()
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)

@@ -1,22 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Photon.Pun;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class PlayerMovements : MonoBehaviour, IPunObservable
 {
-    Rigidbody2D rb;
-    BoxCollider2D collider;
+    [SerializeField] float moveSpeed = 10f;
+    [HideInInspector] public bool isTrueForceFeedback = false;
 
+    private Rigidbody2D rb;
     private float horizontalInput;
     private float verticalInput;
-    [SerializeField] float moveSpeed = 10f;
-    Vector2 moveDir;
-    PhotonView view;
-    Animator anim;
+    private Vector2 moveDir;
+    private PhotonView view;
+    private Animator anim;
     private Vector2 networkPosition;
 
     private void Start()
@@ -28,17 +25,16 @@ public class PlayerMovements : MonoBehaviour, IPunObservable
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        collider = GetComponent<BoxCollider2D>();
     }
 
     public void FixedUpdate()
     {
         if (!view.IsMine)
         {
-            rb.position = Vector3.MoveTowards(rb.position, networkPosition, Time.fixedDeltaTime * 100);
+            transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.fixedDeltaTime * 100);
             return;
         }
-        else if (!GetComponent<GunController>().isForceFeedback)
+        else if (!isTrueForceFeedback)
         {
             rb.velocity = moveDir * moveSpeed;
         }
@@ -87,13 +83,12 @@ public class PlayerMovements : MonoBehaviour, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
+            stream.SendNext(isTrueForceFeedback);
         }
         else
         {
             networkPosition = (Vector3)stream.ReceiveNext();
-
-            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-            networkPosition += (rb.velocity * lag);
+            isTrueForceFeedback = (bool)stream.ReceiveNext();
         }
     }
 }

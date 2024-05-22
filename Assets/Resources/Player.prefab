@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 7903958012173436865}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -222,6 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2.2
+  isTrueForceFeedback: 0
 --- !u!114 &8294191791418313910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,12 +242,11 @@ MonoBehaviour:
   gunTransform: {fileID: 4966052820479712392}
   firePoint: {fileID: 6214078597339516436}
   weaponAnim: {fileID: 5582960830927041975}
-  weaponObject: {fileID: 5665244214236823445}
+  nutPrefab: {fileID: 1156994426993505142, guid: 9c41eba4d5a01734bae67c189840dfab, type: 3}
   bulletPrefab: {fileID: 3475642902825876039, guid: f6a019910378ebd4da6de425a246643c, type: 3}
   nutsCollect: {fileID: 833479291666483826}
   fireCooldownTime: 0.75
   recoilForce: 3
-  isForceFeedback: 0
 --- !u!114 &833479291666483826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,9 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCollectNut: 0
-  nutClone: {fileID: 0}
-  nutPrefab: {fileID: 1156994426993505142, guid: 9c41eba4d5a01734bae67c189840dfab, type: 3}
-  spawnNutParent: {fileID: 43064484655435078}
+  nutsInventory: {fileID: 2090981579595509701}
+  weaponObject: {fileID: 5665244214236823445}
 --- !u!114 &7837636581340280653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b510bc87c5e7184e8d38bf52c1300a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usernameText: {fileID: 0}
   sprites:
   - {fileID: 21300000, guid: f180f91dfbe46d8428044c2d644ef632, type: 3}
   - {fileID: 21300000, guid: afff9edbd6e08fd499533a36cd0e7483, type: 3}
@@ -305,10 +305,10 @@ MonoBehaviour:
   - {fileID: 7890767765553558360}
   - {fileID: 6070885705186443238}
   - {fileID: 7421530708617452964}
-  maxHealth: 100
-  currentHealth: 0
   whiteMaterial: {fileID: 2100000, guid: 42df1c7856584b6b8db9a509b6b10074, type: 2}
   defaultMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  maxHealth: 100
+  currentHealth: 100
 --- !u!95 &2987257353108390640
 Animator:
   serializedVersion: 5
@@ -352,8 +352,6 @@ MonoBehaviour:
   - {fileID: 2235089268231507989}
   - {fileID: -7418187208275747283}
   - {fileID: 7903958012173436865}
-  - {fileID: 2881213090185780981}
-  - {fileID: 8723690076741473811}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -411,6 +409,90 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 5
+--- !u!1 &1637175184561827939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1777511609267308977}
+  - component: {fileID: 3022651055288671420}
+  m_Layer: 0
+  m_Name: NutsRef
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1777511609267308977
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637175184561827939}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.52, y: 0, z: 0}
+  m_LocalScale: {x: 0.08210979, y: 0.08210979, z: 0.08210979}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 43064484655435078}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &3022651055288671420
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637175184561827939}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 2118305395
+  m_SortingLayer: 3
+  m_SortingOrder: 4
+  m_Sprite: {fileID: 21300000, guid: 9f28823da80465e489f115226b127ba7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.16, y: 0.16}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &2090981579595509701
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &43064484655435078
 Transform:
   m_ObjectHideFlags: 0
@@ -439,7 +521,8 @@ Transform:
   m_LocalPosition: {x: -0.253, y: -0.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1777511609267308977}
   m_Father: {fileID: 4966052820479712392}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2095424420506293198
@@ -970,7 +1053,7 @@ Transform:
   m_GameObject: {fileID: 5817673506455008991}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1937, y: 0.0041999836, z: 0}
+  m_LocalPosition: {x: 0.36, y: 0.0041999836, z: 0}
   m_LocalScale: {x: -0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1016,7 +1099,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2118305395
   m_SortingLayer: 3
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: afff9edbd6e08fd499533a36cd0e7483, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1382,8 +1465,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4966052820479712392}
   - component: {fileID: 5582960830927041975}
+  - component: {fileID: 5966204957582486157}
   - component: {fileID: 2881213090185780981}
-  - component: {fileID: 2940989093473996921}
   - component: {fileID: 8723690076741473811}
   m_Layer: 0
   m_Name: Weapons
@@ -1432,6 +1515,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5966204957582486157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8490661592827182194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 2881213090185780981}
+  - {fileID: 8723690076741473811}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &2881213090185780981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1453,18 +1560,6 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!114 &2940989093473996921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8490661592827182194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83b37fcb95452314cbda6d4f78116339, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8723690076741473811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1492,7 +1587,7 @@ MonoBehaviour:
     SynchronizeEnabled: 1
     InterpolateOption: 1
     InterpolateRotateTowardsSpeed: 360
-    InterpolateLerpSpeed: 5
+    InterpolateLerpSpeed: 300
   m_ScaleModel:
     SynchronizeEnabled: 1
     InterpolateOption: 0

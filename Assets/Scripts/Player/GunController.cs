@@ -1,14 +1,7 @@
-using Photon.Realtime;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Claims;
 using UnityEngine;
 using Photon.Pun;
-using Photon.Pun.Demo.Asteroids;
-using Unity.VisualScripting;
-using CodeMonkey.Utils;
-using UnityEngine.Assertions.Must;
+using UnityEngine.Timeline;
 
 public class GunController : MonoBehaviour
 {
@@ -23,21 +16,22 @@ public class GunController : MonoBehaviour
     [SerializeField] private Transform firePoint;
 
     [SerializeField] Animator weaponAnim;
-    [SerializeField] GameObject weaponObject;
+    [SerializeField] GameObject nutPrefab;
     [SerializeField] private GameObject bulletPrefab; // Mermi önceden hazýrlanmýþ bir GameObject
     [SerializeField] NutsCollect nutsCollect;
 
     [SerializeField] private float fireCooldownTime = 0.5f; // Cooldown süresi
     [SerializeField] private float recoilForce = 3f;
     private float fireCooldownTimer = 0.0f; // Cooldown zamanlayýcýsý
+    private PlayerMovements playerMovement;
 
     private PhotonView view;
     private GameObject player;
-    public bool isForceFeedback =false;
 
     private void Awake()
     {
         instance = this;
+        playerMovement = GetComponent<PlayerMovements>();
     }
 
     void Start()
@@ -91,56 +85,106 @@ public class GunController : MonoBehaviour
         Vector2 direction = new Vector2(mousePosition.x - characterPosition.x, mousePosition.y - characterPosition.y);
         direction.Normalize();
 
-        view.RPC("FireBullet", RpcTarget.AllViaServer, direction);
-    }
-       
+        if (nutsCollect.isCollectNut)
+        {
+            playerMovement.isTrueForceFeedback = true;
+            StartCoroutine("ResetForceFeedback");
+            fireCooldownTimer = fireCooldownTime;
 
+            view.RPC("ShotNut", RpcTarget.AllBuffered, 1, direction);
+        }
+        else
+        {
+            view.RPC("FireBullet", RpcTarget.AllBuffered, direction);
+        }
+    }
 
     [PunRPC]
     private void FireBullet(Vector2 direction, PhotonMessageInfo info)
     {
+        playerMovement.isTrueForceFeedback = true;
         float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
         fireCooldownTimer = fireCooldownTime;
 
-        if (nutsCollect.nutClone != null)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        RaycastHit2D hitInfo = Physics2D.BoxCast((Vector2)transform.position + direction, new Vector2(1f, 1f), angle, direction, 1f);
+        if (hitInfo.collider != null && hitInfo.collider.name.Contains("Player"))
         {
-            nutsCollect.nutClone.GetComponent<Nuts>().FireNut(direction);
-            Invoke("ResetNut", 0.5f);
+            PhotonView targetPhotonView = hitInfo.transform.GetComponent<PhotonView>();
+
+            if (targetPhotonView != null && !targetPhotonView.IsMine)
+            {
+                if (view.IsMine)
+                {
+                    targetPhotonView.RPC("TakeDamage", RpcTarget.All);
+                }
+            }
         }
         else
         {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Debug.Log("Çarpýþma yok.");
+        }
 
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
-            bullet.GetComponent<BulletForShootgun>().InitializeBullet(direction, lag, angle);
-            weaponAnim.Play("Shotgun");
+        #region bullet
+        Vector2 pdir;
+        Vector2 playerVelocity = GetComponent<Rigidbody2D>().velocity;
 
-            GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
-            Invoke("ResetForceFeedback", 0.1f);
-        }        
+
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
+        pdir = Vector2.Perpendicular(direction) * -.01f;
+        bullet.GetComponent<BulletForShootgun>().InitializeBullet(direction, lag, angle, pdir, playerVelocity);
+
+        bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
+        pdir = Vector2.Perpendicular(direction) * .001f;
+        bullet.GetComponent<BulletForShootgun>().InitializeBullet(direction, lag, angle, pdir, playerVelocity);
+
+        bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
+        pdir = Vector2.Perpendicular(direction) * .01f;
+        bullet.GetComponent<BulletForShootgun>().InitializeBullet(direction, lag, angle, pdir, playerVelocity);
+
+        weaponAnim.Play("Shotgun");
+        GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
+        StartCoroutine("ResetForceFeedback");
+        #endregion
     }
-    public void ResetForceFeedback()
+      
+    private IEnumerator ResetForceFeedback()
     {
-        isForceFeedback = false;
-    }
+        yield return new WaitForSeconds(0.1f);
 
+        playerMovement.isTrueForceFeedback = false;
+    }
 
     [PunRPC]
-    public void ShowWeapon()
+    private void ShotNut(int a, Vector2 direction)
     {
-        if (nutsCollect.isCollectNut && nutsCollect.nutClone != null)
-            weaponObject.SetActive(false);
-        else weaponObject.SetActive(true);
-    }
+        if (a == 0)
+        {
+            nutsCollect.weaponObject.SetActive(false);
+            nutsCollect.nutsInventory.SetActive(true);
+        }
+        else
+        {
+            nutsCollect.weaponObject.SetActive(true);
+            nutsCollect.nutsInventory.SetActive(false);
+        }
 
-
-    private void ResetNut()
-    {
         if (!view.IsMine)
             return;
 
+        GameObject nutClone = PhotonNetwork.Instantiate(nutPrefab.name, Vector3.zero, Quaternion.identity);
+        nutClone.transform.localPosition = transform.position;
+        nutClone.GetComponent<Rigidbody2D>().velocity = direction * 5f;
+
+        StartCoroutine( ResetNut());
+    }
+
+       
+    IEnumerator ResetNut()
+    {
+        yield return new WaitForSeconds(0.1f);
+            
         nutsCollect.isCollectNut = false;
-        nutsCollect.nutClone = null;
     }
 
     private static Vector3 GetMouseWorldPosition()
@@ -155,10 +199,9 @@ public class GunController : MonoBehaviour
         worldPosition.z = 0f; // Assuming your game is 2D, so z position should be 0
         return worldPosition;
     }
-
-
+   
     private void Update()
-    {
+    {  
         HandleAiming();
 
         if (Input.GetMouseButtonDown(0) && fireCooldownTimer <= 0.0f)
@@ -167,5 +210,5 @@ public class GunController : MonoBehaviour
         }
 
         fireCooldownTimer -= Time.deltaTime;
-    }
+    }   
 }
