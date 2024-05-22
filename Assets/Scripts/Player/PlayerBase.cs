@@ -6,6 +6,7 @@ using System.Collections;
 
 public class PlayerBase : MonoBehaviour
 {
+    [SerializeField] ParticleSystem blood;
     [SerializeField] TextMeshProUGUI usernameText;
 
     [SerializeField] Sprite[] sprites;
@@ -39,6 +40,7 @@ public class PlayerBase : MonoBehaviour
     [PunRPC]
     public void TakeDamage()
     {
+        blood.Play();
         currentHealth -= 35;
         if (currentHealth <= 0)
         {
