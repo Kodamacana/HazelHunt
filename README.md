@@ -9,6 +9,7 @@
     <br>
     <br>
     Developed for Jamination 7 under 48 hours. 
+    https://kodamacana.itch.io/hazel-hunt-demo
     <br>
     <br>
     <b>Developer:</b> Talha Soylu 
