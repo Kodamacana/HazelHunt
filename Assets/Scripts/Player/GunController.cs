@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Timeline;
+using UnityEngine.TextCore.Text;
 
 public class GunController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GunController : MonoBehaviour
 
     [SerializeField] Animator weaponAnim;
     [SerializeField] GameObject nutPrefab;
+    [SerializeField] GameObject bombPrefab;
     [SerializeField] private GameObject bulletPrefab; // Mermi önceden hazýrlanmýþ bir GameObject
     [SerializeField] NutsCollect nutsCollect;
 
@@ -100,6 +102,24 @@ public class GunController : MonoBehaviour
         {
             view.RPC("FireBullet", RpcTarget.AllBuffered, direction);
         }
+    }
+
+    private void BombController_OnShoot()
+    {
+        //if (!view.AmOwner)
+        //{
+        //    return;
+        //}
+
+        //if (view.CreatorActorNr != PhotonNetwork.LocalPlayer.ActorNumber)
+        //{
+        //    return;
+        //}
+
+        GameObject bomb = Instantiate(bombPrefab, transform.position, Quaternion.identity);
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Bomb, bomb.transform.position, 1f);
+
+        //view.RPC("ShotBomb", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
@@ -207,14 +227,19 @@ public class GunController : MonoBehaviour
     }
    
     private void Update()
-    {  
+    {
         HandleAiming();
 
         if (Input.GetMouseButtonDown(0) && fireCooldownTimer <= 0.0f)
         {
             GunController_OnShoot();
         }
+        if (Input.GetMouseButtonDown(1) && fireCooldownTimer <= 0.0f)
+        {
+            BombController_OnShoot();
+        }
 
         fireCooldownTimer -= Time.deltaTime;
-    }   
+    }
+
 }

@@ -25,8 +25,8 @@ public class GameController : MonoBehaviour
     PhotonView view;
 
     [Header("Audio Clips")]
+    public AudioClip sound_Bomb;
     public AudioClip sound_Shotgun;
-    public AudioClip sound_BombExplosion;
     public AudioClip sound_Button;
     public AudioClip sound_Lose;
     public AudioClip sound_Win;
