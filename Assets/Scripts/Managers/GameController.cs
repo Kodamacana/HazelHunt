@@ -15,6 +15,9 @@ public class GameController : MonoBehaviour
     [SerializeField] Vector2 minX2Y2;
     [SerializeField] Vector2 maxX2Y2;
 
+    [SerializeField] public Joystick movementJoystick;
+    [SerializeField] public Joystick attackJoystick;
+    [SerializeField] public Joystick bombJoystick;
     [SerializeField] GameObject baseTreePrefab;
     [SerializeField] GameObject nutsPoolPrefab;
     [SerializeField] ScoreManager scoreManager;
