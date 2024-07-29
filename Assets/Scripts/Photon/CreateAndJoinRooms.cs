@@ -8,6 +8,12 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public TMP_InputField createLobby;
     public TMP_InputField playerName;
 
+    private void Start()
+    {
+        createLobby.text = "Test Room";
+        playerName.text = "1-) Profesyonel 31ci";
+    }
+
     //Onclick -> createButton
     public void CreateRoom()
     {

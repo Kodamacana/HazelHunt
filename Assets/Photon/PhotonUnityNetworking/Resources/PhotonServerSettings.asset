@@ -72,6 +72,7 @@ MonoBehaviour:
   - ThrowBomb
   - ThrowNut
   - ExplosionBomb
+  - FinishGame
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

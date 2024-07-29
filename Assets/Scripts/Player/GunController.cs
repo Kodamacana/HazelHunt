@@ -1,170 +1,195 @@
 using System.Collections;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.Timeline;
-using UnityEngine.TextCore.Text;
 using UnityEngine.EventSystems;
 
 public class GunController : MonoBehaviour
 {
-    public static GunController instance;    
+    #region Fields
+    public static GunController instance;
 
     [SerializeField] private Transform playerHead;
     [SerializeField] private RectTransform canvasUsername;
-    [SerializeField] private Transform gunEndPointTransform;
     [SerializeField] private Transform gunTransform;
     [SerializeField] private Transform firePoint;
 
-    [SerializeField] Animator weaponAnim;
-    [SerializeField] GameObject nutPrefab;
-    [SerializeField] GameObject bombPrefab;
-    [SerializeField] private GameObject bulletPrefab; // Mermi önceden hazýrlanmýþ bir GameObject
-    [SerializeField] NutsCollect nutsCollect;
+    [SerializeField] private Animator weaponAnim;
+    [SerializeField] private GameObject nutPrefab;
+    [SerializeField] private GameObject bombCrosshairPrefab;
+    [SerializeField] private NutsCollect nutsCollect;
 
-    [SerializeField] private float fireCooldownTime = 0.5f; // Cooldown süresi
-    [SerializeField] private float bombCooldownTime = 5f; // Cooldown süresi
-    [SerializeField] private float recoilForce = 3f;
+    [SerializeField, Range(0,10)] private float fireCooldownTime = 0.5f; // Cooldown süresi
+    [SerializeField, Range(0, 10)] private float bombCooldownTime = 5f; // Cooldown süresi
+    [SerializeField, Range(0, 10)] private float recoilForce = 3f;
 
     private float fireCooldownTimer = 0.0f; // Cooldown zamanlayýcýsý
     private float bombCooldownTimer = 0.0f; // Cooldown zamanlayýcýsý
-    private PlayerMovements playerMovement;
+    private Vector3 lastAttackDirection;
 
+    private PlayerMovements playerMovement;
     private PhotonView view;
     private GameObject player;
     private Joystick attackJoystick;
     private Joystick bombJoystick;
-    private Vector3 lastAttackDirection;
+    private GameObject bombCrosshair;
 
-    PoolManager poolManager;
+    private PoolManager poolManager;
+    #endregion
+
+
+    #region InitializeGame
     private void Awake()
     {
+        InitializeSingleton();
+        InitializeComponents();
+        InstantiateCrosshair();
+    }
+
+    private void Start()
+    {
+        InitializePhotonView();
+
+        if (!view.IsMine)
+            return;
+
+        InitializePlayer();
+        InitializeJoysticks();
+        SetupJoystickEvents();
+    }
+
+    private void InitializeSingleton()
+    {
         instance = this;
+    }
+
+    private void InitializeComponents()
+    {
         poolManager = PoolManager.Instance;
         playerMovement = GetComponent<PlayerMovements>();
     }
 
-    void Start()
+    private void InstantiateCrosshair()
     {
-        view = GetComponent<PhotonView>();
-        player = gameObject;
-
-        attackJoystick = GameController.Instance.attackJoystick;
-        EventTrigger evTrig1 = attackJoystick.GetComponent<EventTrigger>();
-
-        EventTrigger.Entry clickEvent1 = new EventTrigger.Entry()
-        {
-            eventID = EventTriggerType.PointerUp
-        };
-        clickEvent1.callback.AddListener(GunController_OnShoot);
-        evTrig1.triggers.Add(clickEvent1);
-
-        bombJoystick = GameController.Instance.bombJoystick;
-        EventTrigger evTrig =  bombJoystick.GetComponent<EventTrigger>();
-
-        EventTrigger.Entry clickEvent = new EventTrigger.Entry()
-        {
-            eventID = EventTriggerType.PointerUp
-        };
-        clickEvent.callback.AddListener(BombController_OnShoot);
-        evTrig.triggers.Add(clickEvent);
+        bombCrosshair = Instantiate(bombCrosshairPrefab);
     }
 
+    private void InitializePhotonView()
+    {
+        view = GetComponent<PhotonView>();
+    }
+
+    private void InitializePlayer()
+    {
+        player = gameObject;
+    }
+
+    private void InitializeJoysticks()
+    {
+        attackJoystick = GameController.Instance.attackJoystick;
+        bombJoystick = GameController.Instance.bombJoystick;
+    }
+
+    private void SetupJoystickEvents()
+    {
+        SetupJoystickEvent(attackJoystick, GunController_OnShoot);
+        SetupJoystickEvent(bombJoystick, BombController_OnShoot);
+    }
+
+    private void SetupJoystickEvent(Joystick joystick, UnityEngine.Events.UnityAction action)
+    {
+        EventTrigger eventTrigger = joystick.GetComponent<EventTrigger>();
+
+        // Mevcut tüm eventleri temizle
+        eventTrigger.triggers.Clear();
+
+        // Yeni event ekle
+        EventTrigger.Entry clickEvent = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerUp
+        };
+        clickEvent.callback.AddListener((eventData) => action.Invoke());
+
+        eventTrigger.triggers.Add(clickEvent);
+    }
+    #endregion
+
+
+    #region AimHandle
     private void HandleAiming()
     {
-        if (!view.IsMine)
-            return;
-
-
         if (attackJoystick.Direction.y != 0)
         {
-            Vector3 aimDirection1 = attackJoystick.Direction.normalized; 
-            float angle1 = Mathf.Atan2(aimDirection1.y, aimDirection1.x) * Mathf.Rad2Deg;
-            gunTransform.eulerAngles = new Vector3(0, 0, angle1);
-            playerHead.eulerAngles = new Vector3(0, 0, angle1);
-            Vector3 localScale1 = Vector3.one;
-            if (angle1 > 90 || angle1 < -90)
-            {
-                localScale1.y = -1f;
-                player.transform.localScale = new Vector3(1, 1, 1);
-                gunTransform.localScale = new Vector3(1, -1, 1);
-                playerHead.localScale = new Vector3(-1, -1, 1);
-                canvasUsername.localScale = new Vector3(1, 1, 1);
-            }
-            else
-            {
-                localScale1.y = +1f;
-                player.transform.localScale = new Vector3(-1, 1, 1);
-                gunTransform.localScale = new Vector3(-1, 1, 1);
-                playerHead.localScale = new Vector3(1, 1, 1);
-                canvasUsername.localScale = new Vector3(-1, 1, 1);
-            }
-            lastAttackDirection = aimDirection1;
+            HandleJoystickAiming(attackJoystick.Direction.normalized);
         }
         else if (bombJoystick.Direction.y != 0)
         {
-            Vector3 aimDirection1 = bombJoystick.Direction.normalized;
-            float angle1 = Mathf.Atan2(aimDirection1.y, aimDirection1.x) * Mathf.Rad2Deg;
-            gunTransform.eulerAngles = new Vector3(0, 0, angle1);
-            playerHead.eulerAngles = new Vector3(0, 0, angle1);
-            Vector3 localScale1 = Vector3.one;
-            if (angle1 > 90 || angle1 < -90)
-            {
-                localScale1.y = -1f;
-                player.transform.localScale = new Vector3(1, 1, 1);
-                gunTransform.localScale = new Vector3(1, -1, 1);
-                playerHead.localScale = new Vector3(-1, -1, 1);
-                canvasUsername.localScale = new Vector3(1, 1, 1);
-            }
-            else
-            {
-                localScale1.y = +1f;
-                player.transform.localScale = new Vector3(-1, 1, 1);
-                gunTransform.localScale = new Vector3(-1, 1, 1);
-                playerHead.localScale = new Vector3(1, 1, 1);
-                canvasUsername.localScale = new Vector3(-1, 1, 1);
-            }
-            lastAttackDirection = aimDirection1;
+            HandleBombAiming(bombJoystick.Direction);
         }
-
-
-        //Vector3 mousePosition = GetMouseWorldPosition();
-
-        //Vector3 aimDirection = (mousePosition - transform.position).normalized;
-        //float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        //gunTransform.eulerAngles = new Vector3(0, 0, angle);
-        //playerHead.eulerAngles = new Vector3(0, 0, angle);
-        //Vector3 localScale = Vector3.one;
-        //if (angle > 90 || angle < -90)
-        //{
-        //    localScale.y = -1f;
-        //    player.transform.localScale = new Vector3(1, 1, 1);
-        //    gunTransform.localScale = new Vector3(1, -1, 1);
-        //    playerHead.localScale = new Vector3(-1, -1, 1);
-        //    canvasUsername.localScale = new Vector3(1, 1, 1);
-        //}
-        //else
-        //{
-        //    localScale.y = +1f;
-        //    player.transform.localScale = new Vector3(-1, 1, 1);
-        //    gunTransform.localScale = new Vector3(-1, 1, 1);
-        //    playerHead.localScale = new Vector3(1, 1, 1);
-        //    canvasUsername.localScale = new Vector3(-1, 1, 1);
-        //}
     }
 
-    public void GunController_OnShoot(BaseEventData eventData)
+    private void HandleJoystickAiming(Vector3 aimDirection)
     {
-        if (!view.AmOwner )
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        RotatePlayerAndGun(angle);
+        SetPlayerAndGunScale(angle);
+        lastAttackDirection = aimDirection;
+    }
+
+    private void HandleBombAiming(Vector3 aimDirection)
+    {
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+
+        Vector2 newBombCrosshairPosition = (Vector2)player.transform.position + (Vector2)aimDirection * 3f;
+        bombCrosshair.transform.position = new Vector3(newBombCrosshairPosition.x, newBombCrosshairPosition.y, bombCrosshair.transform.position.z);
+        bombCrosshair.SetActive(true);
+
+        RotatePlayerAndGun(angle);
+        SetPlayerAndGunScale(angle);
+        lastAttackDirection = bombCrosshair.transform.position;
+    }
+
+    private void RotatePlayerAndGun(float angle)
+    {
+        gunTransform.eulerAngles = new Vector3(0, 0, angle);
+        playerHead.eulerAngles = new Vector3(0, 0, angle);
+    }
+
+    private void SetPlayerAndGunScale(float angle)
+    {
+        Vector3 localScale = Vector3.one;
+        if (angle > 90 || angle < -90)
         {
-            return;
+            localScale.y = -1f;
+            player.transform.localScale = new Vector3(1, 1, 1);
+            gunTransform.localScale = new Vector3(1, -1, 1);
+            playerHead.localScale = new Vector3(-1, -1, 1);
+            canvasUsername.localScale = new Vector3(1, 1, 1);
         }
+        else
+        {
+            localScale.y = 1f;
+            player.transform.localScale = new Vector3(-1, 1, 1);
+            gunTransform.localScale = new Vector3(-1, 1, 1);
+            playerHead.localScale = new Vector3(1, 1, 1);
+            canvasUsername.localScale = new Vector3(-1, 1, 1);
+        }
+    }
+    #endregion
+
+
+    #region Events
+    public void GunController_OnShoot()
+    {
+        if (fireCooldownTimer > 0.0f)
+            return;
+
+        if (!view.AmOwner)
+            return;
 
         if (view.CreatorActorNr != PhotonNetwork.LocalPlayer.ActorNumber)
-        {
             return;
-        }
 
-        Vector3 characterPosition = player.transform.position;
+        //Vector3 characterPosition = player.transform.position;
         //Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //Vector2 direction = new Vector2(mousePosition.x - characterPosition.x, mousePosition.y - characterPosition.y);
         //direction.Normalize();
@@ -178,50 +203,52 @@ public class GunController : MonoBehaviour
             StartCoroutine("ResetForceFeedback");
             fireCooldownTimer = fireCooldownTime;
 
-            view.RPC("ThrowNut", RpcTarget.AllBuffered, 1, direction);
+            view.RPC("ThrowNut", RpcTarget.AllBuffered, direction);
         }
-        else
-        {
-            view.RPC("FireBullet", RpcTarget.AllBuffered, direction);
-        }
+        else view.RPC("FireBullet", RpcTarget.AllBuffered, direction);
     }
 
-    public void BombController_OnShoot(BaseEventData eventData)
+    public void BombController_OnShoot()
     {
-        if (!view.AmOwner)
-        {
+        bombCrosshair.SetActive(false);
+
+        if (bombCooldownTimer > 0.0f)
             return;
-        }
+
+        if (!view.AmOwner)
+            return;
 
         if (view.CreatorActorNr != PhotonNetwork.LocalPlayer.ActorNumber)
-        {
             return;
-        }
 
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         PhotonNetwork.Instantiate("Bomb", transform.position, Quaternion.identity);
 
-        view.RPC("ThrowBomb", RpcTarget.AllBuffered, mousePosition, transform.position);
+        view.RPC("ThrowBomb", RpcTarget.AllBuffered, lastAttackDirection);
     }
+    #endregion
+
+
+    #region PunRPCs
 
     [PunRPC]
-    private void ThrowBomb(Vector3 mousePosition, Vector3 bombPosition)
+    private void ThrowBomb(Vector3 mousePosition)
     {
         bombCooldownTimer = bombCooldownTime;
         Vector2 characterPosition = transform.position;
 
         //Vector2 direction = new Vector2(mousePosition.x - characterPosition.x, mousePosition.y - characterPosition.y);
 
-        Vector2 direction = new Vector2(lastAttackDirection.x - characterPosition.x, lastAttackDirection.y - characterPosition.y);
+        Vector2 direction = new Vector2(mousePosition.x - characterPosition.x, mousePosition.y - characterPosition.y);
 
         Vector2 clampedOffset = Vector2.ClampMagnitude(direction, 3f);
         Vector2 newDirection = characterPosition + clampedOffset;
         direction = newDirection;
 
-        Bomb.Instance.ThrowingBomb(characterPosition, direction );
+        Bomb.Instance.ThrowingBomb(characterPosition, direction);
 
-        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Bomb, bombPosition, 1f);
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Bomb, direction, 1f);
     }
 
     [PunRPC]
@@ -256,7 +283,6 @@ public class GunController : MonoBehaviour
                 {
                     if (view.IsMine)
                     {
-                        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, hitInfo.collider.transform.position, 1f);
                         targetPhotonView.RPC("TakeDamage", RpcTarget.All);
                         break;
                     }
@@ -293,39 +319,17 @@ public class GunController : MonoBehaviour
         StartCoroutine(ReturnPool(bullet3));
 
         weaponAnim.Play("Shotgun");
-        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, player.transform.position, 1f);
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, transform.position, 1f);
         GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
         StartCoroutine("ResetForceFeedback");
         #endregion
     }
 
-    private IEnumerator ReturnPool(PoolableObject obj)
-    {
-        yield return new WaitForSeconds(0.2f);
-        obj.ReturnToPool();
-    }
-
-
-    private IEnumerator ResetForceFeedback()
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        playerMovement.isTrueForceFeedback = false;
-    }
-
     [PunRPC]
-    private void ThrowNut(int a, Vector2 direction)
+    private void ThrowNut(Vector2 direction)
     {
-        if (a == 0)
-        {
-            nutsCollect.weaponObject.SetActive(false);
-            nutsCollect.nutsInventory.SetActive(true);
-        }
-        else
-        {
-            nutsCollect.weaponObject.SetActive(true);
-            nutsCollect.nutsInventory.SetActive(false);
-        }
+        nutsCollect.weaponObject.SetActive(true);
+        nutsCollect.nutsInventory.SetActive(false);
 
         if (!view.IsMine)
             return;
@@ -334,46 +338,56 @@ public class GunController : MonoBehaviour
         nutClone.transform.localPosition = transform.position;
         nutClone.GetComponent<Rigidbody2D>().velocity = direction * 5f;
 
-        StartCoroutine( ResetNut());
+        StartCoroutine(ResetNut());
     }
+    #endregion
 
-       
+
+    #region IEnumertors
+
     IEnumerator ResetNut()
     {
         yield return new WaitForSeconds(0.1f);
-            
+
         nutsCollect.isCollectNut = false;
     }
 
-    private static Vector3 GetMouseWorldPosition()
+    IEnumerator ResetForceFeedback()
     {
-        return GetMouseWorldPositionZ(Input.mousePosition, Camera.main);
+        yield return new WaitForSeconds(0.1f);
+
+        playerMovement.isTrueForceFeedback = false;
     }
 
-    private static Vector3 GetMouseWorldPositionZ(Vector3 screenPosition, Camera worldCamera)
+    IEnumerator ReturnPool(PoolableObject obj)
     {
-        // Correctly calculate world position with given screen position and camera
-        Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
-        worldPosition.z = 0f; // Assuming your game is 2D, so z position should be 0
-        return worldPosition;
+        yield return new WaitForSeconds(0.2f);
+        obj.ReturnToPool();
     }
-   
+
+    #endregion
+
+
     private void Update()
     {
-        HandleAiming();
-
-        if (Input.GetMouseButtonDown(0) && fireCooldownTimer <= 0.0f)
-        {
-           // GunController_OnShoot();
-        }
-        if (Input.GetMouseButtonDown(1) && bombCooldownTimer <= 0.0f)
-        {
-           // BombController_OnShoot();
-        }
-
         fireCooldownTimer -= Time.deltaTime;
         bombCooldownTimer -= Time.deltaTime;
 
+        if (!view.IsMine)
+            return;
+        HandleAiming();
+
+        //if (Input.GetMouseButtonDown(0) && fireCooldownTimer <= 0.0f)
+        //{
+        //   // GunController_OnShoot();
+        //}
+        //if (Input.GetMouseButtonDown(1) && bombCooldownTimer <= 0.0f)
+        //{
+        //   // BombController_OnShoot();
+        //}
+
+
+        #region RaycastDrawDebug
         Vector3 characterPosition = player.transform.position;
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -421,7 +435,19 @@ public class GunController : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(upperDirection2) * distance, Color.yellow);
         }
-
+        #endregion
     }
 
+    //private static Vector3 GetMouseWorldPosition()
+    //{
+    //    return GetMouseWorldPositionZ(Input.mousePosition, Camera.main);
+    //}
+
+    //private static Vector3 GetMouseWorldPositionZ(Vector3 screenPosition, Camera worldCamera)
+    //{
+    //    // Correctly calculate world position with given screen position and camera
+    //    Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
+    //    worldPosition.z = 0f; // Assuming your game is 2D, so z position should be 0
+    //    return worldPosition;
+    //}
 }

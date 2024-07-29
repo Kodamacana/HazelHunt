@@ -4,7 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 
-public class PlayerBase : MonoBehaviour
+public class PlayerBase : MonoBehaviourPunCallbacks
 {
     [SerializeField] ParticleSystem blood;
     [SerializeField] TextMeshProUGUI usernameText;
@@ -23,6 +23,7 @@ public class PlayerBase : MonoBehaviour
     {
         view = GetComponent<PhotonView>();
         currentHealth = maxHealth;
+        usernameText.text = view.Owner.NickName;
     }
 
     IEnumerator InvokeSkin()
@@ -40,6 +41,8 @@ public class PlayerBase : MonoBehaviour
     [PunRPC]
     public void TakeDamage()
     {
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 1f);
+
         blood.Play();
         currentHealth -= 35;
         if (currentHealth <= 0)

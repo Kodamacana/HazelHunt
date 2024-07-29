@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class TimerManager : MonoBehaviour
 {
-    [SerializeField] float duration = 180f;
+    [SerializeField, Range(0,600)] float duration = 180f;
 
     [SerializeField]  private Image image;
+
     private PhotonView view;
     private float timer = 0f;
     private bool isGameOver = false;
@@ -28,31 +29,40 @@ public class TimerManager : MonoBehaviour
     private void RestartGame()
     {
         //RestartGame
+        //isGameOver = false;
+    }
+
+    [PunRPC]
+    private void FinishGame()
+    {
+        //Finish Game
+
+
+        //view.RPC("RestartGame", RpcTarget.All);
     }
 
     private void Update()
     {
         if (!isGameOver)
         {
-            float fillAmount = 1f;
+            float fillAmount;
             if (timer < duration)
             {
                 timer += Time.deltaTime; 
                 fillAmount = 1f - (timer / duration);
                 image.fillAmount = fillAmount;
+                view.RPC("Timer", RpcTarget.AllBufferedViaServer, fillAmount);
             }
             else
             {                
                 isGameOver = true;
                 image.fillAmount = 0f;
-            }
-
-            view.RPC("Timer", RpcTarget.AllBufferedViaServer, fillAmount);
+                view.RPC("Timer", RpcTarget.AllBufferedViaServer, 0f);
+            }            
         }
         else
         {
-            isGameOver = false;
-            view.RPC("RestartGame", RpcTarget.All);
+            view.RPC("FinishGame", RpcTarget.All);
         }
     }    
 }

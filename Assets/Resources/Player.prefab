@@ -359,13 +359,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHead: {fileID: 705205316983303187}
   canvasUsername: {fileID: 8196304400227293363}
-  gunEndPointTransform: {fileID: 6214078597339516436}
   gunTransform: {fileID: 4966052820479712392}
   firePoint: {fileID: 6214078597339516436}
   weaponAnim: {fileID: 5582960830927041975}
   nutPrefab: {fileID: 1156994426993505142, guid: 9c41eba4d5a01734bae67c189840dfab, type: 3}
-  bombPrefab: {fileID: 1156994426993505142, guid: 39be2627653f6b5459576c9a8ff29df1, type: 3}
-  bulletPrefab: {fileID: 3475642902825876039, guid: f6a019910378ebd4da6de425a246643c, type: 3}
+  bombCrosshairPrefab: {fileID: 1198956444402091849, guid: e0a5519f40951144a9553f00c9884189, type: 3}
   nutsCollect: {fileID: 833479291666483826}
   fireCooldownTime: 0.75
   bombCooldownTime: 3
@@ -398,7 +396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blood: {fileID: 4751837224268886862}
-  usernameText: {fileID: 0}
+  usernameText: {fileID: 2610414459703707108}
   sprites:
   - {fileID: 21300000, guid: f180f91dfbe46d8428044c2d644ef632, type: 3}
   - {fileID: 21300000, guid: afff9edbd6e08fd499533a36cd0e7483, type: 3}

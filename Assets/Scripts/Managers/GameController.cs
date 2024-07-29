@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour
 
     private void InitializeGame()
     {
+        healthText.text = "100";
         Cursor.visible = false;
 
         if (cloneObject == null && view.IsMine)
@@ -131,9 +132,9 @@ public class GameController : MonoBehaviour
             if (healthValue <= 0)
             {
                 Die();
-                healthText.text = "+ 100";
+                healthText.text = "100";
             }
-            healthText.text = "+ " + healthValue.ToString();
+            healthText.text = healthValue.ToString();
         }
     }
 
