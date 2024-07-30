@@ -12,6 +12,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] private float radius = 1.2f;
 
     PhotonView view;
+    Vector3 explosionAreaCoordinate;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class Bomb : MonoBehaviour
 
     public void ThrowingBomb(Vector3 characterPosition, Vector3 direction)
     {
+        explosionAreaCoordinate = direction;
         PoolableObject grapeShadow = PoolManager.Instance.GetObjectFromPool("bombShadow");
         grapeShadow.transform.SetPositionAndRotation(transform.position + new Vector3(0, -0.3f, 0), Quaternion.identity);
 
@@ -33,7 +35,6 @@ public class Bomb : MonoBehaviour
 
         StartCoroutine(MoveGrapeShadowRoutine(grapeShadow, bombRadius, grapeShadowStartPosition, direction));
     }
-
 
     private IEnumerator ProjectileCurveRoutine(Vector3 startPosition, Vector3 endPosition)
     {
@@ -61,7 +62,7 @@ public class Bomb : MonoBehaviour
     [PunRPC]
     private void ExplosionBomb()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(explosionAreaCoordinate, radius);
 
         foreach (var hitCollider in hitColliders)
         {

@@ -6,24 +6,35 @@ using Photon.Pun;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
-    [SerializeField] private GameObject crosshairSpriteObject; // Fare sprite'ý için oluþturulan nesne
+    //[SerializeField] private GameObject crosshairSpriteObject; // Fare sprite'ý için oluþturulan nesne
+    [Header("Panels & Managers")]
+    [SerializeField] EndGamePanel endGamePanel;
+    [SerializeField] MatchFoundPanelController matchFoundPanel;
+    [SerializeField] ScoreManager scoreManager;
 
-    public GameObject playerPrefab;
-
+    [Header("Player Spawn Coordinates")]
     [SerializeField] Vector2 minX1Y1;
     [SerializeField] Vector2 maxX1Y1;
     [SerializeField] Vector2 minX2Y2;
     [SerializeField] Vector2 maxX2Y2;
 
-    [SerializeField] public Joystick movementJoystick;
-    [SerializeField] public Joystick attackJoystick;
-    [SerializeField] public Joystick bombJoystick;
+    [Header("Joysticks")]
+    public Joystick movementJoystick;
+    public Joystick attackJoystick;
+    public Joystick bombJoystick;
+
+    [Header("Prefabs")]
     [SerializeField] GameObject baseTreePrefab;
     [SerializeField] GameObject nutsPoolPrefab;
-    [SerializeField] ScoreManager scoreManager;
+    [SerializeField] GameObject playerPrefab;
+
+    [Header("Text Mesh")]
     [SerializeField] TextMeshProUGUI healthText;
-    [HideInInspector] public GameObject chosenTree;
-    [HideInInspector] public GameObject player;
+
+    [HideInInspector] public string masterNickname;
+    [HideInInspector] public string guestNickname;
+    GameObject chosenTree;
+    GameObject player;
     GameObject cloneObject;
     PhotonView view;
 
@@ -55,7 +66,8 @@ public class GameController : MonoBehaviour
     private void InitializeGame()
     {
         healthText.text = "100";
-        Cursor.visible = false;
+        endGamePanel.gameObject.SetActive(false);
+        matchFoundPanel.gameObject.SetActive(true);
 
         if (cloneObject == null && view.IsMine)
         {
@@ -68,14 +80,14 @@ public class GameController : MonoBehaviour
             if (playerNumber == 1)
             {
                 player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y), Quaternion.identity);
-
+               
                 chosenTree = PhotonNetwork.Instantiate(baseTreePrefab.name, new Vector3(-7.79f, 1.75f, 0), Quaternion.identity);
                 StartCoroutine(GoBaseCollect(chosenTree));
             }
             else if (playerNumber == 2)
             {
                 player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y), Quaternion.identity);
-
+                
                 chosenTree = PhotonNetwork.Instantiate(baseTreePrefab.name, new Vector3(7.759f, 1.75f, 0), Quaternion.identity);
                 StartCoroutine(GoBaseCollect( chosenTree));
             }
@@ -117,12 +129,12 @@ public class GameController : MonoBehaviour
         return new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
     }
 
-    private void ShownCrossHair()
-    {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0f;
-        crosshairSpriteObject.transform.position = mousePosition;
-    }
+    //private void ShownCrossHair()
+    //{
+    //    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    mousePosition.z = 0f;
+    //    crosshairSpriteObject.transform.position = mousePosition;
+    //}
 
     public void DamagePlayer()
     {
@@ -131,22 +143,20 @@ public class GameController : MonoBehaviour
             int healthValue = player.GetComponent<PlayerBase>().currentHealth;
             if (healthValue <= 0)
             {
-                Die();
-                healthText.text = "100";
+                healthText.text = "0";
             }
             healthText.text = healthValue.ToString();
         }
     }
 
-    private void Die()
+    public void SpawnPosition(GameObject player)
     {
-        PhotonNetwork.Destroy(player);
-        PhotonNetwork.Destroy(chosenTree);
-        InitializeGame();
-    }
+        if (!view.IsMine)
+            return;
 
-    private void Update()
-    {
-        ShownCrossHair();
+        int playerNumber = GetPlayerNumber();
+
+        if (playerNumber == 1) player.transform.position = GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y);
+        else player.transform.position = GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y);
     }
 }

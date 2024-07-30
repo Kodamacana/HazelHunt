@@ -9,6 +9,7 @@ public class TimerManager : MonoBehaviour
     [SerializeField, Range(0,600)] float duration = 180f;
 
     [SerializeField]  private Image image;
+    [SerializeField] EndGamePanel endGamePanel;
 
     private PhotonView view;
     private float timer = 0f;
@@ -24,20 +25,13 @@ public class TimerManager : MonoBehaviour
     {
         image.fillAmount = fillAmount;
     }
-
-    [PunRPC]
-    private void RestartGame()
-    {
-        //RestartGame
-        //isGameOver = false;
-    }
-
+       
     [PunRPC]
     private void FinishGame()
     {
         //Finish Game
 
-
+        endGamePanel.gameObject.SetActive(true);
         //view.RPC("RestartGame", RpcTarget.All);
     }
 
@@ -57,12 +51,8 @@ public class TimerManager : MonoBehaviour
             {                
                 isGameOver = true;
                 image.fillAmount = 0f;
-                view.RPC("Timer", RpcTarget.AllBufferedViaServer, 0f);
+                view.RPC("FinishGame", RpcTarget.AllBufferedViaServer);
             }            
-        }
-        else
-        {
-            view.RPC("FinishGame", RpcTarget.All);
         }
     }    
 }

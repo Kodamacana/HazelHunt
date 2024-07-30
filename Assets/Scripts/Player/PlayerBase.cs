@@ -3,32 +3,60 @@ using Photon.Pun;
 using TMPro;
 using System;
 using System.Collections;
+using Photon.Realtime;
 
 public class PlayerBase : MonoBehaviourPunCallbacks
 {
     [SerializeField] ParticleSystem blood;
     [SerializeField] TextMeshProUGUI usernameText;
 
+    [SerializeField] Camera playerCamera;
+    [SerializeField] RenderTexture masterPlayerRendererTexture;
+    [SerializeField] RenderTexture guestPlayerRendererTexture;
+
+    [SerializeField] Camera MF_playerCamera;
+    [SerializeField] RenderTexture MF_masterPlayerRendererTexture;
+    [SerializeField] RenderTexture MF_guestPlayerRendererTexture;
+
     [SerializeField] Sprite[] sprites;
     [SerializeField] SpriteRenderer[] spriteRenderers;
     [SerializeField] Material whiteMaterial;
     [SerializeField] Material defaultMaterial;
 
-    [SerializeField] private int maxHealth = 100;
 
-    public int currentHealth = 100;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] public int currentHealth = 100;
+
     private PhotonView view;
+    GameController gameController;
 
     private void Start()
     {
         view = GetComponent<PhotonView>();
         currentHealth = maxHealth;
+        gameController = GameController.Instance;
+
         usernameText.text = view.Owner.NickName;
+
+        if (view.IsMine)
+        {
+            gameController.masterNickname = view.Owner.NickName;
+            playerCamera.targetTexture = masterPlayerRendererTexture;
+            MF_playerCamera.targetTexture = MF_masterPlayerRendererTexture;
+        }
+        else
+        {
+            gameController.guestNickname = view.Owner.NickName;
+            playerCamera.targetTexture = guestPlayerRendererTexture;
+            MF_playerCamera.targetTexture = MF_guestPlayerRendererTexture;
+        }
+        playerCamera.enabled = true;
+        MF_playerCamera.enabled = true;
     }
 
     IEnumerator InvokeSkin()
     {
-        GameController.Instance.DamagePlayer();
+        gameController.DamagePlayer();
         yield return new WaitForSeconds(0.2f);
 
         for (int i = 0; i < spriteRenderers.Length; i++)
@@ -48,6 +76,7 @@ public class PlayerBase : MonoBehaviourPunCallbacks
         if (currentHealth <= 0)
         {
             currentHealth = 0;
+            Respawn();
         }
 
         for (int i = 0; i < spriteRenderers.Length; i++)
@@ -55,6 +84,36 @@ public class PlayerBase : MonoBehaviourPunCallbacks
             spriteRenderers[i].material = whiteMaterial;
         }
         StartCoroutine("InvokeSkin");
+    }
+
+    private void Respawn()
+    {
+        foreach(Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+        StartCoroutine(Respawn(2f));
+    }
+
+    IEnumerator Respawn(float time)
+    {
+        currentHealth = 100;
+           
+        gameController.SpawnPosition(gameObject);
+        StartCoroutine(InvokeSkin());
+
+        yield return new WaitForSecondsRealtime(time);
+        view.RPC("ResetPlayer", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void ResetPlayer()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }       
     }
 
     [PunRPC]
