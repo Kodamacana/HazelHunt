@@ -31,8 +31,9 @@ public class GameController : MonoBehaviour
     [Header("Text Mesh")]
     [SerializeField] TextMeshProUGUI healthText;
 
-    [HideInInspector] public string masterNickname;
-    [HideInInspector] public string guestNickname;
+    public string masterNickname;
+    public string guestNickname;
+    [HideInInspector] public bool isMatching = false;
     GameObject chosenTree;
     GameObject player;
     GameObject cloneObject;
@@ -56,6 +57,20 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         InitializeGame();
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+            MatchReady();
+    }
+
+    private void MatchReady()
+    {
+        view.RPC("MatchFound", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void MatchFound()
+    {
+        matchFoundPanel.gameObject.SetActive(true);
     }
 
     public void UpdateScore()
@@ -67,7 +82,6 @@ public class GameController : MonoBehaviour
     {
         healthText.text = "100";
         endGamePanel.gameObject.SetActive(false);
-        matchFoundPanel.gameObject.SetActive(true);
 
         if (cloneObject == null && view.IsMine)
         {
@@ -76,15 +90,14 @@ public class GameController : MonoBehaviour
 
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            int playerNumber = GetPlayerNumber();
-            if (playerNumber == 1)
+            if (PhotonNetwork.IsMasterClient)
             {
                 player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y), Quaternion.identity);
                
                 chosenTree = PhotonNetwork.Instantiate(baseTreePrefab.name, new Vector3(-7.79f, 1.75f, 0), Quaternion.identity);
                 StartCoroutine(GoBaseCollect(chosenTree));
             }
-            else if (playerNumber == 2)
+            else
             {
                 player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y), Quaternion.identity);
                 
@@ -97,23 +110,7 @@ public class GameController : MonoBehaviour
             Debug.LogError("PhotonNetwork is not connected or ready!");
         }
     }
-
-    private int GetPlayerNumber()
-    {
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            return 1;
-        }
-        else if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        {
-            return 2;
-        }
-        else
-        {
-            Debug.LogError("Invalid player number!");
-            return -1;
-        }
-    }
+   
 
     IEnumerator GoBaseCollect( GameObject obj)
     {
@@ -154,9 +151,7 @@ public class GameController : MonoBehaviour
         if (!view.IsMine)
             return;
 
-        int playerNumber = GetPlayerNumber();
-
-        if (playerNumber == 1) player.transform.position = GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y);
+        if (PhotonNetwork.IsMasterClient) player.transform.position = GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y);
         else player.transform.position = GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y);
     }
 }

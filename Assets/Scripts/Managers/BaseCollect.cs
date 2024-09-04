@@ -50,12 +50,11 @@ public class BaseCollect : MonoBehaviour
 
         if (view.IsMine)
         {
-            int playerNumber = GetPlayerNumber();
-            if (playerNumber == 1)               
+            if (PhotonNetwork.IsMasterClient)               
             {
                 view.RPC("UpdateSpriteProperties1", RpcTarget.All);
             }
-            else if(playerNumber == 2)
+            else
             {
                 view.RPC("UpdateSpriteProperties2", RpcTarget.All);
             }
@@ -63,23 +62,7 @@ public class BaseCollect : MonoBehaviour
 
     }
 
-    private int GetPlayerNumber()
-    {
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            return 1;
-        }
-        else if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        {
-            return 2;
-        }
-        else
-        {
-            Debug.LogError("Invalid player number!");
-            return -1;
-        }
-    }
-
+   
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (view.IsMine && collision.name.Contains("Player"))

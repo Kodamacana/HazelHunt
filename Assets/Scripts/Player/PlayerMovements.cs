@@ -38,7 +38,7 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (!isTrueForceFeedback)
         {
-            rb.velocity = moveDir * moveSpeed;
+            rb.linearVelocity = moveDir * moveSpeed;
         }
     }
 

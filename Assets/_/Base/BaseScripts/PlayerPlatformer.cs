@@ -49,7 +49,7 @@ public class PlayerPlatformer : MonoBehaviour {
         if (IsGrounded()) {
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) {
                 float jumpVelocity = 100f;
-                rigidbody2d.velocity = Vector2.up * jumpVelocity;
+                rigidbody2d.linearVelocity = Vector2.up * jumpVelocity;
             }
         }
 
@@ -57,16 +57,16 @@ public class PlayerPlatformer : MonoBehaviour {
 
         // Set Animations
         if (IsGrounded()) {
-            if (rigidbody2d.velocity.x == 0) {
+            if (rigidbody2d.linearVelocity.x == 0) {
                 playerBase.PlayIdleAnim();
             } else {
-                playerBase.PlayMoveAnim(new Vector2(rigidbody2d.velocity.x, 0f));
+                playerBase.PlayMoveAnim(new Vector2(rigidbody2d.linearVelocity.x, 0f));
             }
         } else {
-            playerBase.PlayJumpAnim(rigidbody2d.velocity);
+            playerBase.PlayJumpAnim(rigidbody2d.linearVelocity);
         }
 
-        if (rigidbody2d.velocity.y < -300f) {
+        if (rigidbody2d.linearVelocity.y < -300f) {
             // Falling way too fast, dead
             Die();
         }
@@ -88,7 +88,7 @@ public class PlayerPlatformer : MonoBehaviour {
         }
 
         float moveSpeed = 40f;
-        rigidbody2d.velocity = new Vector2(moveX * moveSpeed, rigidbody2d.velocity.y);
+        rigidbody2d.linearVelocity = new Vector2(moveX * moveSpeed, rigidbody2d.linearVelocity.y);
     }
 
     public Vector3 GetPosition() {
@@ -97,7 +97,7 @@ public class PlayerPlatformer : MonoBehaviour {
 
     private void Die() {
         isDead = true;
-        rigidbody2d.velocity = Vector3.zero;
+        rigidbody2d.linearVelocity = Vector3.zero;
         if (OnDead != null) OnDead(this, EventArgs.Empty);
     }
 

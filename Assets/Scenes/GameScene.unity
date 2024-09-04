@@ -929,6 +929,7 @@ MonoBehaviour:
   healthText: {fileID: 321438364}
   masterNickname: 
   guestNickname: 
+  isMatching: 0
   sound_Bomb: {fileID: 8300000, guid: 017b6cbe31fc8d14d95587ced2ceb174, type: 3}
   sound_Shotgun: {fileID: 8300000, guid: 2e53ca3a6d6b84b47bb787ec39e7bee5, type: 3}
   sound_Button: {fileID: 8300000, guid: 79b06f9bdb4315946a202010dd268790, type: 3}
@@ -3185,6 +3186,7 @@ MonoBehaviour:
   duration: 30
   image: {fileID: 2054277434}
   endGamePanel: {fileID: 7270341789075625887}
+  isGameOver: 1
 --- !u!114 &1491649002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4321,10 +4323,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MatchFound
       objectReference: {fileID: 0}
-    - target: {fileID: 319687635899748513, guid: d6960465457feaa46b6705c6c64b9b46, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7858660344934179932, guid: d6960465457feaa46b6705c6c64b9b46, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4405,6 +4403,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8882658227607452096, guid: d6960465457feaa46b6705c6c64b9b46, type: 3}
+      propertyPath: timerManager
+      value: 
+      objectReference: {fileID: 1491649001}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

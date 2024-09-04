@@ -29,12 +29,11 @@ public class ScoreManager : MonoBehaviour
 
     public void IncreasePlayerScore()
     {
-        int playerNumber = GetPlayerNumber();
-        if (playerNumber == 1)
+        if (PhotonNetwork.IsMasterClient)
         {
             player1Score++;
         }
-        else if (playerNumber == 2)
+        else
         {
             player2Score++;
         }
@@ -43,23 +42,7 @@ public class ScoreManager : MonoBehaviour
         view.RPC("SyncScores", RpcTarget.Others, player1Score, player2Score);
     }
 
-    private int GetPlayerNumber()
-    {
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
-        {
-            return 1;
-        }
-        else if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
-        {
-            return 2;
-        }
-        else
-        {
-            Debug.LogError("Invalid player number!");
-            return -1;
-        }
-    }
-
+   
     public string GetEndGameScore()
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber.Equals(1))

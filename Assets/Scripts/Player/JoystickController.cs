@@ -15,11 +15,11 @@ public class JoystickController : MonoBehaviour
     {
         if (movementJoystick.Direction.y != 0)
         {
-            rb.velocity = new(movementJoystick.Direction.x * playerSpeed, movementJoystick.Direction.y * playerSpeed);
+            rb.linearVelocity = new(movementJoystick.Direction.x * playerSpeed, movementJoystick.Direction.y * playerSpeed);
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
         }
     }
 }

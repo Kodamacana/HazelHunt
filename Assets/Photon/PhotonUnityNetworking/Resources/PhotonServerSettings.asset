@@ -76,6 +76,9 @@ MonoBehaviour:
   - ResetPlayer
   - ReceiveRematchRequest
   - Rematch
+  - MatchFound
+  - ReMatch
+  - CloseRoom
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

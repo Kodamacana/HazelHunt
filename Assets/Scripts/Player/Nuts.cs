@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Nuts : MonoBehaviourPunCallbacks
 {
-    [SerializeField] float damping = 0.1f; // Azalma katsayýsý
+    [SerializeField] float damping = 0.1f; // Azalma katsayï¿½sï¿½
 
     Rigidbody2D rb;
     PhotonView view;
@@ -46,7 +46,7 @@ public class Nuts : MonoBehaviourPunCallbacks
 
     private void FixedUpdate()
     {
-        // Hýzý azalt
-        rb.velocity *= (1 - damping);
+        // Hï¿½zï¿½ azalt
+        rb.linearVelocity *= (1 - damping);
     }
 }

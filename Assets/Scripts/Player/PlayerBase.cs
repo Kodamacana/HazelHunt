@@ -83,7 +83,7 @@ public class PlayerBase : MonoBehaviourPunCallbacks
         {
             spriteRenderers[i].material = whiteMaterial;
         }
-        StartCoroutine("InvokeSkin");
+        StartCoroutine(nameof(InvokeSkin));
     }
 
     private void Respawn()

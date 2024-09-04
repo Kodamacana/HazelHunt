@@ -1,4 +1,3 @@
-using Photon.Pun;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -11,6 +10,7 @@ public class MatchFoundPanelController : MonoBehaviour
 
     [SerializeField] RawImage guestPlayerRawImg;
     [SerializeField] RawImage masterPlayerRawImg;
+    [SerializeField] TimerManager timerManager;
 
     GameController gameController;
 
@@ -26,7 +26,22 @@ public class MatchFoundPanelController : MonoBehaviour
 
     IEnumerator ClosePanel()
     {
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSecondsRealtime(1f);
+        txtMasterUsername.text = gameController.masterNickname;
+        txtGuestUsername.text = gameController.guestNickname;
+        yield return new WaitForSecondsRealtime(1f);
+        txtMasterUsername.text = gameController.masterNickname;
+        txtGuestUsername.text = gameController.guestNickname;
+        yield return new WaitForSecondsRealtime(1f);
+        txtMasterUsername.text = gameController.masterNickname;
+        txtGuestUsername.text = gameController.guestNickname;
+        yield return new WaitForSecondsRealtime(1f);
+        txtMasterUsername.text = gameController.masterNickname;
+        txtGuestUsername.text = gameController.guestNickname;
+        yield return new WaitForSecondsRealtime(1f);
+        txtMasterUsername.text = gameController.masterNickname;
+        txtGuestUsername.text = gameController.guestNickname;
+        timerManager.isGameOver = false;
         gameObject.SetActive(false);
     }
 }

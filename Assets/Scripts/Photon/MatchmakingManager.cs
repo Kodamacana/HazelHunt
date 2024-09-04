@@ -1,5 +1,4 @@
 using Photon.Pun;
-using TMPro;
 using Photon.Realtime;
 using UnityEngine;
 using System.Collections;
@@ -7,14 +6,19 @@ using System.Collections;
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
     public static MatchmakingManager Instance;
-    public TMP_InputField playerName;
-    public PhotonView photonView;
+        
     private WarningMessageManager warningMessageManager;
     private bool isMatching = false;
     private bool isRematch = false;
     private bool rematchRequestSent = false;
     private bool rematchRequestReceived = false;
     private float matchTimeout = 15f;
+
+    MainMenuController mainMenuController;
+    PhotonView view;
+
+    bool isLeaveRoom = false;
+    string playerName = "";
 
     private void Awake()
     {
@@ -34,41 +38,45 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         warningMessageManager = WarningMessageManager.instance;
 
         if (warningMessageManager == null)
-        {
             Debug.LogError("WarningMessageManager instance is not set.");
-        }
 
-        if (photonView == null)
-        {
-            photonView = GetComponent<PhotonView>();
-        }
+        if (view == null)
+            view = GetComponent<PhotonView>();
 
-        InitializeUI();
     }
 
-    private void InitializeUI()
-    {
-        playerName.text = "";
+    public void BeginMatchmaking() {
+        mainMenuController = MainMenuController.instance;
+        playerName = mainMenuController.playerName.text;
+        StartMatchmaking();
     }
 
     // Onclick -> playButton
-    public void StartMatchmaking()
+    private void StartMatchmaking()
     {
-        if (string.IsNullOrEmpty(playerName.text))
+        if (string.IsNullOrEmpty(playerName))
         {
             SetFeedback("Player name cannot be empty");
             return;
         }
 
-        PhotonNetwork.NickName = playerName.text;
+        PhotonNetwork.NickName = playerName;
         SetFeedback("Starting matchmaking...");
         isMatching = true;
+        isLeaveRoom = true;
         StartCoroutine(MatchmakingCoroutine());
     }
 
-    private IEnumerator MatchmakingCoroutine()
+    IEnumerator MatchmakingCoroutine()
     {
         float startTime = Time.time;
+        float leaveDelayTime = Time.time;
+
+        while (!isLeaveRoom && Time.time - leaveDelayTime > matchTimeout)
+        {
+            yield return null;
+        }
+
         PhotonNetwork.JoinRandomRoom();
 
         while (isMatching && Time.time - startTime < matchTimeout)
@@ -82,7 +90,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
             isMatching = false;
         }
-    }
+    }    
 
     public override void OnJoinedRoom()
     {
@@ -101,7 +109,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         {
             // If failed to join a random room, create a new room
             RoomOptions roomOptions = new RoomOptions()
-            {
+            {                
                 IsVisible = true,
                 MaxPlayers = 2
             };
@@ -131,9 +139,9 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (!rematchRequestSent && !rematchRequestReceived)
         {
-            if (photonView != null)
+            if (view != null)
             {
-                photonView.RPC("ReceiveRematchRequest", RpcTarget.Others);
+                view.RPC("ReceiveRematchRequest", RpcTarget.Others);
                 SetFeedback("Rematch request sent. Waiting for response...");
                 rematchRequestSent = true;
             }
@@ -164,11 +172,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     private void AcceptRematchRequest()
     {
-        photonView.RPC("Rematch", RpcTarget.All);        
+        view.RPC("ReMatch", RpcTarget.All);        
     }
 
     [PunRPC]
-    private void Rematch()
+    private void ReMatch()
     {
         SetFeedback("Rematch accepted. Starting new match...");
         isRematch = true;
@@ -177,12 +185,26 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("GameScene");
     }
 
+    [PunRPC]
+    private void CloseRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        SetFeedback("Leaving Room...");
+    }
+
     public void NextMatch()
     {
+        view.RPC("CloseRoom", RpcTarget.All);
         SetFeedback("Moving to next match...");
         isRematch = false; // Yeni maç olduðunda rematch deðil
-        PhotonNetwork.LeaveRoom();
-        StartMatchmaking();
+
+        isMatching = true;
+        StartCoroutine(MatchmakingCoroutine());
+    }
+
+    public override void OnJoinedLobby()
+    {
+        isLeaveRoom = true;
     }
 
     public void ReturnToMainMenu()
@@ -190,7 +212,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         SetFeedback("Returning to main menu...");
         isMatching = false;
         PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LoadLevel("MainMenu");
+        PhotonNetwork.LoadLevel("01_MainScene");
     }
 
     private void SetFeedback(string message)

@@ -7,6 +7,6 @@ public class BulletForShootgun : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
                
         originalDirection = new(originalDirection.x * 2f, originalDirection.y * 2f);
-        rb.velocity = originalDirection;
+        rb.linearVelocity = originalDirection;
     }
 }

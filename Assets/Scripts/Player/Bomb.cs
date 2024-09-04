@@ -1,5 +1,8 @@
 using Photon.Pun;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
@@ -63,16 +66,23 @@ public class Bomb : MonoBehaviour
     private void ExplosionBomb()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(explosionAreaCoordinate, radius);
+        List<PhotonView> arr = new();
 
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider != null && hitCollider.name.Contains("Player"))
             {
                 PhotonView targetPhotonView = hitCollider.GetComponent<PhotonView>();
+                var photonList = arr.Where(x => x.ViewID.Equals(targetPhotonView.ViewID)).ToList();
+
+                if (photonList.Count > 0)
+                    continue;
 
                 if (targetPhotonView != null)
                 {
                     targetPhotonView.RPC("TakeDamage", RpcTarget.All);
+
+                    arr.Add(targetPhotonView);
                 }
             }
         }

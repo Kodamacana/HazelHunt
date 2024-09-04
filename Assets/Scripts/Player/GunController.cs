@@ -18,12 +18,12 @@ public class GunController : MonoBehaviour
     [SerializeField] private GameObject bombCrosshairPrefab;
     [SerializeField] private NutsCollect nutsCollect;
 
-    [SerializeField, Range(0,10)] private float fireCooldownTime = 0.5f; // Cooldown süresi
-    [SerializeField, Range(0, 10)] private float bombCooldownTime = 5f; // Cooldown süresi
+    [SerializeField, Range(0,10)] private float fireCooldownTime = 0.5f; // Cooldown sï¿½resi
+    [SerializeField, Range(0, 10)] private float bombCooldownTime = 5f; // Cooldown sï¿½resi
     [SerializeField, Range(0, 10)] private float recoilForce = 3f;
 
-    private float fireCooldownTimer = 0.0f; // Cooldown zamanlayýcýsý
-    private float bombCooldownTimer = 0.0f; // Cooldown zamanlayýcýsý
+    private float fireCooldownTimer = 0.0f; // Cooldown zamanlayï¿½cï¿½sï¿½
+    private float bombCooldownTimer = 0.0f; // Cooldown zamanlayï¿½cï¿½sï¿½
     private Vector3 lastAttackDirection;
 
     private PlayerMovements playerMovement;
@@ -99,7 +99,7 @@ public class GunController : MonoBehaviour
     {
         EventTrigger eventTrigger = joystick.GetComponent<EventTrigger>();
 
-        // Mevcut tüm eventleri temizle
+        // Mevcut tï¿½m eventleri temizle
         eventTrigger.triggers.Clear();
 
         // Yeni event ekle
@@ -259,19 +259,19 @@ public class GunController : MonoBehaviour
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Sabit mesafe ve açý için
-        float offsetAngle = 5f; // Açý offseti (derece cinsinden)
+        // Sabit mesafe ve aï¿½ï¿½ iï¿½in
+        float offsetAngle = 5f; // Aï¿½ï¿½ offseti (derece cinsinden)
         float distance = 1.5f; // Ray mesafesi
 
-        // Aþaðý ve yukarý kaydýrýlmýþ hedef noktalarý
+        // Aï¿½aï¿½ï¿½ ve yukarï¿½ kaydï¿½rï¿½lmï¿½ï¿½ hedef noktalarï¿½
         Vector2[] directions = new Vector2[5];
-        directions[0] = direction; // Merkez yön
-        directions[1] = Quaternion.Euler(0, 0, -offsetAngle) * direction; // 1. Aþaðý kaydýrýlmýþ yön
-        directions[2] = Quaternion.Euler(0, 0, -2 * offsetAngle) * direction; // 2. Aþaðý kaydýrýlmýþ yön
-        directions[3] = Quaternion.Euler(0, 0, offsetAngle) * direction; // 1. Yukarý kaydýrýlmýþ yön
-        directions[4] = Quaternion.Euler(0, 0, 2 * offsetAngle) * direction; // 2. Yukarý kaydýrýlmýþ yön
+        directions[0] = direction; // Merkez yï¿½n
+        directions[1] = Quaternion.Euler(0, 0, -offsetAngle) * direction; // 1. Aï¿½aï¿½ï¿½ kaydï¿½rï¿½lmï¿½ï¿½ yï¿½n
+        directions[2] = Quaternion.Euler(0, 0, -2 * offsetAngle) * direction; // 2. Aï¿½aï¿½ï¿½ kaydï¿½rï¿½lmï¿½ï¿½ yï¿½n
+        directions[3] = Quaternion.Euler(0, 0, offsetAngle) * direction; // 1. Yukarï¿½ kaydï¿½rï¿½lmï¿½ï¿½ yï¿½n
+        directions[4] = Quaternion.Euler(0, 0, 2 * offsetAngle) * direction; // 2. Yukarï¿½ kaydï¿½rï¿½lmï¿½ï¿½ yï¿½n
 
-        // Raycast kontrolü
+        // Raycast kontrolï¿½
         foreach (var dir in directions)
         {
             dir.Normalize();
@@ -290,7 +290,7 @@ public class GunController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Çarpýþma yok.");
+                Debug.Log("ï¿½arpï¿½ï¿½ma yok.");
             }
         }
 
@@ -301,7 +301,7 @@ public class GunController : MonoBehaviour
         Vector2 lowerDirection = Quaternion.Euler(0, 0, -5) * newDirection;
         Vector2 upperDirection = Quaternion.Euler(0, 0, 5) * newDirection;
 
-        Vector2 playerVelocity = GetComponent<Rigidbody2D>().velocity;
+        Vector2 playerVelocity = GetComponent<Rigidbody2D>().linearVelocity;
 
         PoolableObject bullet = poolManager.GetObjectFromPool("bullet");
         bullet.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
@@ -336,7 +336,7 @@ public class GunController : MonoBehaviour
 
         GameObject nutClone = PhotonNetwork.Instantiate(nutPrefab.name, Vector3.zero, Quaternion.identity);
         nutClone.transform.localPosition = transform.position;
-        nutClone.GetComponent<Rigidbody2D>().velocity = direction * 5f;
+        nutClone.GetComponent<Rigidbody2D>().linearVelocity = direction * 5f;
 
         StartCoroutine(ResetNut());
     }
@@ -395,7 +395,7 @@ public class GunController : MonoBehaviour
         direction.Normalize();
 
         float distance = 3f; // BoxCast mesafesi
-        float offsetAngle = 5f; // Açý offseti (derece cinsinden)
+        float offsetAngle = 5f; // Aï¿½ï¿½ offseti (derece cinsinden)
         Vector2 boxSize = new Vector2(0.5f, 0.5f); // BoxCast kutu boyutu
 
         // Merkez BoxCast
@@ -404,7 +404,7 @@ public class GunController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.TransformDirection(direction) * distance, Color.red);
         }
 
-        // 1. Aþaðý kaydýrýlmýþ BoxCast
+        // 1. Aï¿½aï¿½ï¿½ kaydï¿½rï¿½lmï¿½ï¿½ BoxCast
         Vector2 lowerDirection1 = Quaternion.Euler(0, 0, -offsetAngle) * direction;
         lowerDirection1.Normalize();
         if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(lowerDirection1), distance))
@@ -412,7 +412,7 @@ public class GunController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.TransformDirection(lowerDirection1) * distance, Color.blue);
         }
 
-        // 2. Aþaðý kaydýrýlmýþ BoxCast
+        // 2. Aï¿½aï¿½ï¿½ kaydï¿½rï¿½lmï¿½ï¿½ BoxCast
         Vector2 lowerDirection2 = Quaternion.Euler(0, 0, -2 * offsetAngle) * direction;
         lowerDirection2.Normalize();
         if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(lowerDirection2), distance))
@@ -420,7 +420,7 @@ public class GunController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.TransformDirection(lowerDirection2) * distance, Color.cyan);
         }
 
-        // 1. Yukarý kaydýrýlmýþ BoxCast
+        // 1. Yukarï¿½ kaydï¿½rï¿½lmï¿½ï¿½ BoxCast
         Vector2 upperDirection1 = Quaternion.Euler(0, 0, offsetAngle) * direction;
         upperDirection1.Normalize();
         if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(upperDirection1), distance))
@@ -428,7 +428,7 @@ public class GunController : MonoBehaviour
             Debug.DrawRay(transform.position, transform.TransformDirection(upperDirection1) * distance, Color.green);
         }
 
-        // 2. Yukarý kaydýrýlmýþ BoxCast
+        // 2. Yukarï¿½ kaydï¿½rï¿½lmï¿½ï¿½ BoxCast
         Vector2 upperDirection2 = Quaternion.Euler(0, 0, 2 * offsetAngle) * direction;
         upperDirection2.Normalize();
         if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(upperDirection2), distance))

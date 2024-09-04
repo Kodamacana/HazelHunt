@@ -13,7 +13,7 @@ public class TimerManager : MonoBehaviour
 
     private PhotonView view;
     private float timer = 0f;
-    private bool isGameOver = false;
+    [HideInInspector] public bool isGameOver = true;
 
     private void Awake()
     {
@@ -29,10 +29,7 @@ public class TimerManager : MonoBehaviour
     [PunRPC]
     private void FinishGame()
     {
-        //Finish Game
-
         endGamePanel.gameObject.SetActive(true);
-        //view.RPC("RestartGame", RpcTarget.All);
     }
 
     private void Update()
@@ -45,13 +42,13 @@ public class TimerManager : MonoBehaviour
                 timer += Time.deltaTime; 
                 fillAmount = 1f - (timer / duration);
                 image.fillAmount = fillAmount;
-                view.RPC("Timer", RpcTarget.AllBufferedViaServer, fillAmount);
+                view.RPC("Timer", RpcTarget.AllBuffered, fillAmount);
             }
             else
             {                
                 isGameOver = true;
                 image.fillAmount = 0f;
-                view.RPC("FinishGame", RpcTarget.AllBufferedViaServer);
+                view.RPC("FinishGame", RpcTarget.AllBuffered);
             }            
         }
     }    
