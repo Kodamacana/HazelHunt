@@ -80,7 +80,7 @@ public class Bomb : MonoBehaviour
 
                 if (targetPhotonView != null)
                 {
-                    targetPhotonView.RPC("TakeDamage", RpcTarget.All);
+                    targetPhotonView.RPC("TakeDamage", RpcTarget.All, RandomVector2(3.1415f, 3.1415f));
 
                     arr.Add(targetPhotonView);
                 }
@@ -90,6 +90,12 @@ public class Bomb : MonoBehaviour
         Debug.Log("Bomba patladý ve alan hasarý verildi.");
         GetComponent<SpriteRenderer>().color = Color.clear;
         StartCoroutine(DestroyObject(gameObject,6f));
+    }
+
+    public Vector2 RandomVector2(float angle, float angleMin)
+    {
+        float random = Random.value * angle + angleMin;
+        return new Vector2(Mathf.Cos(random), Mathf.Sin(random));
     }
 
     private IEnumerator MoveGrapeShadowRoutine(PoolableObject grapeShadow, PoolableObject bombRadius, Vector3 startPosition, Vector3 endPosition)

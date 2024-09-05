@@ -1,0 +1,1747 @@
+fileFormatVersion: 2
+guid: 91e118db08c89e54aa5891d3bd276e42
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -240918682642893101
+    second: VFX Blood Batch 1_SpriteSheetColumns_0
+  - first:
+      213: -7124115388591409789
+    second: VFX Blood Batch 1_SpriteSheetColumns_1
+  - first:
+      213: 4888788701023724576
+    second: VFX Blood Batch 1_SpriteSheetColumns_2
+  - first:
+      213: -2169803623896296674
+    second: VFX Blood Batch 1_SpriteSheetColumns_3
+  - first:
+      213: 4505839384663041321
+    second: VFX Blood Batch 1_SpriteSheetColumns_4
+  - first:
+      213: -1724002058821878528
+    second: VFX Blood Batch 1_SpriteSheetColumns_5
+  - first:
+      213: -1112995588923420477
+    second: VFX Blood Batch 1_SpriteSheetColumns_6
+  - first:
+      213: -4960143967105343879
+    second: VFX Blood Batch 1_SpriteSheetColumns_7
+  - first:
+      213: 3686248131568790460
+    second: VFX Blood Batch 1_SpriteSheetColumns_8
+  - first:
+      213: -8043292416672493985
+    second: VFX Blood Batch 1_SpriteSheetColumns_9
+  - first:
+      213: 98374150616069131
+    second: VFX Blood Batch 1_SpriteSheetColumns_10
+  - first:
+      213: -1948490557018824000
+    second: VFX Blood Batch 1_SpriteSheetColumns_11
+  - first:
+      213: -2024310811362187289
+    second: VFX Blood Batch 1_SpriteSheetColumns_12
+  - first:
+      213: 9049611415221281666
+    second: VFX Blood Batch 1_SpriteSheetColumns_13
+  - first:
+      213: -2695497277618370275
+    second: VFX Blood Batch 1_SpriteSheetColumns_14
+  - first:
+      213: 7973909960255168182
+    second: VFX Blood Batch 1_SpriteSheetColumns_15
+  - first:
+      213: -6257320654121025339
+    second: VFX Blood Batch 1_SpriteSheetColumns_16
+  - first:
+      213: 3747744758531316581
+    second: VFX Blood Batch 1_SpriteSheetColumns_17
+  - first:
+      213: -7238627295508482095
+    second: VFX Blood Batch 1_SpriteSheetColumns_18
+  - first:
+      213: 6550553812606107974
+    second: VFX Blood Batch 1_SpriteSheetColumns_19
+  - first:
+      213: -2875867027149822120
+    second: VFX Blood Batch 1_SpriteSheetColumns_20
+  - first:
+      213: 1730852133075528974
+    second: VFX Blood Batch 1_SpriteSheetColumns_21
+  - first:
+      213: 7810290595034187749
+    second: VFX Blood Batch 1_SpriteSheetColumns_22
+  - first:
+      213: 6319032640451234133
+    second: VFX Blood Batch 1_SpriteSheetColumns_23
+  - first:
+      213: 2855093019090122074
+    second: VFX Blood Batch 1_SpriteSheetColumns_24
+  - first:
+      213: -44614565212983756
+    second: VFX Blood Batch 1_SpriteSheetColumns_25
+  - first:
+      213: -3019821158528793918
+    second: VFX Blood Batch 1_SpriteSheetColumns_26
+  - first:
+      213: 309323300856862438
+    second: VFX Blood Batch 1_SpriteSheetColumns_27
+  - first:
+      213: 4660191738556542582
+    second: VFX Blood Batch 1_SpriteSheetColumns_28
+  - first:
+      213: -8832872314572636277
+    second: VFX Blood Batch 1_SpriteSheetColumns_29
+  - first:
+      213: 8383892068179329608
+    second: VFX Blood Batch 1_SpriteSheetColumns_30
+  - first:
+      213: 7890340191088124276
+    second: VFX Blood Batch 1_SpriteSheetColumns_31
+  - first:
+      213: -3367246288708537377
+    second: VFX Blood Batch 1_SpriteSheetColumns_32
+  - first:
+      213: 4085024983342641812
+    second: VFX Blood Batch 1_SpriteSheetColumns_33
+  - first:
+      213: 1881585585563182299
+    second: VFX Blood Batch 1_SpriteSheetColumns_34
+  - first:
+      213: -980022492285508077
+    second: VFX Blood Batch 1_SpriteSheetColumns_35
+  - first:
+      213: 8498673716444751730
+    second: VFX Blood Batch 1_SpriteSheetColumns_36
+  - first:
+      213: -6680699820069368318
+    second: VFX Blood Batch 1_SpriteSheetColumns_37
+  - first:
+      213: 2267118803529052374
+    second: VFX Blood Batch 1_SpriteSheetColumns_38
+  - first:
+      213: -7784304851465315249
+    second: VFX Blood Batch 1_SpriteSheetColumns_39
+  - first:
+      213: 350208922266771714
+    second: VFX Blood Batch 1_SpriteSheetColumns_40
+  - first:
+      213: 5939447742168251792
+    second: VFX Blood Batch 1_SpriteSheetColumns_41
+  - first:
+      213: 7570584463876757440
+    second: VFX Blood Batch 1_SpriteSheetColumns_42
+  - first:
+      213: 4000834789882408181
+    second: VFX Blood Batch 1_SpriteSheetColumns_43
+  - first:
+      213: -9115753185642518156
+    second: VFX Blood Batch 1_SpriteSheetColumns_44
+  - first:
+      213: 6894782383684361003
+    second: VFX Blood Batch 1_SpriteSheetColumns_45
+  - first:
+      213: -28653256950008930
+    second: VFX Blood Batch 1_SpriteSheetColumns_46
+  - first:
+      213: -4715861734531380234
+    second: VFX Blood Batch 1_SpriteSheetColumns_47
+  - first:
+      213: -3389878436632866822
+    second: VFX Blood Batch 1_SpriteSheetColumns_48
+  - first:
+      213: 3491060084503284371
+    second: VFX Blood Batch 1_SpriteSheetColumns_49
+  - first:
+      213: 1213899380462678106
+    second: VFX Blood Batch 1_SpriteSheetColumns_50
+  - first:
+      213: -6523451837218082316
+    second: VFX Blood Batch 1_SpriteSheetColumns_51
+  - first:
+      213: 1744310537063660276
+    second: VFX Blood Batch 1_SpriteSheetColumns_52
+  - first:
+      213: 2150173979927976747
+    second: VFX Blood Batch 1_SpriteSheetColumns_53
+  - first:
+      213: 8901073480428455682
+    second: VFX Blood Batch 1_SpriteSheetColumns_54
+  - first:
+      213: -2667553439480298959
+    second: VFX Blood Batch 1_SpriteSheetColumns_55
+  - first:
+      213: -7058000352558321071
+    second: VFX Blood Batch 1_SpriteSheetColumns_56
+  - first:
+      213: -3403812009894045635
+    second: VFX Blood Batch 1_SpriteSheetColumns_57
+  - first:
+      213: 1095862682070873173
+    second: VFX Blood Batch 1_SpriteSheetColumns_58
+  - first:
+      213: -2885710301078275387
+    second: VFX Blood Batch 1_SpriteSheetColumns_59
+  - first:
+      213: -6701275270159600413
+    second: VFX Blood Batch 1_SpriteSheetColumns_60
+  - first:
+      213: 7187541160410853213
+    second: VFX Blood Batch 1_SpriteSheetColumns_61
+  - first:
+      213: -4926210299240137311
+    second: VFX Blood Batch 1_SpriteSheetColumns_62
+  - first:
+      213: -6363735786279208264
+    second: VFX Blood Batch 1_SpriteSheetColumns_63
+  - first:
+      213: -3634240328017708380
+    second: VFX Blood Batch 1_SpriteSheetColumns_64
+  - first:
+      213: 2223135841510957754
+    second: VFX Blood Batch 1_SpriteSheetColumns_65
+  - first:
+      213: -1176223881761849594
+    second: VFX Blood Batch 1_SpriteSheetColumns_66
+  - first:
+      213: 355418472757693355
+    second: VFX Blood Batch 1_SpriteSheetColumns_67
+  - first:
+      213: 2522935278619429284
+    second: VFX Blood Batch 1_SpriteSheetColumns_68
+  - first:
+      213: -6702280207049798717
+    second: VFX Blood Batch 1_SpriteSheetColumns_69
+  - first:
+      213: -1453607067296469640
+    second: VFX Blood Batch 1_SpriteSheetColumns_70
+  - first:
+      213: -5994283368339073563
+    second: VFX Blood Batch 1_SpriteSheetColumns_71
+  - first:
+      213: -623702161638679488
+    second: VFX Blood Batch 1_SpriteSheetColumns_72
+  - first:
+      213: 8855493322504137456
+    second: VFX Blood Batch 1_SpriteSheetColumns_73
+  - first:
+      213: -2666412900163291237
+    second: VFX Blood Batch 1_SpriteSheetColumns_74
+  - first:
+      213: -304730475888143521
+    second: VFX Blood Batch 1_SpriteSheetColumns_75
+  - first:
+      213: -5097374288544414408
+    second: VFX Blood Batch 1_SpriteSheetColumns_76
+  - first:
+      213: 8484984990049134173
+    second: VFX Blood Batch 1_SpriteSheetColumns_77
+  - first:
+      213: -529123197630732795
+    second: VFX Blood Batch 1_SpriteSheetColumns_78
+  - first:
+      213: -6825819497358957671
+    second: VFX Blood Batch 1_SpriteSheetColumns_79
+  - first:
+      213: 3637437949721006360
+    second: VFX Blood Batch 1_SpriteSheetColumns_80
+  - first:
+      213: 3457056043327736295
+    second: VFX Blood Batch 1_SpriteSheetColumns_81
+  - first:
+      213: 8276055435522179914
+    second: VFX Blood Batch 1_SpriteSheetColumns_82
+  - first:
+      213: 6332130409760138701
+    second: VFX Blood Batch 1_SpriteSheetColumns_83
+  - first:
+      213: -7063873422543049908
+    second: VFX Blood Batch 1_SpriteSheetColumns_84
+  - first:
+      213: -7487272038372251127
+    second: VFX Blood Batch 1_SpriteSheetColumns_85
+  - first:
+      213: -8630168180608919769
+    second: VFX Blood Batch 1_SpriteSheetColumns_86
+  - first:
+      213: 7710532709938068268
+    second: VFX Blood Batch 1_SpriteSheetColumns_87
+  - first:
+      213: -6244477065185815808
+    second: VFX Blood Batch 1_SpriteSheetColumns_88
+  - first:
+      213: -1809125298206315856
+    second: VFX Blood Batch 1_SpriteSheetColumns_89
+  - first:
+      213: -6418401939105918448
+    second: VFX Blood Batch 1_SpriteSheetColumns_90
+  - first:
+      213: 5650033680870440780
+    second: VFX Blood Batch 1_SpriteSheetColumns_91
+  - first:
+      213: -4343217167442342634
+    second: VFX Blood Batch 1_SpriteSheetColumns_92
+  - first:
+      213: 2301323685074103702
+    second: VFX Blood Batch 1_SpriteSheetColumns_93
+  - first:
+      213: -411758610213345657
+    second: VFX Blood Batch 1_SpriteSheetColumns_94
+  - first:
+      213: -8856526680125587840
+    second: VFX Blood Batch 1_SpriteSheetColumns_95
+  - first:
+      213: -1634579483945037064
+    second: VFX Blood Batch 1_SpriteSheetColumns_96
+  - first:
+      213: -228632570228727514
+    second: VFX Blood Batch 1_SpriteSheetColumns_97
+  - first:
+      213: 5770237407597705183
+    second: VFX Blood Batch 1_SpriteSheetColumns_98
+  - first:
+      213: 1527463964592167544
+    second: VFX Blood Batch 1_SpriteSheetColumns_99
+  - first:
+      213: -4863750723601783575
+    second: VFX Blood Batch 1_SpriteSheetColumns_100
+  - first:
+      213: 4800492942675098059
+    second: VFX Blood Batch 1_SpriteSheetColumns_101
+  - first:
+      213: 7751904046214824131
+    second: VFX Blood Batch 1_SpriteSheetColumns_102
+  - first:
+      213: -8056890055163996424
+    second: VFX Blood Batch 1_SpriteSheetColumns_103
+  - first:
+      213: -7254805696859217386
+    second: VFX Blood Batch 1_SpriteSheetColumns_104
+  - first:
+      213: 3342993022563463425
+    second: VFX Blood Batch 1_SpriteSheetColumns_105
+  - first:
+      213: -8805089180612805164
+    second: VFX Blood Batch 1_SpriteSheetColumns_106
+  - first:
+      213: 7957766823734261939
+    second: VFX Blood Batch 1_SpriteSheetColumns_107
+  - first:
+      213: 7476995058370859321
+    second: VFX Blood Batch 1_SpriteSheetColumns_108
+  - first:
+      213: 3314369912218174639
+    second: VFX Blood Batch 1_SpriteSheetColumns_109
+  - first:
+      213: -8474590045669280190
+    second: VFX Blood Batch 1_SpriteSheetColumns_110
+  - first:
+      213: -5657264444704142619
+    second: VFX Blood Batch 1_SpriteSheetColumns_111
+  - first:
+      213: -1591301897302753347
+    second: VFX Blood Batch 1_SpriteSheetColumns_112
+  - first:
+      213: 492537708847783750
+    second: VFX Blood Batch 1_SpriteSheetColumns_113
+  - first:
+      213: -208093824024736594
+    second: VFX Blood Batch 1_SpriteSheetColumns_114
+  - first:
+      213: 8419394116552230224
+    second: VFX Blood Batch 1_SpriteSheetColumns_115
+  - first:
+      213: -1364795614217470164
+    second: VFX Blood Batch 1_SpriteSheetColumns_116
+  - first:
+      213: 6960424840117555293
+    second: VFX Blood Batch 1_SpriteSheetColumns_117
+  - first:
+      213: -959484244094720998
+    second: VFX Blood Batch 1_SpriteSheetColumns_118
+  - first:
+      213: 2502625189906381514
+    second: VFX Blood Batch 1_SpriteSheetColumns_119
+  - first:
+      213: -8694417842046156286
+    second: VFX Blood Batch 1_SpriteSheetColumns_120
+  - first:
+      213: 5405311943664881963
+    second: VFX Blood Batch 1_SpriteSheetColumns_121
+  - first:
+      213: 785583516779884374
+    second: VFX Blood Batch 1_SpriteSheetColumns_122
+  - first:
+      213: 9090946663957792681
+    second: VFX Blood Batch 1_SpriteSheetColumns_123
+  - first:
+      213: 250652739213449032
+    second: VFX Blood Batch 1_SpriteSheetColumns_124
+  - first:
+      213: -71208829880962613
+    second: VFX Blood Batch 1_SpriteSheetColumns_125
+  - first:
+      213: -7176608944032261136
+    second: VFX Blood Batch 1_SpriteSheetColumns_126
+  - first:
+      213: -237220611489668686
+    second: VFX Blood Batch 1_SpriteSheetColumns_127
+  - first:
+      213: 4225381184068951824
+    second: VFX Blood Batch 1_SpriteSheetColumns_128
+  - first:
+      213: 9143915111659020187
+    second: VFX Blood Batch 1_SpriteSheetColumns_129
+  - first:
+      213: 5536978814961803121
+    second: VFX Blood Batch 1_SpriteSheetColumns_130
+  - first:
+      213: 6923226224506670647
+    second: VFX Blood Batch 1_SpriteSheetColumns_131
+  - first:
+      213: -3915800170034886872
+    second: VFX Blood Batch 1_SpriteSheetColumns_132
+  - first:
+      213: -8034978971124672226
+    second: VFX Blood Batch 1_SpriteSheetColumns_133
+  - first:
+      213: 6405230941103854513
+    second: VFX Blood Batch 1_SpriteSheetColumns_134
+  - first:
+      213: -3388177156006188224
+    second: VFX Blood Batch 1_SpriteSheetColumns_135
+  - first:
+      213: 4738895596356553545
+    second: VFX Blood Batch 1_SpriteSheetColumns_136
+  - first:
+      213: 8147128948194673419
+    second: VFX Blood Batch 1_SpriteSheetColumns_137
+  - first:
+      213: -7497658358169714040
+    second: VFX Blood Batch 1_SpriteSheetColumns_138
+  - first:
+      213: -4405748699536301943
+    second: VFX Blood Batch 1_SpriteSheetColumns_139
+  - first:
+      213: -5215183446381482200
+    second: VFX Blood Batch 1_SpriteSheetColumns_140
+  - first:
+      213: -6571803986745494976
+    second: VFX Blood Batch 1_SpriteSheetColumns_141
+  - first:
+      213: -6904556410865937307
+    second: VFX Blood Batch 1_SpriteSheetColumns_142
+  - first:
+      213: -7093075640015877355
+    second: VFX Blood Batch 1_SpriteSheetColumns_143
+  - first:
+      213: 6103765067090414637
+    second: VFX Blood Batch 1_SpriteSheetColumns_144
+  - first:
+      213: 7874580169615301276
+    second: VFX Blood Batch 1_SpriteSheetColumns_145
+  - first:
+      213: -4289767188363044008
+    second: VFX Blood Batch 1_SpriteSheetColumns_146
+  - first:
+      213: -6334974061343197350
+    second: VFX Blood Batch 1_SpriteSheetColumns_147
+  - first:
+      213: 1712959719494177779
+    second: VFX Blood Batch 1_SpriteSheetColumns_148
+  - first:
+      213: 1891427092649474966
+    second: VFX Blood Batch 1_SpriteSheetColumns_149
+  - first:
+      213: -2792312762428483170
+    second: VFX Blood Batch 1_SpriteSheetColumns_150
+  - first:
+      213: -761531394334013760
+    second: VFX Blood Batch 1_SpriteSheetColumns_151
+  - first:
+      213: 6826884079475487344
+    second: VFX Blood Batch 1_SpriteSheetColumns_152
+  - first:
+      213: -5673022870981840019
+    second: VFX Blood Batch 1_SpriteSheetColumns_153
+  - first:
+      213: -6320963968222103251
+    second: VFX Blood Batch 1_SpriteSheetColumns_154
+  - first:
+      213: -4843675341053319230
+    second: VFX Blood Batch 1_SpriteSheetColumns_155
+  - first:
+      213: 7329254255967135009
+    second: VFX Blood Batch 1_SpriteSheetColumns_156
+  - first:
+      213: 7989907123058230095
+    second: VFX Blood Batch 1_SpriteSheetColumns_157
+  - first:
+      213: 1085876248011279530
+    second: VFX Blood Batch 1_SpriteSheetColumns_158
+  - first:
+      213: 113937455960565237
+    second: VFX Blood Batch 1_SpriteSheetColumns_159
+  - first:
+      213: 7835375913110228964
+    second: VFX Blood Batch 1_SpriteSheetColumns_160
+  - first:
+      213: -4617266123519156111
+    second: VFX Blood Batch 1_SpriteSheetColumns_161
+  - first:
+      213: -6134517977043558677
+    second: VFX Blood Batch 1_SpriteSheetColumns_162
+  - first:
+      213: 3667190517110338897
+    second: VFX Blood Batch 1_SpriteSheetColumns_163
+  - first:
+      213: 5993247724138469128
+    second: VFX Blood Batch 1_SpriteSheetColumns_164
+  - first:
+      213: 2402394701080092204
+    second: VFX Blood Batch 1_SpriteSheetColumns_165
+  - first:
+      213: -1670979083514422461
+    second: VFX Blood Batch 1_SpriteSheetColumns_166
+  - first:
+      213: -5771184704584546016
+    second: VFX Blood Batch 1_SpriteSheetColumns_167
+  - first:
+      213: -5523972068173224795
+    second: VFX Blood Batch 1_SpriteSheetColumns_168
+  - first:
+      213: 8108099673291349270
+    second: VFX Blood Batch 1_SpriteSheetColumns_169
+  - first:
+      213: 5045018666480871541
+    second: VFX Blood Batch 1_SpriteSheetColumns_170
+  - first:
+      213: -8375181624972960293
+    second: VFX Blood Batch 1_SpriteSheetColumns_171
+  - first:
+      213: -7173011004837787714
+    second: VFX Blood Batch 1_SpriteSheetColumns_172
+  - first:
+      213: 9200063982465341488
+    second: VFX Blood Batch 1_SpriteSheetColumns_173
+  - first:
+      213: -7646477080402021238
+    second: VFX Blood Batch 1_SpriteSheetColumns_174
+  - first:
+      213: 3638965563409527129
+    second: VFX Blood Batch 1_SpriteSheetColumns_175
+  - first:
+      213: 3528447991894691274
+    second: VFX Blood Batch 1_SpriteSheetColumns_176
+  - first:
+      213: 8402159840579400033
+    second: VFX Blood Batch 1_SpriteSheetColumns_177
+  - first:
+      213: -2041340994326935416
+    second: VFX Blood Batch 1_SpriteSheetColumns_178
+  - first:
+      213: -4322028985359028774
+    second: VFX Blood Batch 1_SpriteSheetColumns_179
+  - first:
+      213: 3412520266708825393
+    second: VFX Blood Batch 1_SpriteSheetColumns_180
+  - first:
+      213: 6222153622809183681
+    second: VFX Blood Batch 1_SpriteSheetColumns_181
+  - first:
+      213: 478384049085274057
+    second: VFX Blood Batch 1_SpriteSheetColumns_182
+  - first:
+      213: 2318175843938816903
+    second: VFX Blood Batch 1_SpriteSheetColumns_183
+  - first:
+      213: -417412842034085056
+    second: VFX Blood Batch 1_SpriteSheetColumns_184
+  - first:
+      213: -806278525453441658
+    second: VFX Blood Batch 1_SpriteSheetColumns_185
+  - first:
+      213: 2524114561947993572
+    second: VFX Blood Batch 1_SpriteSheetColumns_186
+  - first:
+      213: 380237647113810346
+    second: VFX Blood Batch 1_SpriteSheetColumns_187
+  - first:
+      213: 8825986026228752376
+    second: VFX Blood Batch 1_SpriteSheetColumns_188
+  - first:
+      213: 3657362262967733743
+    second: VFX Blood Batch 1_SpriteSheetColumns_189
+  - first:
+      213: 8277573674245491293
+    second: VFX Blood Batch 1_SpriteSheetColumns_190
+  - first:
+      213: 6709141198956125604
+    second: VFX Blood Batch 1_SpriteSheetColumns_191
+  - first:
+      213: 3678004711372229622
+    second: VFX Blood Batch 1_SpriteSheetColumns_192
+  - first:
+      213: 3943875596593205973
+    second: VFX Blood Batch 1_SpriteSheetColumns_193
+  - first:
+      213: -7863474682612842047
+    second: VFX Blood Batch 1_SpriteSheetColumns_194
+  - first:
+      213: 3720880317146367722
+    second: VFX Blood Batch 1_SpriteSheetColumns_195
+  - first:
+      213: 215846073986143185
+    second: VFX Blood Batch 1_SpriteSheetColumns_196
+  - first:
+      213: -9106869557616466825
+    second: VFX Blood Batch 1_SpriteSheetColumns_197
+  - first:
+      213: 3855874371197382309
+    second: VFX Blood Batch 1_SpriteSheetColumns_198
+  - first:
+      213: -9115840344565267669
+    second: VFX Blood Batch 1_SpriteSheetColumns_199
+  - first:
+      213: -1974569859707413726
+    second: VFX Blood Batch 1_SpriteSheetColumns_200
+  - first:
+      213: -6257316037425387540
+    second: VFX Blood Batch 1_SpriteSheetColumns_201
+  - first:
+      213: -5494354733359267384
+    second: VFX Blood Batch 1_SpriteSheetColumns_202
+  - first:
+      213: -841328731574939313
+    second: VFX Blood Batch 1_SpriteSheetColumns_203
+  - first:
+      213: 5426436582900743506
+    second: VFX Blood Batch 1_SpriteSheetColumns_204
+  - first:
+      213: 5131097498435467030
+    second: VFX Blood Batch 1_SpriteSheetColumns_205
+  - first:
+      213: -779314316738219843
+    second: VFX Blood Batch 1_SpriteSheetColumns_206
+  - first:
+      213: 7816044105080075687
+    second: VFX Blood Batch 1_SpriteSheetColumns_207
+  - first:
+      213: -5733800557986850165
+    second: VFX Blood Batch 1_SpriteSheetColumns_208
+  - first:
+      213: 5718368815317385071
+    second: VFX Blood Batch 1_SpriteSheetColumns_209
+  - first:
+      213: 7065295032829361854
+    second: VFX Blood Batch 1_SpriteSheetColumns_210
+  - first:
+      213: -929121519299980611
+    second: VFX Blood Batch 1_SpriteSheetColumns_211
+  - first:
+      213: -7510139128461087691
+    second: VFX Blood Batch 1_SpriteSheetColumns_212
+  - first:
+      213: 1821379609849825657
+    second: VFX Blood Batch 1_SpriteSheetColumns_213
+  - first:
+      213: -2644682061160455052
+    second: VFX Blood Batch 1_SpriteSheetColumns_214
+  - first:
+      213: 6607083960468697275
+    second: VFX Blood Batch 1_SpriteSheetColumns_215
+  - first:
+      213: -6343555933388170697
+    second: VFX Blood Batch 1_SpriteSheetColumns_216
+  - first:
+      213: -526172241910730071
+    second: VFX Blood Batch 1_SpriteSheetColumns_217
+  - first:
+      213: -4885153146292524424
+    second: VFX Blood Batch 1_SpriteSheetColumns_218
+  - first:
+      213: 4208550141300166210
+    second: VFX Blood Batch 1_SpriteSheetColumns_219
+  - first:
+      213: -5267708170942320818
+    second: VFX Blood Batch 1_SpriteSheetColumns_220
+  - first:
+      213: 6359614692765788490
+    second: VFX Blood Batch 1_SpriteSheetColumns_221
+  - first:
+      213: -6179887848143092124
+    second: VFX Blood Batch 1_SpriteSheetColumns_222
+  - first:
+      213: -8168841274413333243
+    second: VFX Blood Batch 1_SpriteSheetColumns_223
+  - first:
+      213: -3723803267926327816
+    second: VFX Blood Batch 1_SpriteSheetColumns_224
+  - first:
+      213: 7226418132741910782
+    second: VFX Blood Batch 1_SpriteSheetColumns_225
+  - first:
+      213: 3342684599011116315
+    second: VFX Blood Batch 1_SpriteSheetColumns_226
+  - first:
+      213: 8738719841939589244
+    second: VFX Blood Batch 1_SpriteSheetColumns_227
+  - first:
+      213: 8305440749738383208
+    second: VFX Blood Batch 1_SpriteSheetColumns_228
+  - first:
+      213: 3215087441469311490
+    second: VFX Blood Batch 1_SpriteSheetColumns_229
+  - first:
+      213: -846945774475870222
+    second: VFX Blood Batch 1_SpriteSheetColumns_230
+  - first:
+      213: -3153430521672856016
+    second: VFX Blood Batch 1_SpriteSheetColumns_231
+  - first:
+      213: 3186545080960613896
+    second: VFX Blood Batch 1_SpriteSheetColumns_232
+  - first:
+      213: 7290941286665787669
+    second: VFX Blood Batch 1_SpriteSheetColumns_233
+  - first:
+      213: 2043300066715767706
+    second: VFX Blood Batch 1_SpriteSheetColumns_234
+  - first:
+      213: 5859707932019928265
+    second: VFX Blood Batch 1_SpriteSheetColumns_235
+  - first:
+      213: 6869952908533962477
+    second: VFX Blood Batch 1_SpriteSheetColumns_236
+  - first:
+      213: 286030304578338227
+    second: VFX Blood Batch 1_SpriteSheetColumns_237
+  - first:
+      213: -221691349569325883
+    second: VFX Blood Batch 1_SpriteSheetColumns_238
+  - first:
+      213: -2017843967963841862
+    second: VFX Blood Batch 1_SpriteSheetColumns_239
+  - first:
+      213: 15381896234468592
+    second: VFX Blood Batch 1_SpriteSheetColumns_240
+  - first:
+      213: 7410431535109657916
+    second: VFX Blood Batch 1_SpriteSheetColumns_241
+  - first:
+      213: 4608934871424045853
+    second: VFX Blood Batch 1_SpriteSheetColumns_242
+  - first:
+      213: -4962206311358358887
+    second: VFX Blood Batch 1_SpriteSheetColumns_243
+  - first:
+      213: -2116120912640962319
+    second: VFX Blood Batch 1_SpriteSheetColumns_244
+  - first:
+      213: -5087777998788094728
+    second: VFX Blood Batch 1_SpriteSheetColumns_245
+  - first:
+      213: -7082333439197554455
+    second: VFX Blood Batch 1_SpriteSheetColumns_246
+  - first:
+      213: -8337963582846895858
+    second: VFX Blood Batch 1_SpriteSheetColumns_247
+  - first:
+      213: 9201446619340192200
+    second: VFX Blood Batch 1_SpriteSheetColumns_248
+  - first:
+      213: 3694153013824200271
+    second: VFX Blood Batch 1_SpriteSheetColumns_249
+  - first:
+      213: -6042917368512067609
+    second: VFX Blood Batch 1_SpriteSheetColumns_250
+  - first:
+      213: 4380645781386997672
+    second: VFX Blood Batch 1_SpriteSheetColumns_251
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 0
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 1209
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d6b05d0cb518acf0800000000000000
+      internalID: -240918682642893101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 1209
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e135e45a91f43e1e0800000000000000
+      internalID: -2169803623896296674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 111
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 1209
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9252ec12c05f78e30800000000000000
+      internalID: 4505839384663041321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1111
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 1209
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97e93e587570a2bb0800000000000000
+      internalID: -4960143967105343879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 1116
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5e84a7892c706090800000000000000
+      internalID: -8043292416672493985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 22
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 1116
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e726c5da0438e3e0800000000000000
+      internalID: -2024310811362187289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 222
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 1116
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 283a59f92ada69d70800000000000000
+      internalID: 9049611415221281666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2222
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 1116
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c0c66d84088929a0800000000000000
+      internalID: -6257320654121025339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 3
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 1023
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d735cd93da3b8b90800000000000000
+      internalID: -7238627295508482095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 33
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 1023
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0da1b638d8350810800000000000000
+      internalID: 1730852133075528974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 333
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 1023
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e7469d5ae9b36c60800000000000000
+      internalID: 7810290595034187749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 3333
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 1023
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43eeba01a4f716ff0800000000000000
+      internalID: -44614565212983756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 930
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e6135c37efea4400800000000000000
+      internalID: 309323300856862438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 44
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 930
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8424b0f8a61995470800000000000000
+      internalID: 8383892068179329608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 444
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 930
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 471abc6599e108d60800000000000000
+      internalID: 7890340191088124276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4444
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 930
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd42df9fe1cbc1a10800000000000000
+      internalID: 1881585585563182299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 5
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 837
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27763aa97ba51f570800000000000000
+      internalID: 8498673716444751730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 55
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 837
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4c5f090bf798f390800000000000000
+      internalID: -7784304851465315249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 555
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 837
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20122e8c8213cd400800000000000000
+      internalID: 350208922266771714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 5555
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 837
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fc27f74b02d58730800000000000000
+      internalID: 4000834789882408181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 744
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2b902f3c003faf50800000000000000
+      internalID: 6894782383684361003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 66
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 744
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fb4667fcb4ed8eb0800000000000000
+      internalID: -4715861734531380234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 666
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 744
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: affcdb0b58bb4f0d0800000000000000
+      internalID: -3389878436632866822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6666
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 744
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f13f35ed1b0875a0800000000000000
+      internalID: -6523451837218082316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 7
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 651
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2b15e6b7d3f6dd10800000000000000
+      internalID: 2150173979927976747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 77
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 651
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 132c764b742fafad0800000000000000
+      internalID: -2667553439480298959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 777
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 652
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 152fd210312fc0e90800000000000000
+      internalID: -7058000352558321071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 7777
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 651
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ca3b8335c5e3f7d0800000000000000
+      internalID: -2885710301078275387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 558
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5fa9caaa964fb360800000000000000
+      internalID: 7187541160410853213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 88
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 558
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8baf266d4087fa7a0800000000000000
+      internalID: -6363735786279208264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 888
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 558
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aafa1c3da5909dc0800000000000000
+      internalID: -3634240328017708380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 8888
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 558
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60ff0478c963dafe0800000000000000
+      internalID: -1176223881761849594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 9
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 465
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bab8557c733bee400800000000000000
+      internalID: 355418472757693355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 9999
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 465
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87debc6e210c3dbe0800000000000000
+      internalID: -1453607067296469640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 10000
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 372
+        width: 110
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fae3b6224805ea70800000000000000
+      internalID: 8855493322504137456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 43c7a7a865d768a4f999692d9821d000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      1: -240918682642893101
+      10000: 8855493322504137456
+      11: -2169803623896296674
+      111: 4505839384663041321
+      1111: -4960143967105343879
+      2: -8043292416672493985
+      22: -2024310811362187289
+      222: 9049611415221281666
+      2222: -6257320654121025339
+      3: -7238627295508482095
+      33: 1730852133075528974
+      333: 7810290595034187749
+      3333: -44614565212983756
+      4: 309323300856862438
+      44: 8383892068179329608
+      444: 7890340191088124276
+      4444: 1881585585563182299
+      5: 8498673716444751730
+      55: -7784304851465315249
+      555: 350208922266771714
+      5555: 4000834789882408181
+      6: 6894782383684361003
+      66: -4715861734531380234
+      666: -3389878436632866822
+      6666: -6523451837218082316
+      7: 2150173979927976747
+      77: -2667553439480298959
+      777: -7058000352558321071
+      7777: -2885710301078275387
+      8: 7187541160410853213
+      88: -6363735786279208264
+      888: -3634240328017708380
+      8888: -1176223881761849594
+      9: 355418472757693355
+      9999: -1453607067296469640
+      VFX Blood Batch 1_SpriteSheetColumns_1: -7124115388591409789
+      VFX Blood Batch 1_SpriteSheetColumns_10: 98374150616069131
+      VFX Blood Batch 1_SpriteSheetColumns_11: -1948490557018824000
+      VFX Blood Batch 1_SpriteSheetColumns_14: -2695497277618370275
+      VFX Blood Batch 1_SpriteSheetColumns_15: 7973909960255168182
+      VFX Blood Batch 1_SpriteSheetColumns_17: 3747744758531316581
+      VFX Blood Batch 1_SpriteSheetColumns_19: 6550553812606107974
+      VFX Blood Batch 1_SpriteSheetColumns_2: 4888788701023724576
+      VFX Blood Batch 1_SpriteSheetColumns_20: -2875867027149822120
+      VFX Blood Batch 1_SpriteSheetColumns_23: 6319032640451234133
+      VFX Blood Batch 1_SpriteSheetColumns_24: 2855093019090122074
+      VFX Blood Batch 1_SpriteSheetColumns_26: -3019821158528793918
+      VFX Blood Batch 1_SpriteSheetColumns_28: 4660191738556542582
+      VFX Blood Batch 1_SpriteSheetColumns_29: -8832872314572636277
+      VFX Blood Batch 1_SpriteSheetColumns_32: -3367246288708537377
+      VFX Blood Batch 1_SpriteSheetColumns_33: 4085024983342641812
+      VFX Blood Batch 1_SpriteSheetColumns_35: -980022492285508077
+      VFX Blood Batch 1_SpriteSheetColumns_37: -6680699820069368318
+      VFX Blood Batch 1_SpriteSheetColumns_38: 2267118803529052374
+      VFX Blood Batch 1_SpriteSheetColumns_41: 5939447742168251792
+      VFX Blood Batch 1_SpriteSheetColumns_42: 7570584463876757440
+      VFX Blood Batch 1_SpriteSheetColumns_44: -9115753185642518156
+      VFX Blood Batch 1_SpriteSheetColumns_46: -28653256950008930
+      VFX Blood Batch 1_SpriteSheetColumns_49: 3491060084503284371
+      VFX Blood Batch 1_SpriteSheetColumns_5: -1724002058821878528
+      VFX Blood Batch 1_SpriteSheetColumns_50: 1213899380462678106
+      VFX Blood Batch 1_SpriteSheetColumns_52: 1744310537063660276
+      VFX Blood Batch 1_SpriteSheetColumns_54: 8901073480428455682
+      VFX Blood Batch 1_SpriteSheetColumns_57: -3403812009894045635
+      VFX Blood Batch 1_SpriteSheetColumns_58: 1095862682070873173
+      VFX Blood Batch 1_SpriteSheetColumns_6: -1112995588923420477
+      VFX Blood Batch 1_SpriteSheetColumns_60: -6701275270159600413
+      VFX Blood Batch 1_SpriteSheetColumns_62: -4926210299240137311
+      VFX Blood Batch 1_SpriteSheetColumns_65: 2223135841510957754
+      VFX Blood Batch 1_SpriteSheetColumns_68: 2522935278619429284
+      VFX Blood Batch 1_SpriteSheetColumns_69: -6702280207049798717
+      VFX Blood Batch 1_SpriteSheetColumns_71: -5994283368339073563
+      VFX Blood Batch 1_SpriteSheetColumns_72: -623702161638679488
+      VFX Blood Batch 1_SpriteSheetColumns_74: -2666412900163291237
+      VFX Blood Batch 1_SpriteSheetColumns_75: -304730475888143521
+      VFX Blood Batch 1_SpriteSheetColumns_76: -5097374288544414408
+      VFX Blood Batch 1_SpriteSheetColumns_77: 8484984990049134173
+      VFX Blood Batch 1_SpriteSheetColumns_8: 3686248131568790460
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

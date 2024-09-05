@@ -8,6 +8,7 @@ using Photon.Realtime;
 public class PlayerBase : MonoBehaviourPunCallbacks
 {
     [SerializeField] ParticleSystem blood;
+    [SerializeField] Animator bloodAnimator;
     [SerializeField] TextMeshProUGUI usernameText;
 
     [SerializeField] Camera playerCamera;
@@ -27,12 +28,15 @@ public class PlayerBase : MonoBehaviourPunCallbacks
     [SerializeField] private int maxHealth = 100;
     [SerializeField] public int currentHealth = 100;
 
+    private KillPlayer killPlayer;
+
     private PhotonView view;
     GameController gameController;
 
     private void Start()
     {
         view = GetComponent<PhotonView>();
+        killPlayer = GetComponent<KillPlayer>();
         currentHealth = maxHealth;
         gameController = GameController.Instance;
 
@@ -67,15 +71,19 @@ public class PlayerBase : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void TakeDamage()
+    public void TakeDamage(Vector2 direction)
     {
         SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 1f);
 
         blood.Play();
+        int bloodValue = UnityEngine.Random.Range(1, 4);
+        bloodAnimator.SetTrigger("Blood"+ bloodValue);
+
         currentHealth -= 35;
         if (currentHealth <= 0)
         {
             currentHealth = 0;
+            killPlayer.KilledThePlayer(direction, transform);
             Respawn();
         }
 
