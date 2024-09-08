@@ -320,6 +320,10 @@ public class GunController : MonoBehaviour
         StartCoroutine(ReturnPool(bullet3));
 
         weaponAnim.Play("Shotgun");
+        PoolableObject bulletCase = poolManager.GetObjectFromPool("bulletcase");
+        bulletCase.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+        StartCoroutine(ReturnBulletCasePool(bulletCase));
+
         SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, transform.position, 1f);
         GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
         StartCoroutine("ResetForceFeedback");
@@ -363,6 +367,12 @@ public class GunController : MonoBehaviour
     IEnumerator ReturnPool(PoolableObject obj)
     {
         yield return new WaitForSeconds(0.2f);
+        obj.ReturnToPool();
+    }
+
+    IEnumerator ReturnBulletCasePool(PoolableObject obj)
+    {
+        yield return new WaitForSeconds(10f);
         obj.ReturnToPool();
     }
 

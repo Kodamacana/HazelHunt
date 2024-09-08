@@ -2590,6 +2590,7 @@ MonoBehaviour:
   - {fileID: 1896758996}
   - {fileID: 1808639826}
   - {fileID: 13379054}
+  - {fileID: 1290822833}
   - {fileID: 77891310}
 --- !u!4 &1095844371
 Transform:
@@ -2609,6 +2610,7 @@ Transform:
   - {fileID: 545821397}
   - {fileID: 13379053}
   - {fileID: 77891309}
+  - {fileID: 1290822832}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1274502282
@@ -2736,6 +2738,53 @@ CapsuleCollider2D:
   m_Offset: {x: 0.010859993, y: -0.076522954}
   m_Size: {x: 1.9453812, y: 1.208291}
   m_Direction: 1
+--- !u!1 &1290822831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1290822832}
+  - component: {fileID: 1290822833}
+  m_Layer: 0
+  m_Name: BulletCase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1290822832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290822831}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1095844371}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1290822833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290822831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0aa42b8fcd87f8429ecca9344084fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: bulletcase
+  prefab: {fileID: -5661523352646782629, guid: bfc4edc8859190c44b2db261acee68d7, type: 3}
+  initialPoolSize: 50
 --- !u!1 &1318737618
 GameObject:
   m_ObjectHideFlags: 0
@@ -3232,7 +3281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a74f670e9c27c4478daac12d900e407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 30
+  duration: 90
   image: {fileID: 2054277434}
   endGamePanel: {fileID: 7270341789075625887}
   isGameOver: 1
