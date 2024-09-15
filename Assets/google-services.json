@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "282691685592",
+    "project_id": "hazel-hunt",
+    "storage_bucket": "hazel-hunt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282691685592:android:4ee35705442a4ea94ddbad",
+        "android_client_info": {
+          "package_name": "com.SilverGlobeCorporation.HazelHunt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB07XmDU1U0b5xBZ5x_UOz_5vSJkCGYz80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
