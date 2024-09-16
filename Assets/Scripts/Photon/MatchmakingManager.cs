@@ -15,6 +15,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     private float matchTimeout = 15f;
 
     MainMenuController mainMenuController;
+    AuthManager authManager;
+    FirebaseManager firebaseManager;
     PhotonView view;
 
     bool isLeaveRoom = false;
@@ -45,23 +47,28 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     }
 
+    // Onclick -> playButton
     public void BeginMatchmaking() {
         mainMenuController = MainMenuController.instance;
-        playerName = mainMenuController.playerName.text;
+        authManager = AuthManager.Instance;
+        firebaseManager = FirebaseManager.Instance;
+        playerName = firebaseManager.DisplayName;
+
         StartMatchmaking();
     }
 
-    // Onclick -> playButton
     private void StartMatchmaking()
     {
         if (string.IsNullOrEmpty(playerName))
         {
+            playerName = authManager.UserId;
             SetFeedback("Player name cannot be empty");
             return;
         }
 
         PhotonNetwork.NickName = playerName;
         SetFeedback("Starting matchmaking...");
+
         isMatching = true;
         isLeaveRoom = true;
         StartCoroutine(MatchmakingCoroutine());
@@ -70,7 +77,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     IEnumerator MatchmakingCoroutine()
     {
         float startTime = Time.time;
-        float leaveDelayTime = Time.time;
+        float leaveDelayTime = Time.time - 3;
 
         while (!isLeaveRoom && Time.time - leaveDelayTime > matchTimeout)
         {
@@ -97,9 +104,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         if (isMatching)
         {
             SetFeedback("Match found! Starting game...");
-            isMatching = false;
+            isMatching = true;
             isRematch = false; // Yeni maç baþladýðýnda rematch deðil
-            PhotonNetwork.LoadLevel("GameScene");
         }
     }
 
@@ -129,9 +135,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && isMatching)
         {
-            SetFeedback("Player found! Starting game...");
-            isMatching = false;
-            PhotonNetwork.LoadLevel("GameScene");
+            view.RPC("StartMatch", RpcTarget.All);
         }
     }
 
@@ -182,6 +186,14 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         isRematch = true;
         rematchRequestSent = false;
         rematchRequestReceived = false;
+        PhotonNetwork.LoadLevel("GameScene");
+    }
+
+    [PunRPC]
+    private void StartMatch()
+    {
+        SetFeedback("Match accepted. Starting new match...");
+        isMatching = false;
         PhotonNetwork.LoadLevel("GameScene");
     }
 

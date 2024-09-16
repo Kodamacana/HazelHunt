@@ -6,7 +6,6 @@ public class MainMenuController : MonoBehaviour
 {
     public static MainMenuController instance;
     [SerializeField] private Button playButton;
-    public TMP_InputField playerName;
 
     MatchmakingManager matchmakingManager;
 

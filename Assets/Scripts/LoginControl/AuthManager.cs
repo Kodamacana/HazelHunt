@@ -6,12 +6,13 @@ using System;
 
 #if (UNITY_IOS || UNITY_TVOS)
 using UnityEngine.SocialPlatforms.GameCenter;
-#else
+#elif(UNITY_ANDROID)
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
 using System.Threading.Tasks;
 #endif
+
 
 public class AuthManager : MonoBehaviour
 {
@@ -105,39 +106,39 @@ public class AuthManager : MonoBehaviour
             else
             {
                 Debug.LogError("Google Play Games login failed");
-                Auth.SignInAnonymouslyAsync().ContinueWithOnMainThread(task =>
-                {
-                    if (task.IsCanceled)
-                    {
-                        Debug.LogError("SignInAnonymouslyAsync was canceled.");
-                        return;
-                    }
-                    if (task.IsFaulted)
-                    {
-                        Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
-                        return;
-                    }
+                //Auth.SignInAnonymouslyAsync().ContinueWithOnMainThread(task =>
+                //{
+                //    if (task.IsCanceled)
+                //    {
+                //        Debug.LogError("SignInAnonymouslyAsync was canceled.");
+                //        return;
+                //    }
+                //    if (task.IsFaulted)
+                //    {
+                //        Debug.LogError("SignInAnonymouslyAsync encountered an error: " + task.Exception);
+                //        return;
+                //    }
 
-                    AuthResult result = task.Result;
-                    Debug.LogFormat("User signed in successfully: {0} ({1})",
-                        result.User.DisplayName, result.User.UserId);
+                //    AuthResult result = task.Result;
+                //    Debug.LogFormat("User signed in successfully: {0} ({1})",
+                //        result.User.DisplayName, result.User.UserId);
 
-                    AnonymouslyLoginSuccess(result.User.UserId);
-                });
+                //    AnonymouslyLoginSuccess(result.User.UserId);
+                //});
             }
         });
     }
 
-    private void AnonymouslyLoginSuccess(string anonymouslyUserId)
-    {
-        if (string.IsNullOrEmpty(PlayerPrefs.GetString("AnonymouslyID")))
-        {
-            PlayerPrefs.SetString("AnonymouslyID", anonymouslyUserId);
-        }
+    //private void AnonymouslyLoginSuccess(string anonymouslyUserId)
+    //{
+    //    if (string.IsNullOrEmpty(PlayerPrefs.GetString("AnonymouslyID")))
+    //    {
+    //        PlayerPrefs.SetString("AnonymouslyID", anonymouslyUserId);
+    //    }
 
-        anonymouslyUserId = PlayerPrefs.GetString("AnonymouslyID");
-        FirestoreManager.Instance.GetFirestoreDatas(anonymouslyUserId, true);
-    }
+    //    anonymouslyUserId = PlayerPrefs.GetString("AnonymouslyID");
+    //    FirestoreManager.Instance.GetFirestoreDatas(anonymouslyUserId, true);
+    //}
 
     private void ConnectToFirebaseWithGPGS()
     {
@@ -196,7 +197,7 @@ public void AuthenticateToGameCenter()
                 Debug.Log("Signed in email as: " + user.UserId);
 
                 UserId = "TESTPC" + " (" + user.Email + ")";
-                DisplayName = user.DisplayName;
+                DisplayName = "TESTPC" + " (" + user.Email + ")";
                 Email = user.Email;
                 Phone = user.PhoneNumber;
 

@@ -2,12 +2,8 @@ using UnityEngine;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using System;
 using Firebase.Auth;
-using UnityEditor;
-using Unity.VisualScripting;
-using System.Linq;
 
 [FirestoreData]
 public struct UserData
@@ -67,6 +63,11 @@ public class FirestoreManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        firestore = FirebaseFirestore.DefaultInstance;
     }
 
     private void OnDestroy()
