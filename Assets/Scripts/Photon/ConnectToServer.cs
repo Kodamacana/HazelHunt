@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
-    private void Start()
+    public void ConnectToTheServer()
     {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.SendRate = 360;
@@ -20,6 +20,6 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        SceneManager.LoadScene("01_MainScene");
+        SceneManager.LoadSceneAsync("01_MainScene");
     }
 }

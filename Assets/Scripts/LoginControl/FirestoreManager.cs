@@ -51,6 +51,7 @@ public class FirestoreManager : MonoBehaviour
     private ListenerRegistration _listenerUserData;
 
     [SerializeField] private string UserId;
+    [SerializeField] private ConnectToServer ConnectToServer;
     private FirebaseFirestore firestore;
 
     Progress progress;
@@ -318,6 +319,7 @@ public class FirestoreManager : MonoBehaviour
 
     public void LoadScene()
     {
-        SceneManager.LoadSceneAsync(1);
+        ConnectToServer.ConnectToTheServer();
+        //SceneManager.LoadSceneAsync(1);
     }
 }
