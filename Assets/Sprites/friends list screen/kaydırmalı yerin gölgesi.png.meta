@@ -1,0 +1,643 @@
+fileFormatVersion: 2
+guid: 37880c1c026fb7e47b50a8844d55a471
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2915854807905773279
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_0"
+  - first:
+      213: -7213423844728767675
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_1"
+  - first:
+      213: 5962839743070100687
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_2"
+  - first:
+      213: 8467179994251601842
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_3"
+  - first:
+      213: -4864443677928241394
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_4"
+  - first:
+      213: 5772079602152824309
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_5"
+  - first:
+      213: -2936072932154245050
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_6"
+  - first:
+      213: -5824013736608140861
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_7"
+  - first:
+      213: 4103518269378090414
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_8"
+  - first:
+      213: 3490756866330704360
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_9"
+  - first:
+      213: 1932865064284325220
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_10"
+  - first:
+      213: 7779173234665912952
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_11"
+  - first:
+      213: 960326699511264202
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_12"
+  - first:
+      213: 5878406999339152162
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_13"
+  - first:
+      213: 7078507715217574728
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_14"
+  - first:
+      213: -5211492858345567001
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_15"
+  - first:
+      213: 4921724243110558376
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_16"
+  - first:
+      213: 8982306391320151736
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_17"
+  - first:
+      213: -374906791682504515
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_18"
+  - first:
+      213: 6387254578015565573
+    second: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_19"
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_0"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 2282
+        height: 557
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1295926408dc887d0800000000000000
+      internalID: -2915854807905773279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_1"
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 548
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54bfb984b35c4eb90800000000000000
+      internalID: -7213423844728767675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_2"
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 547
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcc5642672340c250800000000000000
+      internalID: 5962839743070100687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_3"
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 551
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b729aef757718570800000000000000
+      internalID: 8467179994251601842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_4"
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 542
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0741337f360e7cb0800000000000000
+      internalID: -4864443677928241394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_5"
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 550
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fdd89df0db8a1050800000000000000
+      internalID: 5772079602152824309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_6"
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 551
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6408e446939f047d0800000000000000
+      internalID: -2936072932154245050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_7"
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 545
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c1f97e0d52fc2fa0800000000000000
+      internalID: -5824013736608140861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_8"
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 551
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea55b97ef10a2f830800000000000000
+      internalID: 4103518269378090414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_9"
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 548
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e9b5e600e8a17030800000000000000
+      internalID: 3490756866330704360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_10"
+      rect:
+        serializedVersion: 2
+        x: 1122
+        y: 547
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4650e63098ae2da10800000000000000
+      internalID: 1932865064284325220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_11"
+      rect:
+        serializedVersion: 2
+        x: 1271
+        y: 547
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87afc7257dc25fb60800000000000000
+      internalID: 7779173234665912952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_12"
+      rect:
+        serializedVersion: 2
+        x: 1283
+        y: 549
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac331b09b04c35d00800000000000000
+      internalID: 960326699511264202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_13"
+      rect:
+        serializedVersion: 2
+        x: 1399
+        y: 547
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 223b7c0550c449150800000000000000
+      internalID: 5878406999339152162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_14"
+      rect:
+        serializedVersion: 2
+        x: 1411
+        y: 545
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84bc7617349eb3260800000000000000
+      internalID: 7078507715217574728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_15"
+      rect:
+        serializedVersion: 2
+        x: 1569
+        y: 549
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ecc3d46bde0da7b0800000000000000
+      internalID: -5211492858345567001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_16"
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 547
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8aa78096f1a7d4440800000000000000
+      internalID: 4921724243110558376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_17"
+      rect:
+        serializedVersion: 2
+        x: 2011
+        y: 542
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b6cb56921097ac70800000000000000
+      internalID: 8982306391320151736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_18"
+      rect:
+        serializedVersion: 2
+        x: 2196
+        y: 543
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db802e162401ccaf0800000000000000
+      internalID: -374906791682504515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "kayd\u0131rmal\u0131 yerin g\xF6lgesi_19"
+      rect:
+        serializedVersion: 2
+        x: 2219
+        y: 552
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 507fa94923614a850800000000000000
+      internalID: 6387254578015565573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

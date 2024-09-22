@@ -95,15 +95,13 @@ public class FirestoreManager : MonoBehaviour
                 else
                 {
                     Dictionary<string, object> personalData = task.Result.GetValue<Dictionary<string, object>>("personal_data");
-                    Dictionary<string, object> progressData = task.Result.GetValue<Dictionary<string, object>>("progress");
 
                     if (isLogin)
                     {
                         GetUserData(personalData);
                         LoadScene();
                     }
-                    GetProgressData(progressData);
-
+                    GetProgressData(snapshot.ToDictionary());
 
                     Debug.Log("User document already exists");
                 }
@@ -130,13 +128,9 @@ public class FirestoreManager : MonoBehaviour
                     { "login_list", new List<object> { Timestamp.FromDateTime(System.DateTime.UtcNow) } }
                 }
             },
-            { "progress", new Dictionary<string, object>
-                {
-                    { "nut", 0 },
-                    { "high_score", 0 },
-                    { "score", 0 }
-                }
-            }            
+            { "nut", 0 },
+            { "high_score", 0 },
+            { "score", 0 }
         };
 
         DocumentReference docRef = firestore.Collection("Users").Document(UserId);
@@ -211,7 +205,7 @@ public class FirestoreManager : MonoBehaviour
         progress.Nut += value;
         Dictionary<string, object> updatedCoin = new()
         {
-            { "progress.coin", progress.Nut}
+            { "nut", progress.Nut}
         };
 
         firestore.Collection("Users").Document(UserId).UpdateAsync(updatedCoin);
@@ -222,7 +216,7 @@ public class FirestoreManager : MonoBehaviour
         progress.Score = value;
         Dictionary<string, object> updatedScore = new()
         {
-            { "progress.score", progress.Score }
+            { "score", progress.Score }
         };
         firestore.Collection("Users").Document(UserId).UpdateAsync(updatedScore);
     }
@@ -232,7 +226,7 @@ public class FirestoreManager : MonoBehaviour
         progress.HighScore = value;
         Dictionary<string, object> updatedHighScore = new()
         {
-            { "progress.high_score", progress.HighScore }
+            { "high_score", progress.HighScore }
         };
         firestore.Collection("Users").Document(UserId).UpdateAsync(updatedHighScore);
     }
