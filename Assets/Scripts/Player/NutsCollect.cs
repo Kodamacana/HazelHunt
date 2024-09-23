@@ -9,17 +9,22 @@ public class NutsCollect : MonoBehaviour
 
     [SerializeField] public GameObject nutsInventory;
     [SerializeField] public GameObject weaponObject;
+    private PlayerMovements movements;
+    private Animator anim;
 
     PhotonView view;
     private void Awake()
     {
         view = GetComponent<PhotonView>();
+        movements = GetComponent<PlayerMovements>();
+        anim = GetComponent<Animator>();
     }
 
     public void DestroyNut()
     {
         view.RPC("CollectNutsOnPool", RpcTarget.AllBufferedViaServer);
         view.RPC("ShowAndHideWeapon", RpcTarget.AllBufferedViaServer);
+        anim.SetBool("Run", true);
     }
    
     private void OnCollisionEnter2D(Collision2D collision)
@@ -33,14 +38,17 @@ public class NutsCollect : MonoBehaviour
 
             view.RPC("CollectNutsOnPool", RpcTarget.AllBufferedViaServer);
             view.RPC("ShowAndHideWeapon", RpcTarget.AllBufferedViaServer);
+            anim.SetBool("Run", true);
         }
     }
 
     [PunRPC]
     private void ShowAndHideWeapon()
     {
-        weaponObject.SetActive(false);
-        nutsInventory.SetActive(true);       
+        weaponObject.transform.parent.gameObject.SetActive(false);
+        movements.moveSpeed = 2.7f;
+        //weaponObject.SetActive(false);
+        //nutsInventory.SetActive(true);       
     }
 
     [PunRPC]
@@ -53,7 +61,11 @@ public class NutsCollect : MonoBehaviour
     public void ResetCollectObj()
     {
         isCollectNut = false;
+        weaponObject.transform.parent.gameObject.SetActive(true);
         weaponObject.SetActive(true);
         nutsInventory.SetActive(false);
+
+        anim.SetBool("Run", false);
+        movements.moveSpeed = 2.7f;
     }
 }

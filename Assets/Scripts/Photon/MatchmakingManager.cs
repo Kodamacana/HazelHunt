@@ -52,7 +52,13 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         mainMenuController = MainMenuController.instance;
         authManager = AuthManager.Instance;
         firebaseManager = FirebaseManager.Instance;
-        playerName = firebaseManager.DisplayName;
+        //#if UNITY_EDITOR
+        //        playerName = "Test UNITY";
+        //#else
+        //        playerName = firebaseManager.DisplayName;
+        //#endif
+        playerName = "Test UNITY";
+
 
         StartMatchmaking();
     }

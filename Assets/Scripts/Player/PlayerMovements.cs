@@ -5,7 +5,9 @@ using Photon.Pun;
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
 {
-    [SerializeField] float moveSpeed = 10f;
+    [SerializeField] public float moveSpeed = 2.2f;
+    [SerializeField] public RectTransform squirrelBody;
+    private Vector3 refSquirrelBodyScale;
     [HideInInspector] public bool isTrueForceFeedback = false;
 
     private Rigidbody2D rb;
@@ -13,14 +15,15 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
     private float verticalInput;
     private Vector2 moveDir;
     private PhotonView view;
-    private Animator anim;
+    [HideInInspector]public Animator anim;
     private Vector2 networkPosition;
-    Joystick movementJoystick;
+    [HideInInspector] public Joystick movementJoystick;
 
     private void Start()
     {
         view = GetComponent<PhotonView>();
         anim = GetComponent<Animator>();
+        refSquirrelBodyScale = squirrelBody.localScale;
         movementJoystick = GameController.Instance.movementJoystick;
     }
 
@@ -51,8 +54,11 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
 
         if (movementJoystick.Direction.y != 0)
         {
+            squirrelBody.localScale = movementJoystick.Direction.x <= 0 ? refSquirrelBodyScale : new Vector3(-refSquirrelBodyScale.x, refSquirrelBodyScale.y, 1);
+            
             moveDir = new Vector2(movementJoystick.Direction.x, movementJoystick.Direction.y).normalized;
-            anim.SetBool("Run", true);
+
+            anim.SetBool("Walk", true);
         }
         else
         {
@@ -70,24 +76,26 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKey(KeyCode.A))
             {
                 horizontalInput = -1f;
+                squirrelBody.localScale = refSquirrelBodyScale;
             }
             if (Input.GetKey(KeyCode.D))
             {
                 horizontalInput = 1f;
+                squirrelBody.localScale = new Vector3(-refSquirrelBodyScale.x, refSquirrelBodyScale.y, 1);
             }
-
             if (horizontalInput == 0 && verticalInput == 0)
             {
-                anim.SetBool("Run", false);
+                anim.SetBool("Walk", false);
             }
             else
             {
-                anim.SetBool("Run", true);
+                anim.SetBool("Walk", true);
             }
+            
             moveDir = new Vector2(horizontalInput, verticalInput).normalized;
         }        
     }
-
+       
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

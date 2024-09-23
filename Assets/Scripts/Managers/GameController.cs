@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using Unity.Cinemachine;
 
 public class GameController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] EndGamePanel endGamePanel;
     [SerializeField] MatchFoundPanelController matchFoundPanel;
     [SerializeField] ScoreManager scoreManager;
+    [SerializeField] public CinemachineTargetGroup targetGroup;
 
     [Header("Player Spawn Coordinates")]
     [SerializeField] Vector2 minX1Y1;

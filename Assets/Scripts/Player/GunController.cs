@@ -11,6 +11,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private Transform playerHead;
     [SerializeField] private RectTransform canvasUsername;
     [SerializeField] private Transform gunTransform;
+    [SerializeField] private Transform squirrelHead;
     [SerializeField] private Transform firePoint;
 
     [SerializeField] private Animator weaponAnim;
@@ -121,7 +122,12 @@ public class GunController : MonoBehaviour
         {
             HandleJoystickAiming(attackJoystick.Direction.normalized);
         }
-        else if (bombJoystick.Direction.y != 0)
+        else
+        {
+            squirrelHead.localScale = Vector3.one;
+        }
+        
+        if (bombJoystick.Direction.y != 0)
         {
             HandleBombAiming(bombJoystick.Direction);
         }
@@ -160,18 +166,20 @@ public class GunController : MonoBehaviour
         if (angle > 90 || angle < -90)
         {
             localScale.y = -1f;
-            player.transform.localScale = new Vector3(1, 1, 1);
+            //player.transform.localScale = new Vector3(1, 1, 1);
             gunTransform.localScale = new Vector3(1, -1, 1);
-            playerHead.localScale = new Vector3(-1, -1, 1);
-            canvasUsername.localScale = new Vector3(1, 1, 1);
+            squirrelHead.localScale = playerMovement.squirrelBody.transform.localScale.x <= 0 ? new Vector3(-1, 1, 1) : new Vector3(1, 1, 1);
+
+            //canvasUsername.localScale = new Vector3(1, 1, 1);
         }
         else
         {
             localScale.y = 1f;
-            player.transform.localScale = new Vector3(-1, 1, 1);
-            gunTransform.localScale = new Vector3(-1, 1, 1);
-            playerHead.localScale = new Vector3(1, 1, 1);
-            canvasUsername.localScale = new Vector3(-1, 1, 1);
+           // player.transform.localScale = new Vector3(-1, 1, 1);
+            gunTransform.localScale = new Vector3(1, 1, 1);
+            squirrelHead.localScale = playerMovement.squirrelBody.transform.localScale.x <= 0 ? new Vector3(1, 1, 1) : new Vector3(-1, 1, 1);
+
+            //canvasUsername.localScale = new Vector3(-1, 1, 1);
         }
     }
     #endregion
@@ -335,6 +343,9 @@ public class GunController : MonoBehaviour
     {
         nutsCollect.weaponObject.SetActive(true);
         nutsCollect.nutsInventory.SetActive(false);
+        nutsCollect.weaponObject.transform.parent.gameObject.SetActive(true);
+        playerMovement.moveSpeed = 2.2f;
+        playerMovement.anim.SetBool("Run", false);
 
         if (!view.IsMine)
             return;

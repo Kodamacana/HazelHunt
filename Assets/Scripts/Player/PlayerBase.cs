@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 using Photon.Realtime;
+using Unity.Cinemachine;
 
 public class PlayerBase : MonoBehaviourPunCallbacks
 {
@@ -56,6 +57,10 @@ public class PlayerBase : MonoBehaviourPunCallbacks
         }
         playerCamera.enabled = true;
         MF_playerCamera.enabled = true;
+
+        CinemachineTargetGroup.Target target = new CinemachineTargetGroup.Target(); 
+        target.Object = transform;
+        gameController.targetGroup.Targets.Add(target);
     }
 
     IEnumerator InvokeSkin()
