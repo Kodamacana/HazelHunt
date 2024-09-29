@@ -142,7 +142,6 @@ public class InvitesManager : MonoBehaviour
 
     public void SelectFriendObject(FriendObject friend, string UID)
     {
-        FriendshipManager.Instance.gameObject.SetActive(false);
         choosenUserId = UID;
 
         acceptInvite.enabled = true;

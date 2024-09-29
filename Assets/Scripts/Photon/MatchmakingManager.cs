@@ -72,7 +72,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        PhotonNetwork.NickName = playerName;
         SetFeedback("Starting matchmaking...");
 
         isMatching = true;

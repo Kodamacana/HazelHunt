@@ -6,16 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
-    private void Start()
-    {
-        ConnectToTheServer();
-    }
-
     public void ConnectToTheServer()
     {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.SendRate = 360;
         PhotonNetwork.SerializationRate = 360;
+        PhotonNetwork.NickName = FirebaseManager.Instance.UserName;
     }
 
     public override void OnConnectedToMaster()

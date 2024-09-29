@@ -890,10 +890,9 @@ MonoBehaviour:
   displayName: 
   mail: 
   photoUrl: 
+  isOnline: 0
   nut: 0
   score: 0
-  friendship_invites_list: []
-  friends_user_list: []
   authManager: {fileID: 291175745}
   firestoreManager: {fileID: 828430889}
 --- !u!4 &1491285920

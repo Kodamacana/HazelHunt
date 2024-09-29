@@ -82,7 +82,7 @@ public class FriendObject : MonoBehaviour
         if (!isSelectable)
             return;
 
-        friendshipManager.SelectFriendObject(this, UID);
+        friendshipManager.SelectFriendObject(this, UID, username_txt.text);
         InvitesManager.SelectFriendObject(this, UID);
 
         GetComponent<BoxCollider2D>().enabled = false;

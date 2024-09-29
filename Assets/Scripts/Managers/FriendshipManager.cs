@@ -16,10 +16,14 @@ public class FriendshipManager : MonoBehaviour
     [SerializeField] FriendObject friendObjectPrefab;
     [SerializeField] List<FriendObject> friendObjectList;
     [SerializeField] TMP_InputField friendUsernameText;
+    [SerializeField] TextMeshProUGUI clickedUsernameText;
     [SerializeField] TextMeshProUGUI onlineUsers;
     [SerializeField] Button friendListOpenButton;
+    [SerializeField] Button inviteCloseButton;
     [SerializeField] Button sendFriendInvitationButton;
     [SerializeField] Button huntWithFriendButton;
+    [SerializeField] Image huntWithFriendButtonIcon;
+    [SerializeField] Animator rightAreaAnimator;
 
     [Header("Materials")]
     [SerializeField] private Material blackSpriteMaterial;
@@ -33,10 +37,12 @@ public class FriendshipManager : MonoBehaviour
 
     private void ResetPanel()
     {
+        rightAreaAnimator.SetBool("Open", false);
+        rightAreaAnimator.SetBool("Close",true);
         choosenUserId = "";
         huntWithFriendButton.enabled = false;
         huntWithFriendButton.GetComponent<Image>().material = blackSpriteMaterial;
-        huntWithFriendButton.transform.GetComponentInChildren<Image>().material = blackSpriteMaterial;
+        huntWithFriendButtonIcon.material = blackSpriteMaterial;
 
         for (int i = 0; i < friendObjectList.Count; i++)
         {
@@ -44,7 +50,12 @@ public class FriendshipManager : MonoBehaviour
             friendObjectList[i].selectedUI.gameObject.SetActive(false);
         }
     }
-
+    private void StartHunt()
+    {
+        var fmm = FriendsMatchmakingManager.Instance;
+        fmm.friendUsername = clickedUsernameText.text;
+        fmm.SendInvite();
+    }
 
     private void Awake()
     {
@@ -56,6 +67,7 @@ public class FriendshipManager : MonoBehaviour
         firestoreManager = FirestoreManager.Instance;
         sendFriendInvitationButton.onClick.AddListener(delegate { SendFriendInvitation(); });
         friendListOpenButton.onClick.AddListener(delegate { CreateFriendObjectAsync(); });
+        inviteCloseButton.onClick.AddListener(delegate { CreateFriendObjectAsync(); });
     }
 
     private void SendFriendInvitation()
@@ -107,14 +119,16 @@ public class FriendshipManager : MonoBehaviour
         }        
     }   
 
-    public void SelectFriendObject(FriendObject friend, string UID)
+    public void SelectFriendObject(FriendObject friend, string UID, string username)
     {
-        InvitesManager.Instance.gameObject.SetActive(false);
+        rightAreaAnimator.SetBool("Close", false);
+        rightAreaAnimator.SetBool("Open", true);
         choosenUserId = UID;
-
+        clickedUsernameText.text = username;
         huntWithFriendButton.enabled = true;
+        huntWithFriendButton.onClick.AddListener(delegate { StartHunt(); });
         huntWithFriendButton.GetComponent<Image>().material = normalMaterial;
-        huntWithFriendButton.transform.GetComponentInChildren<Image>().material = normalMaterial;
+        huntWithFriendButtonIcon.material = normalMaterial;
 
         for (int i = 0; i < friendObjectList.Count; i++)
         {
@@ -125,4 +139,6 @@ public class FriendshipManager : MonoBehaviour
             friendObjectList[i].selectedUI.gameObject.SetActive(false);
         }        
     }
+
+    
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6343034721338878876}
   - component: {fileID: 1480980488973884177}
   - component: {fileID: 6610922680590412378}
+  - component: {fileID: 6537891225310367531}
   m_Layer: 0
   m_Name: MatchmakingManager
   m_TagString: Untagged
@@ -45,8 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66a9ba821a8e634a807341215299091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: {fileID: 0}
-  photonView: {fileID: 6610922680590412378}
 --- !u!114 &6610922680590412378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,3 +68,16 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &6537891225310367531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354665613241899513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 425388ac10809774983cd89d24d89c82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  friendUsername: 
