@@ -6,59 +6,74 @@ using UnityEngine;
 public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     public static FriendsMatchmakingManager Instance { get; private set; }
-    private const byte INVITE_EVENT = 1; // Davet gönderme olayý
-    private const byte ACCEPT_INVITE_EVENT = 2; // Daveti kabul etme olayý
-
-    [HideInInspector] public string friendUsername;  // Davet göndermek istediðiniz kiþinin kullanýcý adý
 
     private void Awake()
     {
         Instance = this;
     }
 
-    // Davet gönderme fonksiyonu
-    public void SendInvite()
+    public const byte InviteEventCode = 1;  // Davet olay kodu
+
+    public void SendInvite(string invitedPlayerName)
     {
-        // Kullanýcý adý ile birlikte davet gönderiyoruz
-        object[] content = new object[] { PhotonNetwork.NickName };
-        RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(INVITE_EVENT, content, options, SendOptions.SendReliable);
+        if (!PhotonNetwork.InRoom)
+        {
+            // Oda adý daveti gönderenin kullanýcý adý olsun
+            string roomName = PhotonNetwork.NickName;
+
+            // Oda oluþturma ayarlarý
+            RoomOptions roomOptions = new RoomOptions();
+            roomOptions.MaxPlayers = 2;  // Oyun için maksimum 2 oyuncu
+            PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);  // Odayý oluþtur
+
+            // Oda oluþturulduktan sonra daveti gönder (odadayken RaiseEvent kullanýlabilir)
+            object[] content = new object[] { PhotonNetwork.NickName, invitedPlayerName, roomName };
+
+            // Daveti RaiseEvent ile karþý tarafa gönder
+            PhotonNetwork.RaiseEvent(InviteEventCode, content, RaiseEventOptions.Default, SendOptions.SendReliable);
+        }
+        else
+        {
+            Debug.LogWarning("Zaten bir odadasýnýz!");
+        }
     }
 
-    // Daveti kabul etme fonksiyonu
-    public void AcceptInvite()
-    {
-        object[] content = new object[] { PhotonNetwork.NickName };
-        RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(ACCEPT_INVITE_EVENT, content, options, SendOptions.SendReliable);
-    }
-
-    // Davet veya kabul olaylarýný iþleyen callback
     public void OnEvent(EventData photonEvent)
     {
         byte eventCode = photonEvent.Code;
 
-        if (eventCode == INVITE_EVENT)
+        if (eventCode == InviteEventCode)
         {
             object[] data = (object[])photonEvent.CustomData;
-            string inviter = (string)data[0];
+            string invitingPlayerName = (string)data[0];  // Daveti gönderen oyuncunun adý
+            string invitedPlayerName = (string)data[1];   // Davet edilen oyuncunun adý
+            string roomName = (string)data[2];            // Davet gönderenin oluþturduðu oda adý
 
-            // Popup ekranýnda davet mesajý
-            Debug.Log(inviter + " seni oyuna davet ediyor!");
-
-            // Bu kýsmý kullanýcýya bir popup gösterecek þekilde geniþletebilirsiniz
-            // Örn: Popup'ta "Daveti kabul et" butonu gösterilir ve kabul edilirse AcceptInvite() çaðrýlýr.
+            // Eðer bu davet edilen oyuncu bizsek, daveti kabul edip odaya katýlalým
+            if (invitedPlayerName == PhotonNetwork.NickName)
+            {
+                ShowInvitePopup(invitingPlayerName, roomName);  // Popup göster ve odaya katýlma seçeneði sun
+            }
         }
-        else if (eventCode == ACCEPT_INVITE_EVENT)
+    }
+
+    private void ShowInvitePopup(string invitingPlayerName, string roomName)
+    {
+        //invitePopup.SetActive(true);  // UI'da popup'ý aktif et
+        //inviteMessageText.text = invitingPlayerName + " seni oyuna davet ediyor!";  // Popup mesajýný ayarla
+
+        //acceptButton.onClick.AddListener(() => OnAcceptInvite(roomName));  // Kabul et butonuna týklanýnca OnAcceptInvite çalýþýr
+    }
+
+    public void OnAcceptInvite(string roomName)
+    {
+        if (!PhotonNetwork.InRoom)
         {
-            object[] data = (object[])photonEvent.CustomData;
-            string accepter = (string)data[0];
-
-            Debug.Log(accepter + " davetini kabul etti!");
-
-            // Davet kabul edildiðinde oyuncular ayný odaya yerleþtirilir
-            RoomOptions roomOptions = new RoomOptions { MaxPlayers = 2 };
-            PhotonNetwork.JoinOrCreateRoom("MatchRoom_" + PhotonNetwork.NickName + "_" + accepter, roomOptions, TypedLobby.Default);
+            PhotonNetwork.JoinRoom(roomName);  // Daveti gönderenin odasýna katýl
+        }
+        else
+        {
+            Debug.LogWarning("Zaten bir odadasýnýz!");
         }
     }
 
