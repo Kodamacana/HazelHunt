@@ -59,6 +59,7 @@ public class MainMenuController : MonoBehaviour
 
     public void FindMatch(string opponentUsername)
     {
+        matchmakingPanel.SetActive(true);
         this.opponentUsername.text = opponentUsername;
         opponentSquirrelObject.SetActive(true);
         //Ready Buttonlarýnýn çýktýðý bir animasyon ekle

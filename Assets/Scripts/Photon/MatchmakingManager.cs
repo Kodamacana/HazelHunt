@@ -16,7 +16,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     private bool readyRequestReceived = false;
     private bool rematchRequestSent = false;
     private bool rematchRequestReceived = false;
-    private float matchTimeout = 15f;
+    private float matchTimeout = 30f;
 
     FirebaseManager firebaseManager;
     PhotonView view;
