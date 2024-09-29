@@ -877,7 +877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &174606982
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1985,6 +1985,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3872325608694585865, guid: 5aa3ad816f1a31f42b7b33bce62dac0e, type: 3}
   m_PrefabInstance: {fileID: 452941687}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &452941689 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6374514139729290555, guid: 5aa3ad816f1a31f42b7b33bce62dac0e, type: 3}
+  m_PrefabInstance: {fileID: 452941687}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &484359673
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,7 +2465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: ...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bebe1b70658fccc40a5278c0edd5b79d, type: 2}
   m_sharedMaterial: {fileID: 679428905243384212, guid: bebe1b70658fccc40a5278c0edd5b79d, type: 2}
@@ -2487,7 +2492,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.8
+  m_fontSize: 50
   m_fontSizeBase: 44.8
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4541,6 +4546,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3872325608694585865, guid: 5aa3ad816f1a31f42b7b33bce62dac0e, type: 3}
   m_PrefabInstance: {fileID: 1127958022}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1127958024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6374514139729290555, guid: 5aa3ad816f1a31f42b7b33bce62dac0e, type: 3}
+  m_PrefabInstance: {fileID: 1127958022}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1147341842
 GameObject:
   m_ObjectHideFlags: 0
@@ -4979,7 +4989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1226528108
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5684,7 +5694,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: artyom
+  m_text: ...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0ca7aad86d37faa4b970ab6213422ca6, type: 2}
   m_sharedMaterial: {fileID: 679428905243384212, guid: 0ca7aad86d37faa4b970ab6213422ca6, type: 2}
@@ -5947,8 +5957,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -12, y: -154}
-  m_SizeDelta: {x: 893.93, y: 130}
+  m_AnchoredPosition: {x: -0.010031, y: -154}
+  m_SizeDelta: {x: 1207.2, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1536814728
 MonoBehaviour:
@@ -5970,7 +5980,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: waiting for friend...
+  m_text: Searching for a player...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bebe1b70658fccc40a5278c0edd5b79d, type: 2}
   m_sharedMaterial: {fileID: 679428905243384212, guid: bebe1b70658fccc40a5278c0edd5b79d, type: 2}
@@ -5997,8 +6007,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 83.78
-  m_fontSizeBase: 83.78
+  m_fontSize: 83
+  m_fontSizeBase: 83
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6547,6 +6557,8 @@ MonoBehaviour:
   imageOpponentReadyButton: {fileID: 14561585}
   myUsername: {fileID: 1462561339}
   opponentUsername: {fileID: 580542365}
+  opponentSquirrelObject: {fileID: 452941689}
+  mySquirrelObject: {fileID: 1127958024}
   blackMaterial: {fileID: 2100000, guid: 82579c1db9cf6104983c8945cd6198da, type: 2}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!4 &1727687157

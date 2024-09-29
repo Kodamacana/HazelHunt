@@ -18,6 +18,9 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] TextMeshProUGUI myUsername;
     [SerializeField] TextMeshProUGUI opponentUsername;
 
+    [SerializeField] GameObject opponentSquirrelObject;
+    [SerializeField] GameObject mySquirrelObject;
+ 
     [Header("Material")]
     [SerializeField] Material blackMaterial;
     [SerializeField] Material normalMaterial;
@@ -37,12 +40,16 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
+        mySquirrelObject.SetActive(false);
+        opponentSquirrelObject.SetActive(false);
+
         imageMyReadyButton.material = normalMaterial;
         imageOpponentReadyButton.material = normalMaterial;
 
         nuts_txt.text = firebaseManager.Nut.ToString();
         score_txt.text = firebaseManager.Score.ToString();
         myUsername.text = firebaseManager.UserName;
+        mySquirrelObject.SetActive(true);
 
         huntButton.onClick.AddListener(delegate { matchmakingManager.BeginMatchmaking(); });
     }
@@ -50,6 +57,7 @@ public class MainMenuController : MonoBehaviour
     public void FindMatch(string opponentUsername)
     {
         this.opponentUsername.text = opponentUsername;
+        opponentSquirrelObject.SetActive(true);
         //Ready Buttonlarýnýn çýktýðý bir animasyon ekle
         //Düþman karakterin geldiði bir animasyon ekle
         myReadyButton.onClick.AddListener(delegate { ClickReady();});
@@ -66,10 +74,5 @@ public class MainMenuController : MonoBehaviour
     {
         imageOpponentReadyButton.material = blackMaterial;
         //düþman sincap ateþ etme animasyonu
-    }
-
-    public IEnumerator StartingMatch()
-    {
-        yield return new WaitForSecondsRealtime(3f);
     }
 }

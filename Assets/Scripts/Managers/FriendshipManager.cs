@@ -52,8 +52,8 @@ public class FriendshipManager : MonoBehaviour
     }
     private void StartHunt()
     {
-        var fmm = FriendsMatchmakingManager.Instance;
-        fmm.SendInvite(clickedUsernameText.text);
+        //var fmm = FriendsMatchmakingManager.Instance;
+        //fmm.SendInvite(clickedUsernameText.text);
     }
 
     private void Awake()

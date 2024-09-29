@@ -194,7 +194,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             }
             else if (readyRequestReceived)
             {
-                Ready();
+                StartCoroutine(StartingMatch());
             }
         }
     }
@@ -209,14 +209,15 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            Ready();
+            StartCoroutine(StartingMatch());
         }
     }
-
-    private void Ready()
+    public IEnumerator StartingMatch()
     {
+        yield return new WaitForSecondsRealtime(3f);
         view.RPC("StartMatch", RpcTarget.All);
     }
+
 #endregion
     [PunRPC]
     private void StartMatch()
