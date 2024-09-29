@@ -19,7 +19,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     private float matchTimeout = 15f;
 
     FirebaseManager firebaseManager;
-    MainMenuController mainMenuController;
     PhotonView view;
 
     bool isLeaveRoom = false;
@@ -44,7 +43,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        mainMenuController = MainMenuController.instance;
         warningMessageManager = WarningMessageManager.instance;
 
         if (warningMessageManager == null)
@@ -59,13 +57,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     public void BeginMatchmaking()
     {
         firebaseManager = FirebaseManager.Instance;
-        //#if UNITY_EDITOR
-        //        playerName = "Test UNITY";
-        //#else
-        //        playerName = firebaseManager.DisplayName;
-        //#endif
-        playerName = "Test UNITY";
-
+        playerName = firebaseManager.UserName;
 
         StartMatchmaking();
     }
@@ -124,12 +116,21 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        if (isMatching)
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && isMatching)
         {
-            SetFeedback("Match found! Starting game...");
-            isMatching = true;
-            isRematch = false; // Yeni maç baþladýðýnda rematch deðil
-        }
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if (!player.NickName.Equals(playerName))
+                {
+                    isMatching = true;
+                    isRematch = false;
+                    opponentNickname = player.NickName;
+                    MainMenuController.instance.FindMatch(opponentNickname);
+                    break;
+                }
+            }
+            //view.RPC("StartMatch", RpcTarget.All);
+        }       
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -164,7 +165,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                 if (!player.NickName.Equals(playerName))
                 {
                     opponentNickname = player.NickName;
-                    mainMenuController.FindMatch(opponentNickname);
+                    MainMenuController.instance.FindMatch(opponentNickname);
                     break;
                 }
             }
@@ -203,7 +204,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (!readyRequestSent)
         {
-            mainMenuController.ClickedOpponent();
+            MainMenuController.instance.ClickedOpponent();
             readyRequestReceived = true;
         }
         else
