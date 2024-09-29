@@ -5,23 +5,30 @@ using System.Collections;
 
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
+
+#region Fields
     public static MatchmakingManager Instance;
-        
+
     private WarningMessageManager warningMessageManager;
     private bool isMatching = false;
     private bool isRematch = false;
+    private bool readyRequestSent = false;
+    private bool readyRequestReceived = false;
     private bool rematchRequestSent = false;
     private bool rematchRequestReceived = false;
     private float matchTimeout = 15f;
 
-    MainMenuController mainMenuController;
-    AuthManager authManager;
     FirebaseManager firebaseManager;
+    MainMenuController mainMenuController;
     PhotonView view;
 
     bool isLeaveRoom = false;
     string playerName = "";
+    string opponentNickname = "";
+    #endregion
 
+
+#region Initialize
     private void Awake()
     {
         if (Instance == null)
@@ -37,6 +44,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        mainMenuController = MainMenuController.instance;
         warningMessageManager = WarningMessageManager.instance;
 
         if (warningMessageManager == null)
@@ -48,9 +56,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     }
 
     // Onclick -> playButton
-    public void BeginMatchmaking() {
-        mainMenuController = MainMenuController.instance;
-        authManager = AuthManager.Instance;
+    public void BeginMatchmaking()
+    {
         firebaseManager = FirebaseManager.Instance;
         //#if UNITY_EDITOR
         //        playerName = "Test UNITY";
@@ -62,12 +69,15 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
         StartMatchmaking();
     }
+    #endregion
 
+
+#region FindRandomMatch
     private void StartMatchmaking()
     {
         if (string.IsNullOrEmpty(playerName))
         {
-            playerName = authManager.UserId;
+            playerName = firebaseManager.UserName;
             SetFeedback("Player name cannot be empty");
             return;
         }
@@ -102,7 +112,15 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
             isMatching = false;
         }
-    }    
+    }
+    #endregion
+
+
+#region PhotonFunc
+    public override void OnJoinedLobby()
+    {
+        isLeaveRoom = true;
+    }
 
     public override void OnJoinedRoom()
     {
@@ -120,9 +138,10 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         {
             // If failed to join a random room, create a new room
             RoomOptions roomOptions = new RoomOptions()
-            {                
+            {
                 IsVisible = true,
-                MaxPlayers = 2
+                MaxPlayers = 2,
+                PublishUserId = true
             };
             PhotonNetwork.CreateRoom(null, roomOptions, TypedLobby.Default);
         }
@@ -140,10 +159,76 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && isMatching)
         {
-            view.RPC("StartMatch", RpcTarget.All);
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if (!player.NickName.Equals(playerName))
+                {
+                    opponentNickname = player.NickName;
+                    mainMenuController.FindMatch(opponentNickname);
+                    break;
+                }
+            }
+            //view.RPC("StartMatch", RpcTarget.All);
+        }
+    }
+    #endregion
+
+
+#region ReadyToStart
+    public void SendReadyMatch()
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && isMatching && !opponentNickname.Equals(""))
+        {
+            if (!readyRequestSent && !readyRequestReceived)
+            {
+                if (view != null)
+                {
+                    view.RPC("ReadyMatchRequest", RpcTarget.Others);
+                    readyRequestSent = true;
+                }
+                else
+                {
+                    Debug.LogError("PhotonView is not assigned.");
+                }
+            }
+            else if (readyRequestReceived)
+            {
+                Ready();
+            }
         }
     }
 
+    [PunRPC]
+    public void ReadyMatchRequest()
+    {
+        if (!readyRequestSent)
+        {
+            mainMenuController.ClickedOpponent();
+            readyRequestReceived = true;
+        }
+        else
+        {
+            Ready();
+        }
+    }
+
+    private void Ready()
+    {
+        view.RPC("StartMatch", RpcTarget.All);
+    }
+#endregion
+    [PunRPC]
+    private void StartMatch()
+    {
+        SetFeedback("Match accepted. Starting new match...");
+        isMatching = false;
+        readyRequestSent = false;
+        readyRequestReceived = false;
+        PhotonNetwork.LoadLevel("GameScene");
+    }
+
+
+    #region Rematch
     public void SendRematchRequest()
     {
         if (!rematchRequestSent && !rematchRequestReceived)
@@ -181,7 +266,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     private void AcceptRematchRequest()
     {
-        view.RPC("ReMatch", RpcTarget.All);        
+        view.RPC("ReMatch", RpcTarget.All);
     }
 
     [PunRPC]
@@ -193,22 +278,28 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         rematchRequestReceived = false;
         PhotonNetwork.LoadLevel("GameScene");
     }
+    #endregion
 
-    [PunRPC]
-    private void StartMatch()
-    {
-        SetFeedback("Match accepted. Starting new match...");
-        isMatching = false;
-        PhotonNetwork.LoadLevel("GameScene");
-    }
 
+#region LeaveMatch
     [PunRPC]
     private void CloseRoom()
     {
         PhotonNetwork.LeaveRoom();
         SetFeedback("Leaving Room...");
     }
+    public void ReturnToMainMenu()
+    {
+        SetFeedback("Returning to main menu...");
+        isMatching = false;
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel("01_MainScene");
+    }
 
+    #endregion
+
+
+#region NextMatch
     public void NextMatch()
     {
         view.RPC("CloseRoom", RpcTarget.All);
@@ -218,19 +309,9 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         isMatching = true;
         StartCoroutine(MatchmakingCoroutine());
     }
+    #endregion
 
-    public override void OnJoinedLobby()
-    {
-        isLeaveRoom = true;
-    }
 
-    public void ReturnToMainMenu()
-    {
-        SetFeedback("Returning to main menu...");
-        isMatching = false;
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LoadLevel("01_MainScene");
-    }
 
     private void SetFeedback(string message)
     {

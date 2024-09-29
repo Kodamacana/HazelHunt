@@ -3,7 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCallback
+public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks
 {
     public static FriendsMatchmakingManager Instance { get; private set; }
     public const byte InviteEventCode = 1;  // Davet olay kodu
@@ -103,4 +103,5 @@ public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCall
     {
         PhotonNetwork.LoadLevel("GameScene");
     }
+
 }
