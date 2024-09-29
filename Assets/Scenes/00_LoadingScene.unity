@@ -241,7 +241,6 @@ MonoBehaviour:
   _userId: 
   _displayName: 
   _email: 
-  _phone: 
   _photoUrl: 
 --- !u!4 &291175746
 Transform:
@@ -874,7 +873,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1491285919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,12 +889,11 @@ MonoBehaviour:
   userName: 
   displayName: 
   mail: 
-  phone: 
   photoUrl: 
-  PowerupLevelIds: 
   nut: 0
-  highScore: 0
   score: 0
+  friendship_invites_list: []
+  friends_user_list: []
   authManager: {fileID: 291175745}
   firestoreManager: {fileID: 828430889}
 --- !u!4 &1491285920

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 824e7f0c585c89a4b8f487291b832197
+guid: eaaf0c65ac9fb844b9be1cb4c54f8358
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7018099127081879850
-    second: scrollbar back_0
+      213: -2150566944144680100
+    second: add_friend_ref_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scrollbar back_0
+      name: add_friend_ref_0
       rect:
         serializedVersion: 2
-        x: 100
+        x: 0
         y: 0
-        width: 61
-        height: 1732
+        width: 3641
+        height: 2048
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6d63ec30704ba9e90800000000000000
-      internalID: -7018099127081879850
+      spriteID: c5b1f8c22c6a722e0800000000000000
+      internalID: -2150566944144680100
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 237ff1801e093f143ac3d1c08aa28e11
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      scrollbar back_0: -7018099127081879850
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -23,7 +23,6 @@ public class AuthManager : MonoBehaviour
     [SerializeField] private string _displayName;
     [SerializeField] private Timestamp _createdDate;
     [SerializeField] private string _email;
-    [SerializeField] private string _phone;
     [SerializeField] private string _photoUrl;
 
     public string UserId
@@ -45,11 +44,6 @@ public class AuthManager : MonoBehaviour
     {
         get => _createdDate;
         private set => _createdDate = value;
-    }
-    public string Phone
-    {
-        get => _phone;
-        private set => _phone = value;
     }
     public string PhotoUrl
     {
@@ -183,7 +177,7 @@ public void AuthenticateToGameCenter()
 
     private void SignInEmail()
     {
-        Auth.SignInWithEmailAndPasswordAsync("test1@silverglobegames.com", "Test123@#").ContinueWithOnMainThread(task =>
+        Auth.SignInWithEmailAndPasswordAsync("test2@silverglobegames.com", "Test123@#").ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
@@ -199,7 +193,6 @@ public void AuthenticateToGameCenter()
                 UserId = "TESTPC" + " (" + user.Email + ")";
                 DisplayName = "TESTPC" + " (" + user.Email + ")";
                 Email = user.Email;
-                Phone = user.PhoneNumber;
 
                 long dateValue = long.Parse(user.Metadata.CreationTimestamp.ToString());
                 var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(dateValue).UtcDateTime;
@@ -231,7 +224,6 @@ public void AuthenticateToGameCenter()
                 UserId = user.UserId;
                 DisplayName = user.DisplayName;
                 Email = user.Email;
-                Phone = user.PhoneNumber;
                 PhotoUrl = user.PhotoUrl.ToString();
 
                 long dateValue = long.Parse(user.Metadata.CreationTimestamp.ToString());

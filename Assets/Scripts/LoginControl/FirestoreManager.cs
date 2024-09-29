@@ -1,9 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using System.Collections.Generic;
 using System;
 using Firebase.Auth;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 [FirestoreData]
 public struct UserData
@@ -18,13 +21,13 @@ public struct UserData
     public string Mail { get; set; }
 
     [FirestoreProperty]
-    public string Phone { get; set; }
-
-    [FirestoreProperty]
     public Timestamp Created { get; set; }
 
     [FirestoreProperty]
     public string PhotoUrl { get; set; }
+
+    [FirestoreProperty]
+    public bool OnlineStatus { get; set; }
 }
 
 [FirestoreData]
@@ -34,10 +37,13 @@ public struct Progress
     public int Nut { get; set; }
 
     [FirestoreProperty]
-    public int HighScore { get; set; }
+    public int Score { get; set; }
 
     [FirestoreProperty]
-    public int Score { get; set; }
+    public List<object> Friends_user_list { get; set; }
+
+    [FirestoreProperty]
+    public List<object> Friendship_invites_list { get; set; }
 }
 
 public class FirestoreManager : MonoBehaviour
@@ -49,6 +55,7 @@ public class FirestoreManager : MonoBehaviour
     [SerializeField] private string UserId;
     [SerializeField] private ConnectToServer ConnectToServer;
     private FirebaseFirestore firestore;
+    public readonly List<string> onlineUsersList = new List<string>();
 
     Progress progress;
 
@@ -75,43 +82,73 @@ public class FirestoreManager : MonoBehaviour
         _listenerUserData.Stop();
     }
 
-    public void GetFirestoreDatas(string UserId = "", bool isLogin = false)
+    private async void UpdateOnlineUsersList()
     {
-        if (!string.IsNullOrEmpty(UserId))
+        await GetOnlineUsers();
+        InvokeRepeating(nameof(UpdateOnlineUsersList), 0f, 30f);
+
+        Debug.Log("Online Users Count: " + onlineUsersList.Count);
+    }
+
+    /// <summary>
+    /// GetOnlineUsers her client tarafindan gonderilen istek olmasi nedeniyle firestore'u zorlayabilir. Server tarafina cekilebilmesi denenecektir.
+    /// </summary>
+    /// <returns></returns>
+    private async Task GetOnlineUsers()
+    {
+        onlineUsersList.Clear();
+
+        try
         {
-            this.UserId = UserId;
+            QuerySnapshot snapshot = await firestore.Collection("Users")
+                                             .WhereEqualTo("online_status", true)
+                                             .GetSnapshotAsync();
+
+            foreach (var document in snapshot.Documents)
+            {
+                string userId = document.Id;
+                onlineUsersList.Add(userId);
+
+                Debug.Log("Online User ID: " + userId);
+            }
         }
+        catch (Exception e)
+        {
+            Debug.LogError("Error fetching online users: " + e.Message);
+        }
+    }
+
+    public async Task GetFirestoreDatas(string userId = "", bool isLogin = false)
+    {
+        if (!string.IsNullOrEmpty(userId))
+        {
+            this.UserId = userId;
+        }
+
         firestore = FirebaseFirestore.DefaultInstance;
 
-        firestore.Collection("Users").Document(this.UserId).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        // Firestore'dan snapshot'ı asenkron olarak alıyoruz
+        DocumentSnapshot snapshot = await firestore.Collection("Users").Document(this.UserId).GetSnapshotAsync();
+
+        if (!snapshot.Exists)
         {
-            if (task.IsCompleted)
-            {
-                DocumentSnapshot snapshot = task.Result;
-                if (!snapshot.Exists)
-                {
-                    CreateNewUser(this.UserId);
-                }
-                else
-                {
-                    Dictionary<string, object> personalData = task.Result.GetValue<Dictionary<string, object>>("personal_data");
+            CreateNewUser(this.UserId);
+        }
+        else
+        {
+            Dictionary<string, object> personalData = snapshot.GetValue<Dictionary<string, object>>("personal_data");
 
-                    if (isLogin)
-                    {
-                        GetUserData(personalData);
-                        LoadScene();
-                    }
-                    GetProgressData(snapshot.ToDictionary());
-
-                    Debug.Log("User document already exists");
-                }
-            }
-            else
+            if (isLogin)
             {
-                Debug.LogError("Failed to get user document: " + task.Exception);
+                GetUserData(personalData);
+                LoadScene();
             }
-        });
+            GetProgressData(snapshot.ToDictionary());
+
+            Debug.Log("User document already exists");
+        }
     }
+
 
     private void CreateNewUser(string UserId)
     {
@@ -123,14 +160,16 @@ public class FirestoreManager : MonoBehaviour
                     { "created", authManager.CreatedDate},
                     { "mail", authManager.Email},
                     { "name", authManager.DisplayName},
-                    { "phone", authManager.Phone},
                     { "photo", authManager.PhotoUrl},
+                    { "online_status", true},
                     { "login_list", new List<object> { Timestamp.FromDateTime(System.DateTime.UtcNow) } }
                 }
             },
             { "nut", 0 },
-            { "high_score", 0 },
-            { "score", 0 }
+            { "score", 0 },
+            { "friendship_invites_list", new List<string>() },
+            { "friends_user_list", new List<string>() }
+
         };
 
         DocumentReference docRef = firestore.Collection("Users").Document(UserId);
@@ -148,6 +187,23 @@ public class FirestoreManager : MonoBehaviour
             }
         });
     }
+    private bool ConvertToBool(object value)
+    {
+        if (value is bool)
+            return (bool)value;
+
+        if (value is string strValue)
+        {
+            return strValue.ToLower() == "true";
+        }
+
+        if (value is int intValue)
+        {
+            return intValue == 1;
+        }
+
+        return false;
+    }
 
     private void GetUserData(Dictionary<string, object> personalData)
     {
@@ -158,17 +214,18 @@ public class FirestoreManager : MonoBehaviour
         {
             UserName = personalData["name"].ToString(),
             Mail = personalData["mail"].ToString(),
-            Phone = personalData["phone"].ToString(),
             LoginList = personalData["login_list"] as List<object>,
             PhotoUrl = personalData["photo"].ToString(),
+            OnlineStatus = personalData.ContainsKey("online_status") ? ConvertToBool(personalData["online_status"]) : false,
             Created = new Timestamp()
         };
 
-        FirebaseManager.Instance.SaveLocalFromFirestoreInUserDatas(UserId, userData.UserName, userData.Mail, userData.Phone, userData.LoginList, userData.PhotoUrl);
+        FirebaseManager.Instance.SaveLocalFromFirestoreInUserDatas(UserId, userData.UserName, userData.Mail, userData.LoginList, userData.PhotoUrl, userData.OnlineStatus);
 
         userData.LoginList.Add(Timestamp.FromDateTime(DateTime.UtcNow));
         personalData["created"] = FirebaseManager.Instance.UserRegisterDate;
         personalData["login_list"] = userData.LoginList;
+        personalData["online_status"] = true;
 
         Dictionary<string, object> updatedUserData = new Dictionary<string, object>
                     {
@@ -194,10 +251,11 @@ public class FirestoreManager : MonoBehaviour
         {
             Nut = (int)(long)progressData["nut"],
             Score = (int)(long)progressData["score"],
-            HighScore = (int)(long)progressData["high_score"]
+            Friends_user_list = progressData["friends_user_list"] as List<object>,
+            Friendship_invites_list = progressData["friendship_invites_list"] as List<object>
         };
 
-        FirebaseManager.Instance.SaveLocalFromFirestoreInProgressDatas(progress.Nut, progress.HighScore, progress.Score);
+        FirebaseManager.Instance.SaveLocalFromFirestoreInProgressDatas(progress.Nut, progress.Score, progress.Friendship_invites_list, progress.Friends_user_list);
     }
     
     public void SetNut(int value)
@@ -221,96 +279,197 @@ public class FirestoreManager : MonoBehaviour
         firestore.Collection("Users").Document(UserId).UpdateAsync(updatedScore);
     }
 
-    public void SetHighScore(int value)
+    public async void SendFriendRequestByUsername(string username)
     {
-        progress.HighScore = value;
-        Dictionary<string, object> updatedHighScore = new()
+        CollectionReference usersCollection = firestore.Collection("Users");
+
+        Query query = usersCollection.WhereEqualTo("personal_data.name",  username);
+        try
         {
-            { "high_score", progress.HighScore }
-        };
-        firestore.Collection("Users").Document(UserId).UpdateAsync(updatedHighScore);
+            QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
+
+            foreach (DocumentSnapshot document in querySnapshot.Documents)
+            {
+                var userDoc = document;
+                var userId = userDoc.Id;
+
+                AuthManager authManager = AuthManager.Instance;
+
+                if (userId != authManager.UserId)
+                {
+                    await userDoc.Reference.UpdateAsync("friendship_invites_list", FieldValue.ArrayUnion(authManager.UserId));
+
+                    Debug.Log("Arkadaş isteği başarıyla gönderildi.");
+                }
+                else
+                {
+                    Debug.Log("Kendinize arkadaş isteği gönderemezsiniz.");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            // Hata durumunda hata mesajı yazdırıyoruz
+            Debug.LogError($"Hata oluştu: {e.Message}");
+        }
     }
 
-    //public void UpgradePowerUp(int upgradeablePowerUpId)
-    //{
-    //    DocumentReference docRef = firestore.Collection("Users").Document(UserId);
-    //    DocumentReference upgradeableItemsRef = firestore.Collection("UpgradeableItems").Document("Item_id");
 
-    //    docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-    //    {
-    //        if (task.IsCompleted && task.Result.Exists)
-    //        {
-    //            Dictionary<string, object> powerupUpgradeLevel = task.Result.GetValue<Dictionary<string, object>>("powerup_upgrade_level");
-    //            Dictionary<string, object> userProgress = task.Result.GetValue<Dictionary<string, object>>("progress");
+    public async void AcceptFriendRequest(string userId)
+    {
+        try
+        {
+            var currentUserDocRef = firestore.Collection("Users").Document(this.UserId);
 
-    //            int userCoin = Convert.ToInt32(userProgress["coin"]);
-    //            int itemLevel = Convert.ToInt32(powerupUpgradeLevel[upgradeablePowerUpId.ToString()]);
+            var requestingUserDocRef = firestore.Collection("Users").Document(userId);
 
-    //            upgradeableItemsRef.GetSnapshotAsync().ContinueWithOnMainThread(innerTask =>
-    //            {
-    //                if (innerTask.IsCompleted && innerTask.Result.Exists)
-    //                {
-    //                    List<object> itemPricesObj = innerTask.Result.GetValue<List<object>>("Item_Price");
-    //                    List<int> itemPrices = itemPricesObj.Select(price => Convert.ToInt32(price)).ToList();
+            await currentUserDocRef.UpdateAsync("friends_user_list", FieldValue.ArrayUnion(userId));
 
-    //                    int itemCost = itemPrices[itemLevel];
+            await requestingUserDocRef.UpdateAsync("friends_user_list", FieldValue.ArrayUnion(this.UserId));
 
-    //                    if (userCoin >= itemCost)
-    //                    {
-    //                        int newUserCoin = userCoin - itemCost;
-    //                        int newItemLevel = itemLevel + 1;
+            await currentUserDocRef.UpdateAsync("friendship_invites_list", FieldValue.ArrayRemove(userId));
 
-    //                        userProgress["coin"] = newUserCoin;
-    //                        powerupUpgradeLevel[upgradeablePowerUpId.ToString()] = newItemLevel;
+            Debug.Log("Arkadaşlık isteği kabul edildi.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Arkadaşlık isteğini kabul ederken hata oluştu: {e.Message}");
+        }
+    }
 
-    //                        Dictionary<string, object> updates = new Dictionary<string, object>
-    //                    {
-    //                        { "progress", userProgress },
-    //                        { "powerup_upgrade_level", powerupUpgradeLevel }
-    //                    };
+    public async void RejectFriendRequest(string userId)
+    {
+        try
+        {
+            var currentUserDocRef = firestore.Collection("Users").Document(this.UserId);
 
-    //                        docRef.UpdateAsync(updates).ContinueWithOnMainThread(updateTask =>
-    //                        {
-    //                            if (updateTask.IsCompleted)
-    //                            {
-    //                                Debug.Log("User progress and power-up levels successfully updated!");
+            await currentUserDocRef.UpdateAsync("friendship_invites_list", FieldValue.ArrayRemove(userId));
 
-    //                                progress.Nut = newUserNut;
-    //                                FirebaseManager.Instance.SaveLocalFromFirestoreInProgressDatas(
-    //                                    progress.Nut, progress.HighScore, progress.Score);
+            Debug.Log("Arkadaşlık isteği reddedildi.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Arkadaşlık isteğini reddederken hata oluştu: {e.Message}");
+        }
+    }
 
-    //                                FirebaseManager.Instance.SaveLocalFromFirestoreInPowerupDatas(
-    //                                    Convert.ToInt32(powerupUpgradeLevel["100"]),
-    //                                    Convert.ToInt32(powerupUpgradeLevel["101"]),
-    //                                    Convert.ToInt32(powerupUpgradeLevel["102"]),
-    //                                    Convert.ToInt32(powerupUpgradeLevel["103"]),
-    //                                    true);
 
-    //                                FirebaseManager.Instance.PowerupLevelIds[upgradeablePowerUpId] = newItemLevel;
-    //                            }
-    //                            else
-    //                            {
-    //                                Debug.LogError("Failed to update document: " + updateTask.Exception);
-    //                            }
-    //                        });
-    //                    }
-    //                    else
-    //                    {
-    //                        GameManager.Instance.OpentoNeedMoneyPopUp();
-    //                    }
-    //                }
-    //                else
-    //                {
-    //                    Debug.LogError("Error retrieving upgradeable item document: " + innerTask.Exception);
-    //                }
-    //            });
-    //        }
-    //        else
-    //        {
-    //            Debug.LogError("Error retrieving user document: " + task.Exception);
-    //        }
-    //    });
-    //}
+    public async Task<List<FriendData>> GetFriendsData()
+    {
+        await GetFirestoreDatas(UserId, false);
+
+        List<FriendData> friendData = new List<FriendData>();
+        if (progress.Friends_user_list == null)
+            return null;
+
+        foreach (string userId in progress.Friends_user_list)
+        {
+            DocumentReference userDocRef = firestore.Collection("Users").Document(userId);
+        
+            // Firestore'dan snapshot'ı asenkron olarak alıyoruz
+            DocumentSnapshot documentSnapshot = await userDocRef.GetSnapshotAsync();
+
+            if (documentSnapshot.Exists)
+            {
+                var personal_data = documentSnapshot.GetValue<Dictionary<string, object>>("personal_data");
+
+                string name = personal_data["name"].ToString();
+                string photoUrl = personal_data["photo"].ToString();
+                bool onlineStatus = false;
+                if (personal_data.ContainsKey("online_status"))
+                {
+                    onlineStatus = ConvertToBool(personal_data["online_status"]);
+                }
+                int score = documentSnapshot.GetValue<int>("score");
+                int nut = documentSnapshot.GetValue<int>("nut");
+
+                friendData.Add(new(name, photoUrl, score, nut, onlineStatus, userId));
+            }
+            else
+            {
+                Debug.Log("User " + userId + " does not exist in Firestore.");
+            }
+        }
+
+        return friendData;
+    }
+
+    public async Task<List<FriendData>> GetInvitesDataAsync()
+    {
+        await GetFirestoreDatas(UserId, false);
+
+        List<FriendData> friendData = new List<FriendData>();
+
+        if (progress.Friendship_invites_list == null)
+            return null;
+
+        foreach (string userId in progress.Friendship_invites_list)
+        {
+            DocumentReference userDocRef = firestore.Collection("Users").Document(userId);
+
+            DocumentSnapshot documentSnapshot = await userDocRef.GetSnapshotAsync();
+
+            if (documentSnapshot.Exists)
+            {
+                var personal_data = documentSnapshot.GetValue<Dictionary<string, object>>("personal_data");
+
+                string name = personal_data["name"].ToString();
+                string photoUrl = personal_data["photo"].ToString();
+
+                //bool onlineStatus = false;
+                //if (personal_data.ContainsKey("online_status"))
+                //{
+                //    onlineStatus = ConvertToBool(personal_data["online_status"]);
+                //}
+
+                int score = documentSnapshot.GetValue<int>("score");
+                int nut = documentSnapshot.GetValue<int>("nut");
+
+                friendData.Add(new(name, photoUrl, score, nut, true, userId));
+            }
+            else
+            {
+                Debug.Log("User " + userId + " does not exist in Firestore.");
+            }
+        }
+
+        return friendData;
+    }        
+
+
+    private void OnApplicationQuit()
+    {
+        SetOnlineStatus(false);
+    }
+
+    private void SetOnlineStatus(bool isOnline)
+    {
+        DocumentReference docRef = firestore.Collection("Users").Document(this.UserId);
+
+        Dictionary<string, object> personalData = new Dictionary<string, object>
+    {
+        { "online_status", isOnline } 
+    };
+
+        Dictionary<string, object> updatedUserData = new Dictionary<string, object>
+    {
+        { "personal_data", personalData } 
+    };
+
+        // Veriyi Firestore'a kaydetme işlemi
+        docRef.SetAsync(updatedUserData, SetOptions.MergeAll).ContinueWith(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log("Online durumu Firestore'a başarıyla kaydedildi.");
+            }
+            else
+            {
+                Debug.LogError("Online durumu Firestore'a kaydedilemedi: " + task.Exception);
+            }
+        });
+    }
+
 
     public void LoadScene()
     {
