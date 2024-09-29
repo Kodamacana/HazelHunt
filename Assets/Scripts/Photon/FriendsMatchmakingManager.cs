@@ -6,14 +6,16 @@ using UnityEngine;
 public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     public static FriendsMatchmakingManager Instance { get; private set; }
+    public const byte InviteEventCode = 1;  // Davet olay kodu
 
+    PhotonView view;
     private void Awake()
     {
         Instance = this;
+
+        if (view == null)
+            view = GetComponent<PhotonView>();
     }
-
-    public const byte InviteEventCode = 1;  // Davet olay kodu
-
     public void SendInvite(string invitedPlayerName)
     {
         if (!PhotonNetwork.InRoom)
@@ -59,6 +61,7 @@ public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCall
 
     private void ShowInvitePopup(string invitingPlayerName, string roomName)
     {
+        OnAcceptInvite(roomName);
         //invitePopup.SetActive(true);  // UI'da popup'ý aktif et
         //inviteMessageText.text = invitingPlayerName + " seni oyuna davet ediyor!";  // Popup mesajýný ayarla
 
@@ -87,10 +90,18 @@ public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCall
         PhotonNetwork.RemoveCallbackTarget(this);
     }
 
-    public override void OnJoinedRoom()
+   
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("Odaya katýldýnýz: " + PhotonNetwork.CurrentRoom.Name);
-        // Oyun baþlatýlabilir
-        PhotonNetwork.LoadLevel("GameScene"); // Oyun sahnesini yükleyin
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            view.RPC("StartMatch", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void StartMatch()
+    {
+        PhotonNetwork.LoadLevel("GameScene");
     }
 }
