@@ -194,7 +194,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             }
             else if (readyRequestReceived)
             {
-                StartCoroutine(StartingMatch());
+                view.RPC("StartMatch", RpcTarget.All);
             }
         }
     }
@@ -209,25 +209,24 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            StartCoroutine(StartingMatch());
+            view.RPC("StartMatch", RpcTarget.All);
         }
     }
     public IEnumerator StartingMatch()
-    {
-        MainMenuController.instance.StartMatch();
+    {        
         yield return new WaitForSecondsRealtime(3f);
-        view.RPC("StartMatch", RpcTarget.All);
+        PhotonNetwork.LoadLevel("GameScene");
     }
 
 #endregion
     [PunRPC]
     private void StartMatch()
     {
-        SetFeedback("Match accepted. Starting new match...");
+        MainMenuController.instance.StartMatch();
         isMatching = false;
         readyRequestSent = false;
         readyRequestReceived = false;
-        PhotonNetwork.LoadLevel("GameScene");
+        StartCoroutine(StartingMatch());
     }
 
 
