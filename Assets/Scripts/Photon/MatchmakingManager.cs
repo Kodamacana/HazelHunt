@@ -214,6 +214,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     }
     public IEnumerator StartingMatch()
     {
+        MainMenuController.instance.StartMatch();
         yield return new WaitForSecondsRealtime(3f);
         view.RPC("StartMatch", RpcTarget.All);
     }

@@ -28,6 +28,8 @@ public class MainMenuController : MonoBehaviour
     MatchmakingManager matchmakingManager;
     FirebaseManager firebaseManager;
 
+    bool isReady = false;
+
     private void Awake()
     {
         instance = this;
@@ -65,6 +67,7 @@ public class MainMenuController : MonoBehaviour
 
     private void ClickReady()
     {
+        isReady = true;
         //bizim sincap ateþ etme animasyonu
         matchmakingManager.SendReadyMatch();
         imageMyReadyButton.material = blackMaterial;
@@ -74,5 +77,15 @@ public class MainMenuController : MonoBehaviour
     {
         imageOpponentReadyButton.material = blackMaterial;
         //düþman sincap ateþ etme animasyonu
+    }
+
+    public void StartMatch()
+    {
+        if (!isReady)
+        {
+            imageMyReadyButton.material = blackMaterial;
+            imageOpponentReadyButton.material = blackMaterial;
+            //bizim sincap ateþ etme animasyonu
+        }
     }
 }
