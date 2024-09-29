@@ -32,7 +32,7 @@ public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCall
             object[] content = new object[] { PhotonNetwork.NickName, invitedPlayerName, roomName };
 
             // Daveti RaiseEvent ile karþý tarafa gönder
-            PhotonNetwork.RaiseEvent(InviteEventCode, content, RaiseEventOptions.Default, SendOptions.SendReliable);
+            PhotonNetwork.RaiseEvent(InviteEventCode, content, RaiseEventOptions.Default, SendOptions.SendUnreliable);
         }
         else
         {
@@ -40,24 +40,6 @@ public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCall
         }
     }
 
-    public void OnEvent(EventData photonEvent)
-    {
-        byte eventCode = photonEvent.Code;
-
-        if (eventCode == InviteEventCode)
-        {
-            object[] data = (object[])photonEvent.CustomData;
-            string invitingPlayerName = (string)data[0];  // Daveti gönderen oyuncunun adý
-            string invitedPlayerName = (string)data[1];   // Davet edilen oyuncunun adý
-            string roomName = (string)data[2];            // Davet gönderenin oluþturduðu oda adý
-
-            // Eðer bu davet edilen oyuncu bizsek, daveti kabul edip odaya katýlalým
-            if (invitedPlayerName == PhotonNetwork.NickName)
-            {
-                ShowInvitePopup(invitingPlayerName, roomName);  // Popup göster ve odaya katýlma seçeneði sun
-            }
-        }
-    }
 
     private void ShowInvitePopup(string invitingPlayerName, string roomName)
     {
@@ -80,17 +62,34 @@ public class FriendsMatchmakingManager : MonoBehaviourPunCallbacks, IOnEventCall
         }
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
-        PhotonNetwork.AddCallbackTarget(this);
+        PhotonNetwork.NetworkingClient.EventReceived += NetworkingClient_EventReceived;
+    }
+    private void OnDisable()
+    {
+        PhotonNetwork.NetworkingClient.EventReceived -= NetworkingClient_EventReceived;
     }
 
-    void OnDisable()
+    private void NetworkingClient_EventReceived(EventData photonEvent)
     {
-        PhotonNetwork.RemoveCallbackTarget(this);
+        byte eventCode = photonEvent.Code;
+
+        if (eventCode == InviteEventCode)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            string invitingPlayerName = (string)data[0];  // Daveti gönderen oyuncunun adý
+            string invitedPlayerName = (string)data[1];   // Davet edilen oyuncunun adý
+            string roomName = (string)data[2];            // Davet gönderenin oluþturduðu oda adý
+
+            // Eðer bu davet edilen oyuncu bizsek, daveti kabul edip odaya katýlalým
+            if (invitedPlayerName == PhotonNetwork.NickName)
+            {
+                ShowInvitePopup(invitingPlayerName, roomName);  // Popup göster ve odaya katýlma seçeneði sun
+            }
+        }
     }
 
-   
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
