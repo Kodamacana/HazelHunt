@@ -18,8 +18,12 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] TextMeshProUGUI myUsername;
     [SerializeField] TextMeshProUGUI opponentUsername;
 
+    [SerializeField] GameObject readyPanel;
     [SerializeField] GameObject opponentSquirrelObject;
     [SerializeField] GameObject mySquirrelObject;
+    private Animator readyPanelAnimator;
+    private Animator opponentSquirrelAnimator;
+    private Animator mySquirrelAnimator;
  
     [Header("Material")]
     [SerializeField] Material blackMaterial;
@@ -36,6 +40,10 @@ public class MainMenuController : MonoBehaviour
         instance = this;
         firebaseManager = FirebaseManager.Instance;
         matchmakingManager = MatchmakingManager.Instance;
+
+        readyPanelAnimator = readyPanel.GetComponent<Animator>();
+        mySquirrelAnimator = mySquirrelObject.GetComponent<Animator>();
+        opponentSquirrelAnimator = opponentSquirrelObject.GetComponent<Animator>();
 
         myReadyButton.onClick.RemoveAllListeners();
         huntButton.onClick.RemoveAllListeners();
@@ -62,7 +70,7 @@ public class MainMenuController : MonoBehaviour
         matchmakingPanel.SetActive(true);
         this.opponentUsername.text = opponentUsername;
         opponentSquirrelObject.SetActive(true);
-        //Ready Buttonlarýnýn çýktýðý bir animasyon ekle
+        readyPanelAnimator.SetTrigger("FoundOpponent");
         //Düþman karakterin geldiði bir animasyon ekle
         myReadyButton.onClick.AddListener(delegate { ClickReady();});
     }
@@ -70,7 +78,7 @@ public class MainMenuController : MonoBehaviour
     private void ClickReady()
     {
         isMyReady = true;
-        //bizim sincap ateþ etme animasyonu
+        mySquirrelAnimator.SetTrigger("SquirrelReady");
         matchmakingManager.SendReadyMatch();
         imageMyReadyButton.material = blackMaterial;
     }
@@ -79,7 +87,7 @@ public class MainMenuController : MonoBehaviour
     {
         isOpponentReady = true;
         imageOpponentReadyButton.material = blackMaterial;
-        //düþman sincap ateþ etme animasyonu
+        opponentSquirrelAnimator.SetTrigger("SquirrelReady");
     }
 
     public void StartMatch()
@@ -87,12 +95,12 @@ public class MainMenuController : MonoBehaviour
         if (!isMyReady)
         {
             imageMyReadyButton.material = blackMaterial;
-            //bizim sincap ateþ etme animasyonu
+            mySquirrelAnimator.SetTrigger("SquirrelReady");
         }
         else if (!isOpponentReady)
         {
             imageOpponentReadyButton.material = blackMaterial;
-            //düþman sincap ateþ etme animasyonu
+            opponentSquirrelAnimator.SetTrigger("SquirrelReady");
         }
     }
 }

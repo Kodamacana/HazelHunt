@@ -214,7 +214,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     }
     public IEnumerator StartingMatch()
     {        
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(5f);
         PhotonNetwork.LoadLevel("GameScene");
     }
 

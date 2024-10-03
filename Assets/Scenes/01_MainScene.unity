@@ -877,7 +877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &174606982
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4727,7 +4727,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -366.00012, y: 151.61993}
+  m_AnchoredPosition: {x: -366.0001, y: 151.61993}
   m_SizeDelta: {x: -709.4199, y: 303.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1158152313
@@ -4987,7 +4987,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1226528108
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6574,12 +6574,13 @@ MonoBehaviour:
   huntButton: {fileID: 1790968743}
   nuts_txt: {fileID: 605161249}
   score_txt: {fileID: 130598881}
-  matchmakingPanel: {fileID: 0}
+  matchmakingPanel: {fileID: 174606981}
   myReadyButton: {fileID: 1820622092}
   imageMyReadyButton: {fileID: 1820622093}
   imageOpponentReadyButton: {fileID: 14561585}
   myUsername: {fileID: 1462561339}
   opponentUsername: {fileID: 580542365}
+  readyPanel: {fileID: 1598056981}
   opponentSquirrelObject: {fileID: 452941689}
   mySquirrelObject: {fileID: 1127958024}
   blackMaterial: {fileID: 2100000, guid: 82579c1db9cf6104983c8945cd6198da, type: 2}
