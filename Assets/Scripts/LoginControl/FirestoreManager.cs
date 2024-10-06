@@ -482,6 +482,10 @@ public class FirestoreManager : MonoBehaviour
         { "timestamp", timestamp }
     }));
 
+        string roomName = authManager.UserId + "_" + opponentUserId + "_room";
+
+        MatchmakingManager.Instance.AcceptFriendMatchRequest(roomName);
+
         StartCoroutine(MatchRequestTimeoutCheck(opponentUserId, timestamp));
     }
 
