@@ -57,6 +57,8 @@ public class FirestoreManager : MonoBehaviour
     Progress progress;
     [SerializeField] InvitePopUp invitePopUp;
 
+    public List<object> Friendship_invites_list { get; private set; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -120,7 +122,6 @@ public class FirestoreManager : MonoBehaviour
 
         firestore = FirebaseFirestore.DefaultInstance;
 
-        // Firestore'dan snapshot'ı asenkron olarak alıyoruz
         DocumentSnapshot snapshot = await firestore.Collection("Users").Document(this.UserId).GetSnapshotAsync();
 
         if (!snapshot.Exists)
@@ -322,6 +323,10 @@ public class FirestoreManager : MonoBehaviour
 
             await currentUserDocRef.UpdateAsync("friendship_invites_list", FieldValue.ArrayRemove(userId));
 
+            await requestingUserDocRef.UpdateAsync("friendship_invites_list", FieldValue.ArrayRemove(this.UserId));
+
+            FriendshipManager.Instance.CreateFriendObjectAsync();
+
             Debug.Log("Arkadaşlık isteği kabul edildi.");
         }
         catch (Exception e)
@@ -336,7 +341,13 @@ public class FirestoreManager : MonoBehaviour
         {
             var currentUserDocRef = firestore.Collection("Users").Document(this.UserId);
 
+            var requestingUserDocRef = firestore.Collection("Users").Document(userId);
+
             await currentUserDocRef.UpdateAsync("friendship_invites_list", FieldValue.ArrayRemove(userId));
+
+            await requestingUserDocRef.UpdateAsync("friendship_invites_list", FieldValue.ArrayRemove(this.UserId));
+
+            FriendshipManager.Instance.CreateFriendObjectAsync();
 
             Debug.Log("Arkadaşlık isteği reddedildi.");
         }
@@ -346,20 +357,21 @@ public class FirestoreManager : MonoBehaviour
         }
     }
 
-
-    public async Task<List<FriendData>> GetFriendsData()
+    public async Task<List<FriendData>> GetFriendsData(bool isInviteList)
     {
+        ListenForMatchRequests();
         await GetFirestoreDatas(UserId, false);
 
         List<FriendData> friendData = new List<FriendData>();
-        if (progress.Friends_user_list == null)
+        List<object> userList = isInviteList ? progress.Friendship_invites_list : progress.Friends_user_list;
+
+        if (userList == null)
             return null;
 
-        foreach (string userId in progress.Friends_user_list)
+        foreach (string userId in userList)
         {
             DocumentReference userDocRef = firestore.Collection("Users").Document(userId);
         
-            // Firestore'dan snapshot'ı asenkron olarak alıyoruz
             DocumentSnapshot documentSnapshot = await userDocRef.GetSnapshotAsync();
 
             if (documentSnapshot.Exists)
@@ -387,53 +399,41 @@ public class FirestoreManager : MonoBehaviour
         return friendData;
     }
 
-    public async Task<List<FriendData>> GetInvitesDataAsync()
-    {
-        await GetFirestoreDatas(UserId, false);
+    //public void GetFriendData()
+    //{
 
-        List<FriendData> friendData = new List<FriendData>();
+    //await GetFirestoreDatas(UserId, false);
 
-        if (progress.Friendship_invites_list == null)
-            return null;
+    //List<FriendData> friendData = new List<FriendData>();
 
-        foreach (string userId in progress.Friendship_invites_list)
-        {
-            DocumentReference userDocRef = firestore.Collection("Users").Document(userId);
+    //if (progress.Friendship_invites_list == null)
+    //    return null;
 
-            DocumentSnapshot documentSnapshot = await userDocRef.GetSnapshotAsync();
+    //foreach (string userId in progress.Friendship_invites_list)
+    //{
+    //    DocumentReference userDocRef = firestore.Collection("Users").Document(userId);
 
-            if (documentSnapshot.Exists)
-            {
-                var personal_data = documentSnapshot.GetValue<Dictionary<string, object>>("personal_data");
+    //    DocumentSnapshot documentSnapshot = await userDocRef.GetSnapshotAsync();
 
-                string name = personal_data["name"].ToString();
-                string photoUrl = personal_data["photo"].ToString();
+    //    if (documentSnapshot.Exists)
+    //    {
+    //        var personal_data = documentSnapshot.GetValue<Dictionary<string, object>>("personal_data");
 
-                //bool onlineStatus = false;
-                //if (personal_data.ContainsKey("online_status"))
-                //{
-                //    onlineStatus = ConvertToBool(personal_data["online_status"]);
-                //}
+    //        string name = personal_data["name"].ToString();
+    //        string photoUrl = personal_data["photo"].ToString();
+    //        int score = documentSnapshot.GetValue<int>("score");
+    //        int nut = documentSnapshot.GetValue<int>("nut");
 
-                int score = documentSnapshot.GetValue<int>("score");
-                int nut = documentSnapshot.GetValue<int>("nut");
+    //        friendData.Add(new(name, photoUrl, score, nut, true, userId));
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("User " + userId + " does not exist in Firestore.");
+    //    }
+    //}
 
-                friendData.Add(new(name, photoUrl, score, nut, true, userId));
-            }
-            else
-            {
-                Debug.Log("User " + userId + " does not exist in Firestore.");
-            }
-        }
-
-        return friendData;
-    }        
-
-
-    private void OnApplicationQuit()
-    {
-        SetOnlineStatus(false);
-    }
+    //return friendData;
+    //}      
 
     private void SetOnlineStatus(bool isOnline)
     {
@@ -468,21 +468,20 @@ public class FirestoreManager : MonoBehaviour
     public void SendMatchRequest(string opponentUserId)
     {
         FirebaseManager firebaseManager = FirebaseManager.Instance;
-        AuthManager authManager= AuthManager.Instance;
 
         string timestamp = DateTime.UtcNow.ToString("o");
 
         DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
         docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
     {
-        { "fromId", authManager.UserId },
+        { "fromId", UserId },
         { "fromName", firebaseManager.UserName },
         { "status", "pending" },
         { "roomId", "" },
         { "timestamp", timestamp }
     }));
 
-        string roomName = authManager.UserId + "_" + opponentUserId + "_room";
+        string roomName = UserId + "_" + opponentUserId + "_room";
 
         MatchmakingManager.Instance.AcceptFriendMatchRequest(roomName);
 
@@ -518,7 +517,6 @@ public class FirestoreManager : MonoBehaviour
 
     public void RecordMatchResult(string opponentUsername, string opponentUserId, string result)
     {
-        AuthManager authManager = AuthManager.Instance;
         string timestamp = DateTime.UtcNow.ToString("o");
 
         Dictionary<string, object> newMatchRecord = new Dictionary<string, object>
@@ -528,7 +526,7 @@ public class FirestoreManager : MonoBehaviour
         { "timestamp", timestamp }
     };
 
-        DocumentReference docRef = firestore.Collection("Users").Document(authManager.UserId);
+        DocumentReference docRef = firestore.Collection("Users").Document(UserId);
         docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result.Exists)
@@ -568,11 +566,10 @@ public class FirestoreManager : MonoBehaviour
 
     public void AcceptMatchRequest()
     {
-        AuthManager authManager = AuthManager.Instance;
         string fromUserId = invitePopUp.fromUserId;
         string fromUsername = invitePopUp.fromUsername;
 
-        string roomName = fromUserId + "_" + authManager.UserId + "_room";
+        string roomName = fromUserId + "_" + UserId + "_room";
 
         DocumentReference docRef = firestore.Collection("Users").Document(fromUserId);
 
@@ -616,8 +613,7 @@ public class FirestoreManager : MonoBehaviour
 
     private void ListenForMatchRequests()
     {
-        AuthManager authManager = AuthManager.Instance;
-        DocumentReference docRef = firestore.Collection("Users").Document(authManager.UserId);
+        DocumentReference docRef = firestore.Collection("Users").Document(UserId);
         docRef.Listen(snapshot =>
         {
             if (snapshot.Exists)
@@ -631,6 +627,18 @@ public class FirestoreManager : MonoBehaviour
                         invitePopUp.ShowMatchRequestPopup(request["fromName"].ToString(), request["fromId"].ToString());
                     }
                 }
+
+                List<object> friendship_invites_list = snapshot.GetValue<List<object>>("friendship_invites_list");
+                if (friendship_invites_list != null && friendship_invites_list.Count > 0)
+                {
+                    InvitesManager invitesManager = InvitesManager.Instance;
+                    invitesManager.inviteValue_txt.text = friendship_invites_list.Count.ToString();
+                    invitesManager.inviteValueObject.SetActive(true);
+                }
+                else
+                {
+                    InvitesManager.Instance.inviteValueObject.SetActive(false);
+                }   
             }
         });
     }
@@ -640,7 +648,10 @@ public class FirestoreManager : MonoBehaviour
     public void LoadScene()
     {
         ConnectToServer.ConnectToTheServer();
+    }
 
-        ListenForMatchRequests();
+    private void OnApplicationQuit()
+    {
+        SetOnlineStatus(false);
     }
 }

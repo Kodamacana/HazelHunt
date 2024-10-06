@@ -34,6 +34,19 @@ public class FriendshipManager : MonoBehaviour
     [SerializeField] private TMP_FontAsset normalFontMaterial;
 
     string choosenUserId = "";
+       
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        firestoreManager = FirestoreManager.Instance;
+        sendFriendInvitationButton.onClick.AddListener(delegate { SendFriendInvitation(); });
+        friendListOpenButton.onClick.AddListener(delegate { CreateFriendObjectAsync(); });
+        inviteCloseButton.onClick.AddListener(delegate { CreateFriendObjectAsync(); });
+    }
 
     private void ResetPanel()
     {
@@ -50,36 +63,18 @@ public class FriendshipManager : MonoBehaviour
             friendObjectList[i].selectedUI.gameObject.SetActive(false);
         }
     }
-    private void StartHunt()
-    {
-        //var fmm = FriendsMatchmakingManager.Instance;
-        //fmm.SendInvite(clickedUsernameText.text);
-    }
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        firestoreManager = FirestoreManager.Instance;
-        sendFriendInvitationButton.onClick.AddListener(delegate { SendFriendInvitation(); });
-        friendListOpenButton.onClick.AddListener(delegate { CreateFriendObjectAsync(); });
-        inviteCloseButton.onClick.AddListener(delegate { CreateFriendObjectAsync(); });
-    }
 
     private void SendFriendInvitation()
     {
         firestoreManager.SendFriendRequestByUsername(friendUsernameText.text);
     }
 
-    private async void CreateFriendObjectAsync()
+    public async void CreateFriendObjectAsync()
     { 
         try
         {
             ResetPanel();
-            friendsList = await firestoreManager.GetFriendsData();
+            friendsList = await firestoreManager.GetFriendsData(false);
 
             if (friendsList != null && friendsList.Count > 0)
             {
@@ -113,7 +108,6 @@ public class FriendshipManager : MonoBehaviour
         }
         catch (System.Exception)
         {
-
             throw;
         }        
     }   
@@ -143,5 +137,4 @@ public class FriendshipManager : MonoBehaviour
     {
         firestoreManager.SendMatchRequest(opponentUserId);
     }
-
 }

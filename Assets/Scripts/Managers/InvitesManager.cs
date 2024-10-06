@@ -17,8 +17,8 @@ public class InvitesManager : MonoBehaviour
     [SerializeField] Button inviteButton;
     [SerializeField] Button acceptInvite;
     [SerializeField] Button declineInvite;
-    [SerializeField] GameObject inviteValueObject;
-    [SerializeField] TextMeshProUGUI inviteValue_txt;
+    [SerializeField] public GameObject inviteValueObject;
+    [SerializeField] public TextMeshProUGUI inviteValue_txt;
 
     [Header("Materials")]
     [SerializeField] private Material blackSpriteMaterial;
@@ -29,6 +29,25 @@ public class InvitesManager : MonoBehaviour
     [SerializeField] private TMP_FontAsset normalFontMaterial;
 
     string choosenUserId = "";
+
+    private void Awake()
+    {
+        Instance = this;   
+        firestoreManager = FirestoreManager.Instance;
+    }
+
+    private void Start()
+    {
+        inviteButton.onClick.AddListener(delegate { CreateInviteObject(); });
+        acceptInvite.onClick.AddListener(delegate { RequestEvaluation(true); });
+        declineInvite.onClick.AddListener(delegate { RequestEvaluation(false); });
+
+        for (int i = 0; i < friendObjectList.Count; i++)
+        {
+            friendObjectList[i].GetComponent<BoxCollider2D>().enabled = true;
+            friendObjectList[i].selectedUI.gameObject.SetActive(false);
+        }
+    }
 
     private void ResetPanel()
     {
@@ -45,40 +64,6 @@ public class InvitesManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        Instance = this;   
-        firestoreManager = FirestoreManager.Instance;
-    }
-
-    private void Start()
-    {
-        GetInviteList();
-        inviteButton.onClick.AddListener(delegate { CreateInviteObject(); });
-        acceptInvite.onClick.AddListener(delegate { RequestEvaluation(true); });
-        declineInvite.onClick.AddListener(delegate { RequestEvaluation(false); });
-
-        for (int i = 0; i < friendObjectList.Count; i++)
-        {
-            friendObjectList[i].GetComponent<BoxCollider2D>().enabled = true;
-            friendObjectList[i].selectedUI.gameObject.SetActive(false);
-        }
-    }
-
-    private async void GetInviteList()
-    {
-        inviteList = await firestoreManager.GetInvitesDataAsync();
-        if (inviteList != null && inviteList.Count > 0)
-        {
-            inviteValue_txt.text = inviteList.Count.ToString();
-            inviteValueObject.SetActive(true);
-        }
-        else
-        {
-            inviteValueObject.SetActive(false);
-        }
-    }
-
     private void RequestEvaluation(bool isAccept)
     {
         if (choosenUserId == "")
@@ -89,7 +74,6 @@ public class InvitesManager : MonoBehaviour
         var friendObject = friendObjectList.Find(x => x.UID.Equals(choosenUserId));
         Destroy(friendObject.gameObject);
         friendObjectList.Remove(friendObject);
-        GetInviteList();
 
         if (isAccept)
         {
@@ -101,12 +85,12 @@ public class InvitesManager : MonoBehaviour
         }
     }
 
-    private void CreateInviteObject()
+    private async void CreateInviteObject()
     {
         try
         {
             ResetPanel();
-            GetInviteList();
+            inviteList = await firestoreManager.GetFriendsData(true);
             choosenUserId = "";
             int onlineUserCount = 0;
             for (int i = 0; i < inviteList.Count; i++)
@@ -116,7 +100,7 @@ public class InvitesManager : MonoBehaviour
                 string username = inviteList[i].Username;
                 string score = inviteList[i].Score.ToString();
                 string nut = inviteList[i].Nut.ToString();
-                bool isOnline = inviteList[i].OnlineStatus;
+                bool isOnline = true;
                 string UID = inviteList[i].UserId;
 
                 if (isOnline) onlineUserCount++;
@@ -134,7 +118,6 @@ public class InvitesManager : MonoBehaviour
         }
         catch (System.Exception)
         {
-
             throw;
         }
         
