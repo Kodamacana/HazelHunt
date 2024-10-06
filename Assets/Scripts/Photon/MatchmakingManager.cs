@@ -56,15 +56,15 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         if (view == null)
             view = GetComponent<PhotonView>();
 
+
+        firebaseManager = FirebaseManager.Instance;
+        firestoreManager = FirestoreManager.Instance;
+        playerName = firebaseManager.UserName;
     }
 
     // Onclick -> playButton
     public void BeginMatchmaking()
     {
-        firebaseManager = FirebaseManager.Instance;
-        firestoreManager = FirestoreManager.Instance;
-        playerName = firebaseManager.UserName;
-
         StartMatchmaking();
     }
     #endregion
@@ -323,6 +323,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     #region FriendMatch
     public void AcceptFriendMatchRequest(string roomName)
     {
+        isMatching=true;
         RoomOptions roomOptions = new RoomOptions()
         {
             IsVisible = true,

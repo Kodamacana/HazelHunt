@@ -12,6 +12,7 @@ public class MainMenuController : MonoBehaviour
 
     [Header("Matchmaking Panel")]
     [SerializeField] GameObject matchmakingPanel;
+    [SerializeField] GameObject friendShipPanel;
     [SerializeField] Button myReadyButton;
     [SerializeField] Image imageMyReadyButton;
     [SerializeField] Image imageOpponentReadyButton;
@@ -65,9 +66,17 @@ public class MainMenuController : MonoBehaviour
         huntButton.onClick.AddListener(delegate { matchmakingManager.BeginMatchmaking(); });
     }
 
+    private void OpenPanel(GameObject obj)
+    {
+        friendShipPanel.SetActive(false);
+        matchmakingPanel.SetActive(false);
+
+        obj.SetActive(true);
+    }
+
     public void FindMatch(string opponentUsername)
     {
-        matchmakingPanel.SetActive(true);
+        OpenPanel(matchmakingPanel);
         this.opponentUsername.text = opponentUsername;
         opponentSquirrelObject.SetActive(true);
         readyPanelAnimator.SetTrigger("FoundOpponent");

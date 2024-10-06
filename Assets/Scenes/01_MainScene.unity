@@ -6702,6 +6702,7 @@ MonoBehaviour:
   nuts_txt: {fileID: 605161249}
   score_txt: {fileID: 130598881}
   matchmakingPanel: {fileID: 174606981}
+  friendShipPanel: {fileID: 870308145}
   myReadyButton: {fileID: 1820622092}
   imageMyReadyButton: {fileID: 1820622093}
   imageOpponentReadyButton: {fileID: 14561585}

@@ -592,7 +592,26 @@ public class FirestoreManager : MonoBehaviour
         { "roomId", roomName }
     }));
 
+
+        firestore.Collection("Users").Document(UserId).UpdateAsync("match_requests", FieldValue.ArrayRemove(new Dictionary<string, object>
+    {
+        { "fromId", fromUserId },
+        { "fromName", fromUsername},
+        { "status", "pending" },
+        { "roomId", "" }
+    }));
+
+        firestore.Collection("Users").Document(UserId).UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
+    {
+        { "fromId", fromUserId },
+        { "fromName", fromUsername},
+        { "status", "accepted" },
+        { "roomId", roomName }
+    }));       
+
         MatchmakingManager.Instance.AcceptFriendMatchRequest(roomName);
+
+        invitePopUp.gameObject.SetActive(false);
     }
 
     private void ListenForMatchRequests()
