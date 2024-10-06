@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System;
 using Firebase.Auth;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Collections;
 
 [FirestoreData]
 public struct UserData
@@ -50,14 +49,13 @@ public class FirestoreManager : MonoBehaviour
 {
     public static FirestoreManager Instance;
 
-    private ListenerRegistration _listenerUserData;
-
     [SerializeField] private string UserId;
     [SerializeField] private ConnectToServer ConnectToServer;
     private FirebaseFirestore firestore;
     public readonly List<string> onlineUsersList = new List<string>();
 
     Progress progress;
+    [SerializeField] InvitePopUp invitePopUp;
 
     private void Awake()
     {
@@ -75,11 +73,6 @@ public class FirestoreManager : MonoBehaviour
     private void Start()
     {
         firestore = FirebaseFirestore.DefaultInstance;
-    }
-
-    private void OnDestroy()
-    {
-        _listenerUserData.Stop();
     }
 
     private async void UpdateOnlineUsersList()
@@ -471,9 +464,160 @@ public class FirestoreManager : MonoBehaviour
     }
 
 
+    #region FriendsMatch
+    public void SendMatchRequest(string opponentUserId)
+    {
+        FirebaseManager firebaseManager = FirebaseManager.Instance;
+        AuthManager authManager= AuthManager.Instance;
+
+        string timestamp = DateTime.UtcNow.ToString("o");
+
+        DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
+        docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
+    {
+        { "fromId", authManager.UserId },
+        { "fromName", firebaseManager.UserName },
+        { "status", "pending" },
+        { "roomId", "" },
+        { "timestamp", timestamp }
+    }));
+
+        StartCoroutine(MatchRequestTimeoutCheck(opponentUserId, timestamp));
+    }
+
+    IEnumerator MatchRequestTimeoutCheck(string opponentUserId, string timestamp)
+    {
+        yield return new WaitForSeconds(100);
+
+        DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
+
+        docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.Result.Exists)
+            {
+                List<Dictionary<string, object>> matchRequests = task.Result.GetValue<List<Dictionary<string, object>>>("match_requests");
+
+                foreach (var request in matchRequests)
+                {
+                    if (request["timestamp"].ToString() == timestamp && request["status"].ToString() == "pending")
+                    {
+                        docRef.UpdateAsync("match_requests", FieldValue.ArrayRemove(request));
+                        request["status"] = "timeout";
+                        docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(request));
+
+                        Debug.Log("Maç isteği zaman aşımına uğradı.");
+                    }
+                }
+            }
+        });
+    }
+
+    public void RecordMatchResult(string opponentUsername, string opponentUserId, string result)
+    {
+        AuthManager authManager = AuthManager.Instance;
+        string timestamp = DateTime.UtcNow.ToString("o");
+
+        Dictionary<string, object> newMatchRecord = new Dictionary<string, object>
+    {
+        { "opponent", opponentUsername },
+        { "result", result },
+        { "timestamp", timestamp }
+    };
+
+        DocumentReference docRef = firestore.Collection("Users").Document(authManager.UserId);
+        docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.Result.Exists)
+            {
+                List<Dictionary<string, object>> matchHistory = task.Result.GetValue<List<Dictionary<string, object>>>("match_history");
+
+                if (matchHistory.Count >= 30)
+                {
+                    matchHistory.RemoveAt(0);
+                }
+
+                matchHistory.Add(newMatchRecord);
+
+                docRef.UpdateAsync("match_history", matchHistory);
+            }
+        });
+
+        DocumentReference opponentDocRef = firestore.Collection("Users").Document(opponentUserId);
+        opponentDocRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.Result.Exists)
+            {
+                List<Dictionary<string, object>> matchHistory = task.Result.GetValue<List<Dictionary<string, object>>>("match_history");
+
+                if (matchHistory.Count >= 30)
+                {
+                    matchHistory.RemoveAt(0);
+                }
+
+                newMatchRecord["result"] = result == "win" ? "lose" : "win";
+                matchHistory.Add(newMatchRecord);
+
+                opponentDocRef.UpdateAsync("match_history", matchHistory);
+            }
+        });
+    }
+
+    public void AcceptMatchRequest()
+    {
+        AuthManager authManager = AuthManager.Instance;
+        string fromUserId = invitePopUp.fromUserId;
+        string fromUsername = invitePopUp.fromUsername;
+
+        string roomName = fromUserId + "_" + authManager.UserId + "_room";
+
+        DocumentReference docRef = firestore.Collection("Users").Document(fromUserId);
+
+        docRef.UpdateAsync("match_requests", FieldValue.ArrayRemove(new Dictionary<string, object>
+    {
+        { "fromId", fromUserId },
+        { "fromName", fromUsername},
+        { "status", "pending" },
+        { "roomId", "" }
+    }));
+
+        docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
+    {
+        { "fromId", fromUserId },
+        { "fromName", fromUsername},
+        { "status", "accepted" },
+        { "roomId", roomName }
+    }));
+
+        MatchmakingManager.Instance.AcceptFriendMatchRequest(roomName);
+    }
+
+    private void ListenForMatchRequests()
+    {
+        AuthManager authManager = AuthManager.Instance;
+        DocumentReference docRef = firestore.Collection("Users").Document(authManager.UserId);
+        docRef.Listen(snapshot =>
+        {
+            if (snapshot.Exists)
+            {
+                List<Dictionary<string, object>> matchRequests = snapshot.GetValue<List<Dictionary<string, object>>>("match_requests");
+
+                foreach (var request in matchRequests)
+                {
+                    if (request["status"].ToString() == "pending")
+                    {
+                        invitePopUp.ShowMatchRequestPopup(request["fromName"].ToString(), request["fromId"].ToString());
+                    }
+                }
+            }
+        });
+    }
+
+    #endregion
+
     public void LoadScene()
     {
         ConnectToServer.ConnectToTheServer();
-        //SceneManager.LoadSceneAsync(1);
+
+        ListenForMatchRequests();
     }
 }

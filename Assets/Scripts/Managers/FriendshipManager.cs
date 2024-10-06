@@ -125,7 +125,7 @@ public class FriendshipManager : MonoBehaviour
         choosenUserId = UID;
         clickedUsernameText.text = username;
         huntWithFriendButton.enabled = true;
-        huntWithFriendButton.onClick.AddListener(delegate { StartHunt(); });
+        huntWithFriendButton.onClick.AddListener(delegate { SendMatchRequest(UID); });
         huntWithFriendButton.GetComponent<Image>().material = normalMaterial;
         huntWithFriendButtonIcon.material = normalMaterial;
 
@@ -139,5 +139,9 @@ public class FriendshipManager : MonoBehaviour
         }        
     }
 
-    
+    private void SendMatchRequest(string opponentUserId)
+    {
+        firestoreManager.SendMatchRequest(opponentUserId);
+    }
+
 }

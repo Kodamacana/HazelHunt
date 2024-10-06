@@ -2,6 +2,10 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using System.Collections;
+using Firebase.Firestore;
+using System.Collections.Generic;
+using System;
+using Firebase.Extensions;
 
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
@@ -19,6 +23,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     private float matchTimeout = 30f;
 
     FirebaseManager firebaseManager;
+    FirestoreManager firestoreManager;
     PhotonView view;
 
     bool isLeaveRoom = false;
@@ -57,6 +62,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     public void BeginMatchmaking()
     {
         firebaseManager = FirebaseManager.Instance;
+        firestoreManager = FirestoreManager.Instance;
         playerName = firebaseManager.UserName;
 
         StartMatchmaking();
@@ -129,7 +135,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                     break;
                 }
             }
-            //view.RPC("StartMatch", RpcTarget.All);
         }       
     }
 
@@ -219,6 +224,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     }
 
 #endregion
+
     [PunRPC]
     private void StartMatch()
     {
@@ -230,7 +236,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     }
 
 
-    #region Rematch
+#region Rematch
     public void SendRematchRequest()
     {
         if (!rematchRequestSent && !rematchRequestReceived)
@@ -313,6 +319,20 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
+
+    #region FriendMatch
+    public void AcceptFriendMatchRequest(string roomName)
+    {
+        RoomOptions roomOptions = new RoomOptions()
+        {
+            IsVisible = true,
+            MaxPlayers = 2,
+            PublishUserId = true
+        };
+        PhotonNetwork.JoinOrCreateRoom(roomName,roomOptions,TypedLobby.Default); 
+    }
+   
+    #endregion
 
 
     private void SetFeedback(string message)
