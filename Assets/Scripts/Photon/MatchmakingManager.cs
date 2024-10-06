@@ -15,6 +15,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     private WarningMessageManager warningMessageManager;
     private bool isMatching = false;
+    private bool isFriend = false;
     private bool isRematch = false;
     private bool readyRequestSent = false;
     private bool readyRequestReceived = false;
@@ -131,7 +132,14 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                     isMatching = true;
                     isRematch = false;
                     opponentNickname = player.NickName;
+
                     MainMenuController.instance.FindMatch(opponentNickname);
+
+                    if (isFriend)
+                    {
+                        MainMenuController.instance.StartMatch();
+                        SendReadyMatch();
+                    }
                     break;
                 }
             }
@@ -171,6 +179,12 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                 {
                     opponentNickname = player.NickName;
                     MainMenuController.instance.FindMatch(opponentNickname);
+
+                    if (isFriend)
+                    {
+                        MainMenuController.instance.StartMatch();
+                        SendReadyMatch();
+                    }
                     break;
                 }
             }

@@ -11,6 +11,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI score_txt;
 
     [Header("Matchmaking Panel")]
+    [SerializeField] GameObject panels;
     [SerializeField] GameObject matchmakingPanel;
     [SerializeField] GameObject friendShipPanel;
     [SerializeField] Button myReadyButton;
@@ -71,6 +72,7 @@ public class MainMenuController : MonoBehaviour
         friendShipPanel.SetActive(false);
         matchmakingPanel.SetActive(false);
 
+        panels.SetActive(true);
         obj.SetActive(true);
     }
 
