@@ -1394,7 +1394,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: KODamacana
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0ca7aad86d37faa4b970ab6213422ca6, type: 2}
   m_sharedMaterial: {fileID: 679428905243384212, guid: 0ca7aad86d37faa4b970ab6213422ca6, type: 2}
@@ -1421,7 +1421,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.1
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5640,7 +5640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1317359673
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7129,11 +7129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08822eb38ef0d884dbda1e45c711cc53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testButton: {fileID: 1317359674}
   huntButton: {fileID: 1790968743}
   nuts_txt: {fileID: 605161249}
   score_txt: {fileID: 130598881}
-  mainMenuUsername: {fileID: 251708198}
   panels: {fileID: 1226528107}
   matchmakingPanel: {fileID: 174606981}
   friendShipPanel: {fileID: 870308145}
@@ -7141,6 +7139,7 @@ MonoBehaviour:
   imageMyReadyButton: {fileID: 1820622093}
   imageOpponentReadyButton: {fileID: 14561585}
   myUsername: {fileID: 1462561339}
+  mainMenuMyUsername: {fileID: 251708198}
   opponentUsername: {fileID: 580542365}
   readyPanel: {fileID: 1598056981}
   opponentSquirrelObject: {fileID: 452941689}

@@ -11,7 +11,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.SendRate = 360;
         PhotonNetwork.SerializationRate = 360;
-        PhotonNetwork.NickName = FirebaseManager.Instance.UserName;
+        PhotonNetwork.NickName = FirebaseManager.Instance.DisplayName;
     }
 
     public override void OnConnectedToMaster()

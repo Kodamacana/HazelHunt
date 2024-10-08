@@ -11,7 +11,7 @@ public class LeaderboardManager : MonoBehaviour
     {
         db = FirebaseFirestore.DefaultInstance;
 
-        string currentUsername = FirebaseManager.Instance.UserName;
+        string currentUsername = FirebaseManager.Instance.DisplayName;
         await GetLeaderboardDataAndRankAsync(currentUsername); // Mevcut kullanýcýnýn UserID'sini gönder
     }
 

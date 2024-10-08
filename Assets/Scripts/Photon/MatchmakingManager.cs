@@ -60,7 +60,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
         firebaseManager = FirebaseManager.Instance;
         firestoreManager = FirestoreManager.Instance;
-        playerName = firebaseManager.UserName;
+        playerName = firebaseManager.DisplayName;
     }
 
     // Onclick -> playButton
@@ -76,7 +76,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (string.IsNullOrEmpty(playerName))
         {
-            playerName = firebaseManager.UserName;
+            playerName = firebaseManager.DisplayName;
             SetFeedback("Player name cannot be empty");
             return;
         }

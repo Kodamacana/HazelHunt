@@ -18,6 +18,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] Image imageMyReadyButton;
     [SerializeField] Image imageOpponentReadyButton;
     [SerializeField] TextMeshProUGUI myUsername;
+    [SerializeField] TextMeshProUGUI mainMenuMyUsername;
     [SerializeField] TextMeshProUGUI opponentUsername;
 
     [SerializeField] GameObject readyPanel;
@@ -61,7 +62,7 @@ public class MainMenuController : MonoBehaviour
 
         nuts_txt.text = firebaseManager.Nut.ToString();
         score_txt.text = firebaseManager.Score.ToString();
-        myUsername.text = firebaseManager.UserName;
+        myUsername.text = firebaseManager.DisplayName;
         mySquirrelObject.SetActive(true);
 
         huntButton.onClick.AddListener(delegate { matchmakingManager.BeginMatchmaking(); });

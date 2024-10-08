@@ -476,7 +476,7 @@ public class FirestoreManager : MonoBehaviour
         docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
     {
         { "fromId", UserId },
-        { "fromName", firebaseManager.UserName },
+        { "fromName", firebaseManager.DisplayName },
         { "status", "pending" },
         { "roomId", "" },
         { "timestamp", timestamp }
