@@ -162,7 +162,8 @@ public class FirestoreManager : MonoBehaviour
             { "nut", 0 },
             { "score", 0 },
             { "friendship_invites_list", new List<string>() },
-            { "friends_user_list", new List<string>() }
+            { "friends_user_list", new List<string>() },
+            { "match_requests", new List<Dictionary<string, object>>() }
 
         };
 
