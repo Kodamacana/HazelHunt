@@ -283,16 +283,16 @@ public class GunController : MonoBehaviour
 
         for (int i = 0; i < pelletsCount; i++)
         {
-            //GameObject bullet = PhotonNetwork.Instantiate("Bullet", firePoint.position, firePoint.rotation);
+            GameObject bullet = PhotonNetwork.Instantiate("Bullet", firePoint.position, firePoint.rotation);
 
-            //bullet.GetComponent<BulletPhysics>().direction = direction;
-            //float randomAngle = Random.Range(-spreadAngle / 2, spreadAngle / 2);
-            //Quaternion rotation = Quaternion.Euler(0, 0, firePoint.rotation.eulerAngles.z + randomAngle);
+            bullet.GetComponent<BulletPhysics>().direction = direction;
+            float randomAngle = Random.Range(-spreadAngle / 2, spreadAngle / 2);
+            Quaternion rotation = Quaternion.Euler(0, 0, firePoint.rotation.eulerAngles.z + randomAngle);
 
-            //Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-            //float randomForce = Random.Range(bulletForce * 0.4f, bulletForce);
-            //rb.AddForce(rotation * Vector2.right * randomForce, ForceMode2D.Impulse);
+            float randomForce = Random.Range(bulletForce * 0.4f, bulletForce);
+            rb.AddForce(rotation * Vector2.right * randomForce, ForceMode2D.Impulse);
         }
 
         playerAnim.Play("ShotgunPlayer");
@@ -303,77 +303,6 @@ public class GunController : MonoBehaviour
         SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, transform.position, 1f);
         StartCoroutine("ResetForceFeedback");
         GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
-
-
-
-        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        //float offsetAngle = 5f; 
-        //float distance = 1.5f; 
-
-        //Vector2[] directions = new Vector2[5];
-        //directions[0] = direction; 
-        //directions[1] = Quaternion.Euler(0, 0, -offsetAngle) * direction; 
-        //directions[2] = Quaternion.Euler(0, 0, -2 * offsetAngle) * direction; 
-        //directions[3] = Quaternion.Euler(0, 0, offsetAngle) * direction; 
-        //directions[4] = Quaternion.Euler(0, 0, 2 * offsetAngle) * direction; 
-
-        //// Raycast kontrol 
-        //foreach (var dir in directions)
-        //{
-        //    dir.Normalize();
-        //    RaycastHit2D hitInfo = Physics2D.BoxCast((Vector2)transform.position + dir, new Vector2(0.5f, 0.5f), angle, dir, distance);
-        //    if (hitInfo.collider != null && hitInfo.collider.name.Contains("Player"))
-        //    {
-        //        PhotonView targetPhotonView = hitInfo.transform.GetComponent<PhotonView>();
-        //        if (targetPhotonView != null && !targetPhotonView.IsMine)
-        //        {
-        //            if (view.IsMine)
-        //            {
-        //                targetPhotonView.RPC("TakeDamage", RpcTarget.All, direction);
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Debug.Log(" carpma yok.");
-        //    }
-        //}
-
-        //#region bullet
-
-        //Vector2 newDirection = new(direction.x * 5, direction.y * 5);
-
-        //Vector2 lowerDirection = Quaternion.Euler(0, 0, -5) * newDirection;
-        //Vector2 upperDirection = Quaternion.Euler(0, 0, 5) * newDirection;
-
-        //Vector2 playerVelocity = GetComponent<Rigidbody2D>().linearVelocity;
-
-        //PoolableObject bullet = poolManager.GetObjectFromPool("bullet");
-        //bullet.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
-        //bullet.GetComponent<BulletForShootgun>().InitializeBullet(newDirection, playerVelocity);
-        //StartCoroutine(ReturnPool(bullet));
-
-        //PoolableObject bullet2 = poolManager.GetObjectFromPool("bullet");
-        //bullet2.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
-        //bullet2.GetComponent<BulletForShootgun>().InitializeBullet(lowerDirection, playerVelocity);
-        //StartCoroutine(ReturnPool(bullet2));
-
-        //PoolableObject bullet3 = poolManager.GetObjectFromPool("bullet");
-        //bullet3.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
-        //bullet3.GetComponent<BulletForShootgun>().InitializeBullet(upperDirection, playerVelocity);
-        //StartCoroutine(ReturnPool(bullet3));
-
-        //weaponAnim.Play("Shotgun");
-        //PoolableObject bulletCase = poolManager.GetObjectFromPool("bulletcase");
-        //bulletCase.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
-        //StartCoroutine(ReturnBulletCasePool(bulletCase));
-
-        //SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, transform.position, 1f);
-        //StartCoroutine("ResetForceFeedback");
-        //GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
-        //#endregion
     }
 
     [PunRPC]
