@@ -66,7 +66,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     // Onclick -> playButton
     public void BeginMatchmaking()
     {
-        StartMatchmaking();
+        if (PhotonNetwork.OfflineMode)
+        {
+            PhotonNetwork.JoinOrCreateRoom("OfflineModeTest", new RoomOptions(), TypedLobby.Default);
+        }
+        else StartMatchmaking();
     }
     #endregion
 
@@ -123,7 +127,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && isMatching)
+        if (PhotonNetwork.OfflineMode)
+        {
+            PhotonNetwork.LoadLevel("GameScene");
+        }
+        else if (PhotonNetwork.CurrentRoom.PlayerCount == 2 && isMatching)
         {
             foreach (Player player in PhotonNetwork.PlayerList)
             {

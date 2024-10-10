@@ -12,9 +12,10 @@ public class GunController : MonoBehaviour
     [SerializeField] private RectTransform canvasUsername;
     [SerializeField] private Transform gunTransform;
     [SerializeField] private Transform squirrelHead;
-    [SerializeField] private Transform firePoint;
+    [SerializeField] public Transform firePoint;
+    [SerializeField] public GameObject bulletDirectionIndicator;
 
-    [SerializeField] private Animator weaponAnim;
+    private Animator playerAnim;
     [SerializeField] private GameObject nutPrefab;
     [SerializeField] private GameObject bombCrosshairPrefab;
     [SerializeField] private NutsCollect nutsCollect;
@@ -67,6 +68,7 @@ public class GunController : MonoBehaviour
     {
         poolManager = PoolManager.Instance;
         playerMovement = GetComponent<PlayerMovements>();
+        playerAnim = GetComponent<Animator>();
     }
 
     private void InstantiateCrosshair()
@@ -125,6 +127,7 @@ public class GunController : MonoBehaviour
         else
         {
             squirrelHead.localScale = Vector3.one;
+            bulletDirectionIndicator.SetActive(false);
         }
         
         if (bombJoystick.Direction.y != 0)
@@ -139,6 +142,8 @@ public class GunController : MonoBehaviour
         RotatePlayerAndGun(angle);
         SetPlayerAndGunScale(angle);
         lastAttackDirection = aimDirection;
+
+        bulletDirectionIndicator.SetActive(true);
     }
 
     private void HandleBombAiming(Vector3 aimDirection)
@@ -213,7 +218,11 @@ public class GunController : MonoBehaviour
 
             view.RPC("ThrowNut", RpcTarget.AllBuffered, direction);
         }
-        else view.RPC("FireBullet", RpcTarget.AllBuffered, direction);
+        else
+        {
+            view.RPC("FireBullet", RpcTarget.AllBuffered, direction);
+            GameController.Instance.ShakeCamera();
+        }
     }
 
     public void BombController_OnShoot()
@@ -260,82 +269,110 @@ public class GunController : MonoBehaviour
         SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Bomb, direction, 1f);
     }
 
+
+    public int pelletsCount = 5; // Saçma sayýsý
+    public float spreadAngle = 30f; // Saçmalarýn yayýlma açýsý
+    public float bulletForce = 10f; // Mermi hýzý
+
+
     [PunRPC]
     private void FireBullet(Vector2 direction)
     {
         playerMovement.isTrueForceFeedback = true;
         fireCooldownTimer = fireCooldownTime;
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        // Sabit mesafe ve a   i in
-        float offsetAngle = 5f; // A   offseti (derece cinsinden)
-        float distance = 1.5f; // Ray mesafesi
-
-        // A a   ve yukar  kayd r lm   hedef noktalar 
-        Vector2[] directions = new Vector2[5];
-        directions[0] = direction; // Merkez y n
-        directions[1] = Quaternion.Euler(0, 0, -offsetAngle) * direction; // 1. A a   kayd r lm   y n
-        directions[2] = Quaternion.Euler(0, 0, -2 * offsetAngle) * direction; // 2. A a   kayd r lm   y n
-        directions[3] = Quaternion.Euler(0, 0, offsetAngle) * direction; // 1. Yukar  kayd r lm   y n
-        directions[4] = Quaternion.Euler(0, 0, 2 * offsetAngle) * direction; // 2. Yukar  kayd r lm   y n
-
-        // Raycast kontrol 
-        foreach (var dir in directions)
+        for (int i = 0; i < pelletsCount; i++)
         {
-            dir.Normalize();
-            RaycastHit2D hitInfo = Physics2D.BoxCast((Vector2)transform.position + dir, new Vector2(0.5f, 0.5f), angle, dir, distance);
-            if (hitInfo.collider != null && hitInfo.collider.name.Contains("Player"))
-            {
-                PhotonView targetPhotonView = hitInfo.transform.GetComponent<PhotonView>();
-                if (targetPhotonView != null && !targetPhotonView.IsMine)
-                {
-                    if (view.IsMine)
-                    {
-                        targetPhotonView.RPC("TakeDamage", RpcTarget.All, direction);
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                Debug.Log(" arp  ma yok.");
-            }
+            GameObject bullet = PhotonNetwork.Instantiate("Bullet", firePoint.position, firePoint.rotation);
+
+            float randomAngle = Random.Range(-spreadAngle / 2, spreadAngle / 2);
+            Quaternion rotation = Quaternion.Euler(0, 0, firePoint.rotation.eulerAngles.z + randomAngle);
+
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+            float randomForce = Random.Range(bulletForce * 0.4f, bulletForce);
+            rb.AddForce(rotation * Vector2.right * randomForce, ForceMode2D.Impulse);
         }
 
-        #region bullet
-
-        Vector2 newDirection = new(direction.x * 5, direction.y * 5);
-
-        Vector2 lowerDirection = Quaternion.Euler(0, 0, -5) * newDirection;
-        Vector2 upperDirection = Quaternion.Euler(0, 0, 5) * newDirection;
-
-        Vector2 playerVelocity = GetComponent<Rigidbody2D>().linearVelocity;
-
-        PoolableObject bullet = poolManager.GetObjectFromPool("bullet");
-        bullet.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
-        bullet.GetComponent<BulletForShootgun>().InitializeBullet(newDirection, playerVelocity);
-        StartCoroutine(ReturnPool(bullet));
-
-        PoolableObject bullet2 = poolManager.GetObjectFromPool("bullet");
-        bullet2.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
-        bullet2.GetComponent<BulletForShootgun>().InitializeBullet(lowerDirection, playerVelocity);
-        StartCoroutine(ReturnPool(bullet2));
-
-        PoolableObject bullet3 = poolManager.GetObjectFromPool("bullet");
-        bullet3.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
-        bullet3.GetComponent<BulletForShootgun>().InitializeBullet(upperDirection, playerVelocity);
-        StartCoroutine(ReturnPool(bullet3));
-
-        weaponAnim.Play("Shotgun");
+        playerAnim.Play("ShotgunPlayer");
         PoolableObject bulletCase = poolManager.GetObjectFromPool("bulletcase");
         bulletCase.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         StartCoroutine(ReturnBulletCasePool(bulletCase));
 
         SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, transform.position, 1f);
-        GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
         StartCoroutine("ResetForceFeedback");
-        #endregion
+        GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
+
+
+
+        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        //float offsetAngle = 5f; 
+        //float distance = 1.5f; 
+
+        //Vector2[] directions = new Vector2[5];
+        //directions[0] = direction; 
+        //directions[1] = Quaternion.Euler(0, 0, -offsetAngle) * direction; 
+        //directions[2] = Quaternion.Euler(0, 0, -2 * offsetAngle) * direction; 
+        //directions[3] = Quaternion.Euler(0, 0, offsetAngle) * direction; 
+        //directions[4] = Quaternion.Euler(0, 0, 2 * offsetAngle) * direction; 
+
+        //// Raycast kontrol 
+        //foreach (var dir in directions)
+        //{
+        //    dir.Normalize();
+        //    RaycastHit2D hitInfo = Physics2D.BoxCast((Vector2)transform.position + dir, new Vector2(0.5f, 0.5f), angle, dir, distance);
+        //    if (hitInfo.collider != null && hitInfo.collider.name.Contains("Player"))
+        //    {
+        //        PhotonView targetPhotonView = hitInfo.transform.GetComponent<PhotonView>();
+        //        if (targetPhotonView != null && !targetPhotonView.IsMine)
+        //        {
+        //            if (view.IsMine)
+        //            {
+        //                targetPhotonView.RPC("TakeDamage", RpcTarget.All, direction);
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log(" carpma yok.");
+        //    }
+        //}
+
+        //#region bullet
+
+        //Vector2 newDirection = new(direction.x * 5, direction.y * 5);
+
+        //Vector2 lowerDirection = Quaternion.Euler(0, 0, -5) * newDirection;
+        //Vector2 upperDirection = Quaternion.Euler(0, 0, 5) * newDirection;
+
+        //Vector2 playerVelocity = GetComponent<Rigidbody2D>().linearVelocity;
+
+        //PoolableObject bullet = poolManager.GetObjectFromPool("bullet");
+        //bullet.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
+        //bullet.GetComponent<BulletForShootgun>().InitializeBullet(newDirection, playerVelocity);
+        //StartCoroutine(ReturnPool(bullet));
+
+        //PoolableObject bullet2 = poolManager.GetObjectFromPool("bullet");
+        //bullet2.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
+        //bullet2.GetComponent<BulletForShootgun>().InitializeBullet(lowerDirection, playerVelocity);
+        //StartCoroutine(ReturnPool(bullet2));
+
+        //PoolableObject bullet3 = poolManager.GetObjectFromPool("bullet");
+        //bullet3.transform.SetPositionAndRotation(firePoint.position, Quaternion.AngleAxis(angle, Vector3.forward));
+        //bullet3.GetComponent<BulletForShootgun>().InitializeBullet(upperDirection, playerVelocity);
+        //StartCoroutine(ReturnPool(bullet3));
+
+        //weaponAnim.Play("Shotgun");
+        //PoolableObject bulletCase = poolManager.GetObjectFromPool("bulletcase");
+        //bulletCase.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+        //StartCoroutine(ReturnBulletCasePool(bulletCase));
+
+        //SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, transform.position, 1f);
+        //StartCoroutine("ResetForceFeedback");
+        //GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
+        //#endregion
     }
 
     [PunRPC]
@@ -398,78 +435,5 @@ public class GunController : MonoBehaviour
         if (!view.IsMine)
             return;
         HandleAiming();
-
-        //if (Input.GetMouseButtonDown(0) && fireCooldownTimer <= 0.0f)
-        //{
-        //   // GunController_OnShoot();
-        //}
-        //if (Input.GetMouseButtonDown(1) && bombCooldownTimer <= 0.0f)
-        //{
-        //   // BombController_OnShoot();
-        //}
-
-
-        #region RaycastDrawDebug
-        Vector3 characterPosition = player.transform.position;
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        Vector2 direction = new(mousePosition.x - characterPosition.x, mousePosition.y - characterPosition.y);
-        direction.Normalize();
-
-        float distance = 3f; // BoxCast mesafesi
-        float offsetAngle = 5f; 
-        Vector2 boxSize = new Vector2(0.5f, 0.5f); // BoxCast kutu boyutu
-
-        // Merkez BoxCast
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(direction), distance))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(direction) * distance, Color.red);
-        }
-
-        // 1. A a   kayd r lm   BoxCast
-        Vector2 lowerDirection1 = Quaternion.Euler(0, 0, -offsetAngle) * direction;
-        lowerDirection1.Normalize();
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(lowerDirection1), distance))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(lowerDirection1) * distance, Color.blue);
-        }
-
-        // 2. A a   kayd r lm   BoxCast
-        Vector2 lowerDirection2 = Quaternion.Euler(0, 0, -2 * offsetAngle) * direction;
-        lowerDirection2.Normalize();
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(lowerDirection2), distance))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(lowerDirection2) * distance, Color.cyan);
-        }
-
-        // 1. Yukar  kayd r lm   BoxCast
-        Vector2 upperDirection1 = Quaternion.Euler(0, 0, offsetAngle) * direction;
-        upperDirection1.Normalize();
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(upperDirection1), distance))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(upperDirection1) * distance, Color.green);
-        }
-
-        // 2. Yukar  kayd r lm   BoxCast
-        Vector2 upperDirection2 = Quaternion.Euler(0, 0, 2 * offsetAngle) * direction;
-        upperDirection2.Normalize();
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, transform.TransformDirection(upperDirection2), distance))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(upperDirection2) * distance, Color.yellow);
-        }
-        #endregion
     }
-
-    //private static Vector3 GetMouseWorldPosition()
-    //{
-    //    return GetMouseWorldPositionZ(Input.mousePosition, Camera.main);
-    //}
-
-    //private static Vector3 GetMouseWorldPositionZ(Vector3 screenPosition, Camera worldCamera)
-    //{
-    //    // Correctly calculate world position with given screen position and camera
-    //    Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
-    //    worldPosition.z = 0f; // Assuming your game is 2D, so z position should be 0
-    //    return worldPosition;
-    //}
 }

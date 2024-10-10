@@ -7,6 +7,7 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] public float moveSpeed = 2.2f;
     [SerializeField] public RectTransform squirrelBody;
+    [SerializeField] public Transform squirrelWeapon;
     private Vector3 refSquirrelBodyScale;
     [HideInInspector] public bool isTrueForceFeedback = false;
 
@@ -18,6 +19,9 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
     [HideInInspector]public Animator anim;
     private Vector2 networkPosition;
     [HideInInspector] public Joystick movementJoystick;
+    [HideInInspector] public Joystick attackJoystick;
+    [SerializeField] ParticleSystem dustParticle;
+    [SerializeField] ParticleSystem grassParticle;
 
     private void Start()
     {
@@ -25,6 +29,7 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
         anim = GetComponent<Animator>();
         refSquirrelBodyScale = squirrelBody.localScale;
         movementJoystick = GameController.Instance.movementJoystick;
+        attackJoystick = GameController.Instance.attackJoystick;
     }
 
     private void Awake()
@@ -54,11 +59,32 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
 
         if (movementJoystick.Direction.y != 0)
         {
-            squirrelBody.localScale = movementJoystick.Direction.x <= 0 ? refSquirrelBodyScale : new Vector3(-refSquirrelBodyScale.x, refSquirrelBodyScale.y, 1);
+            if (movementJoystick.Direction.x <= 0)
+            {
+                squirrelBody.localScale = refSquirrelBodyScale;
+
+                if (attackJoystick.Direction.y == 0)
+                {
+                    squirrelWeapon.localRotation = Quaternion.Euler(0, 0, 180f);
+                    squirrelWeapon.localScale = new(1, -1, 1);
+                }
+            }
+            else
+            {
+                squirrelBody.localScale = new Vector3(-refSquirrelBodyScale.x, refSquirrelBodyScale.y, 1);
+
+                if (attackJoystick.Direction.y == 0)
+                {
+                    squirrelWeapon.localRotation = Quaternion.Euler(0, 0, 0f);
+                    squirrelWeapon.localScale = new(1, 1, 1);
+                }
+            }
             
             moveDir = new Vector2(movementJoystick.Direction.x, movementJoystick.Direction.y).normalized;
 
             anim.SetBool("Walk", true);
+           // dustParticle.Play();
+            grassParticle.Play();
         }
         else
         {
@@ -90,6 +116,8 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 anim.SetBool("Walk", true);
+               // dustParticle.Play();
+                grassParticle.Play();
             }
             
             moveDir = new Vector2(horizontalInput, verticalInput).normalized;

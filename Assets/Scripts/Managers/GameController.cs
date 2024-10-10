@@ -12,7 +12,15 @@ public class GameController : MonoBehaviour
     [SerializeField] EndGamePanel endGamePanel;
     [SerializeField] MatchFoundPanelController matchFoundPanel;
     [SerializeField] ScoreManager scoreManager;
+
+    [Header("Camera & Camera Groups")]
     [SerializeField] public CinemachineTargetGroup targetGroup;
+    [SerializeField] private CinemachineCamera virtualCamera;
+    private CinemachineBasicMultiChannelPerlin cameraNoise;
+    private float shakeDuration = 0.1f;  
+    private float shakeAmplitude = 1.2f; 
+    private float shakeFrequency = 2.0f; 
+    private float shakeTimer = 0f;
 
     [Header("Player Spawn Coordinates")]
     [SerializeField] Vector2 minX1Y1;
@@ -40,6 +48,9 @@ public class GameController : MonoBehaviour
     GameObject player;
     GameObject cloneObject;
     PhotonView view;
+
+    [Header("Animators")]
+    [SerializeField] Animator bloodOverlayAnimator;
 
     [Header("Audio Clips")]
     public AudioClip sound_Bomb;
@@ -82,6 +93,7 @@ public class GameController : MonoBehaviour
 
     private void InitializeGame()
     {
+        cameraNoise = virtualCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
         healthText.text = "100";
         endGamePanel.gameObject.SetActive(false);
 
@@ -128,17 +140,11 @@ public class GameController : MonoBehaviour
         return new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
     }
 
-    //private void ShownCrossHair()
-    //{
-    //    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //    mousePosition.z = 0f;
-    //    crosshairSpriteObject.transform.position = mousePosition;
-    //}
-
     public void DamagePlayer()
     {
         if (player.GetComponent<PlayerBase>() != null)
         {
+            bloodOverlayAnimator.SetTrigger("Blood");
             int healthValue = player.GetComponent<PlayerBase>().currentHealth;
             if (healthValue <= 0)
             {
@@ -156,4 +162,26 @@ public class GameController : MonoBehaviour
         if (PhotonNetwork.IsMasterClient) player.transform.position = GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y);
         else player.transform.position = GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y);
     }
+
+    public void ShakeCamera()
+    {
+        Handheld.Vibrate();
+        cameraNoise.AmplitudeGain = shakeAmplitude;
+        cameraNoise.FrequencyGain = shakeFrequency;
+        shakeTimer = shakeDuration;
+    }
+
+    void Update()
+    {
+        if (shakeTimer > 0)
+        {
+            shakeTimer -= Time.deltaTime;
+            if (shakeTimer <= 0)
+            {
+                cameraNoise.AmplitudeGain = 0f;
+            }
+        }
+    }
+
+   
 }

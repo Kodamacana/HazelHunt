@@ -91,6 +91,7 @@ public class PlayerBase : MonoBehaviourPunCallbacks
             killPlayer.KilledThePlayer(direction, transform);
             Respawn();
         }
+        gameController.ShakeCamera();
 
         for (int i = 0; i < spriteRenderers.Length; i++)
         {
