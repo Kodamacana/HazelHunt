@@ -177,7 +177,7 @@ public void AuthenticateToGameCenter()
 
     private void SignInEmail()
     {
-        Auth.SignInWithEmailAndPasswordAsync("test2@silverglobegames.com", "Test123@#").ContinueWithOnMainThread(task =>
+        Auth.SignInWithEmailAndPasswordAsync("test1@silverglobegames.com", "Test123@#").ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {

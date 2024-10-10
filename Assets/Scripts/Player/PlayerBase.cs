@@ -25,7 +25,6 @@ public class PlayerBase : MonoBehaviourPunCallbacks
     [SerializeField] Material whiteMaterial;
     [SerializeField] Material defaultMaterial;
 
-
     [SerializeField] private int maxHealth = 100;
     [SerializeField] public int currentHealth = 100;
 
@@ -45,12 +44,14 @@ public class PlayerBase : MonoBehaviourPunCallbacks
 
         if (view.IsMine)
         {
+            gameObject.tag = "Player";
             gameController.masterNickname = view.Owner.NickName;
             playerCamera.targetTexture = masterPlayerRendererTexture;
             MF_playerCamera.targetTexture = MF_masterPlayerRendererTexture;
         }
         else
         {
+            gameObject.tag = "Enemy";
             gameController.guestNickname = view.Owner.NickName;
             playerCamera.targetTexture = guestPlayerRendererTexture;
             MF_playerCamera.targetTexture = MF_guestPlayerRendererTexture;
@@ -84,7 +85,7 @@ public class PlayerBase : MonoBehaviourPunCallbacks
         int bloodValue = UnityEngine.Random.Range(1, 4);
         bloodAnimator.SetTrigger("Blood"+ bloodValue);
 
-        currentHealth -= 35;
+        currentHealth -= 8;
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -98,6 +99,9 @@ public class PlayerBase : MonoBehaviourPunCallbacks
             spriteRenderers[i].material = whiteMaterial;
         }
         StartCoroutine(nameof(InvokeSkin));
+
+        if(view.IsMine)
+            gameController.bloodOverlayAnimator.SetTrigger("Blood");
     }
 
     private void Respawn()

@@ -3,6 +3,7 @@ using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class FirebaseManager : MonoBehaviour
@@ -81,7 +82,7 @@ public class FirebaseManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] AuthManager authManager;
     [SerializeField] FirestoreManager firestoreManager;
-
+    [SerializeField] private ConnectToServer ConnectToServer;
 
     private void Awake()
     {
@@ -98,7 +99,16 @@ public class FirebaseManager : MonoBehaviour
 
     private void Start()
     {
-        Firebase.FirebaseApp.CheckDependenciesAsync().ContinueWithOnMainThread(task => {
+#if UNITY_EDITOR
+        DisplayName = "EDITOR TEST";
+        ConnectToServer.ConnectToTheServer();
+
+#elif UNITY_STANDALONE
+
+        DisplayName = "PC TEST";
+        ConnectToServer.ConnectToTheServer();
+#else
+Firebase.FirebaseApp.CheckDependenciesAsync().ContinueWithOnMainThread(task => {
             if (task.Result == Firebase.DependencyStatus.Available)
             {
                 authManager.gameObject.SetActive(true);
@@ -109,8 +119,10 @@ public class FirebaseManager : MonoBehaviour
                 Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
             }
         });
+#endif
+
     }
-   
+
 
     public void SaveLocalFromFirestoreInUserDatas(string userName, string displayName, string mail, List<object> loginList, string photoUrl, bool isOnline)
     {

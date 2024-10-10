@@ -12,10 +12,9 @@ public class LeaderboardManager : MonoBehaviour
         db = FirebaseFirestore.DefaultInstance;
 
         string currentUsername = FirebaseManager.Instance.DisplayName;
-        await GetLeaderboardDataAndRankAsync(currentUsername); // Mevcut kullanýcýnýn UserID'sini gönder
+        await GetLeaderboardDataAndRankAsync(currentUsername);
     }
 
-    // Asenkron liderlik tablosu verilerini çeken ve sýralamayý bulma fonksiyonu
     async Task GetLeaderboardDataAndRankAsync(string currentUserId)
     {
         try

@@ -126,7 +126,7 @@ public class FirestoreManager : MonoBehaviour
 
         if (!snapshot.Exists)
         {
-            CreateNewUser(this.UserId);
+            await CreateNewUser(this.UserId);
         }
         else
         {
@@ -134,7 +134,7 @@ public class FirestoreManager : MonoBehaviour
 
             if (isLogin)
             {
-                GetUserData(personalData);
+                await GetUserData(personalData);
                 LoadScene();
             }
             GetProgressData(snapshot.ToDictionary());
@@ -144,44 +144,47 @@ public class FirestoreManager : MonoBehaviour
     }
 
 
-    private void CreateNewUser(string UserId)
+    private async Task CreateNewUser(string UserId)
     {
         var authManager = AuthManager.Instance;
         Dictionary<string, object> userData = new Dictionary<string, object>
-        {
-            { "personal_data", new Dictionary<string, object>
-                {
-                    { "created", authManager.CreatedDate},
-                    { "mail", authManager.Email},
-                    { "name", authManager.DisplayName},
-                    { "photo", authManager.PhotoUrl},
-                    { "online_status", true},
-                    { "login_list", new List<object> { Timestamp.FromDateTime(System.DateTime.UtcNow) } }
-                }
-            },
-            { "nut", 0 },
-            { "score", 0 },
-            { "friendship_invites_list", new List<string>() },
-            { "friends_user_list", new List<string>() },
-            { "match_requests", new List<Dictionary<string, object>>() }
-
-        };
+    {
+        { "personal_data", new Dictionary<string, object>
+            {
+                { "created", authManager.CreatedDate},
+                { "mail", authManager.Email},
+                { "name", authManager.DisplayName},
+                { "photo", authManager.PhotoUrl},
+                { "online_status", true},
+                { "login_list", new List<object> { Timestamp.FromDateTime(DateTime.UtcNow) } }
+            }
+        },
+        { "nut", 0 },
+        { "score", 0 },
+        { "friendship_invites_list", new List<string>() },
+        { "friends_user_list", new List<string>() },
+        { "match_requests", new List<Dictionary<string, object>>() }
+    };
 
         DocumentReference docRef = firestore.Collection("Users").Document(UserId);
-        docRef.SetAsync(userData).ContinueWithOnMainThread(task =>
+
+        try
         {
-            if (task.IsCompleted)
-            {
-                PlayerPrefs.SetInt("isFirstGame", 0);
-                LoadScene();
-                Debug.Log("User document successfully created!");
-            }
-            else
-            {
-                Debug.LogError("Failed to create user document: " + task.Exception);
-            }
-        });
+            // SetAsync işlemini await ile bekleyerek kullanıcı belgesini oluşturuyoruz
+            await docRef.SetAsync(userData);
+
+            // Başarılı bir şekilde kullanıcı oluşturulduktan sonra işlemler
+            PlayerPrefs.SetInt("isFirstGame", 0);
+            LoadScene();
+            Debug.Log("User document successfully created!");
+        }
+        catch (Exception ex)
+        {
+            // Hata durumunda loglama
+            Debug.LogError("Failed to create user document: " + ex.Message);
+        }
     }
+
     private bool ConvertToBool(object value)
     {
         if (value is bool)
@@ -200,11 +203,8 @@ public class FirestoreManager : MonoBehaviour
         return false;
     }
 
-    private void GetUserData(Dictionary<string, object> personalData)
+    private async Task GetUserData(Dictionary<string, object> personalData)
     {
-        AuthManager authManager = AuthManager.Instance;
-        FirebaseUser user = authManager.Auth.CurrentUser;
-
         UserData userData = new()
         {
             UserName = personalData["name"].ToString(),
@@ -223,22 +223,20 @@ public class FirestoreManager : MonoBehaviour
         personalData["online_status"] = true;
 
         Dictionary<string, object> updatedUserData = new Dictionary<string, object>
-                    {
-                        { "personal_data", personalData }
-                    };
-
-        firestore.Collection("Users").Document(UserId).UpdateAsync(updatedUserData).ContinueWithOnMainThread(task =>
+    {
+        { "personal_data", personalData }
+    };
+        try
         {
-            if (task.IsCompleted)
-            {
-                Debug.Log("User document successfully updated!");
-            }
-            else
-            {
-                Debug.LogError("Failed to update user document: " + task.Exception);
-            }
-        });
+            await firestore.Collection("Users").Document(UserId).UpdateAsync(updatedUserData);
+            Debug.Log("User document successfully updated!");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Failed to update user document: " + ex.Message);
+        }
     }
+
 
     private void GetProgressData(Dictionary<string, object> progressData)
     {

@@ -116,7 +116,7 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 anim.SetBool("Walk", true);
-               // dustParticle.Play();
+                dustParticle.Play();
                 grassParticle.Play();
             }
             

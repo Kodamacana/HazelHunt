@@ -5,14 +5,15 @@ public class BulletPhysics : MonoBehaviourPun
 {
     public float speed = 10f; 
     public float range = 15f; 
-    private Vector2 startPosition; 
+    private Vector2 startPosition;
+    public Vector2 direction;
 
     void Start()
     {
         startPosition = transform.position;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         transform.Translate(Vector2.right * speed * Time.deltaTime);
 
@@ -21,40 +22,26 @@ public class BulletPhysics : MonoBehaviourPun
         if (distanceTravelled >= range)
         {
             if (photonView.IsMine)
-            {
                 PhotonNetwork.Destroy(gameObject);
-            }
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (photonView.IsMine)
-        {
-            PhotonNetwork.Destroy(gameObject);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name.Contains("CameraBounds") || collision.name.Contains("Bullet"))
+        if (!collision.tag.Contains("Obstacle") && !collision.tag.Contains("Enemy"))
             return;
 
-        if (collision.name.Contains("Player"))
+        if (!photonView.IsMine)
+            return;
+
+        if (collision.tag.Contains("Enemy"))
         {
             PhotonView targetPhotonView = collision.transform.GetComponent<PhotonView>();
             if (targetPhotonView != null && !targetPhotonView.IsMine)
             {
-                if (photonView.IsMine)
-                {
-                    targetPhotonView.RPC("TakeDamage", RpcTarget.All, transform.rotation);
-                }
+                targetPhotonView.RPC("TakeDamage", RpcTarget.All, direction);
             }
         }
-
-        if (photonView.IsMine)
-        {
-            PhotonNetwork.Destroy(gameObject);
-        }
+        else PhotonNetwork.Destroy(gameObject);
     }
 }

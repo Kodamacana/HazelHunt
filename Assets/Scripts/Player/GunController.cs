@@ -283,15 +283,16 @@ public class GunController : MonoBehaviour
 
         for (int i = 0; i < pelletsCount; i++)
         {
-            GameObject bullet = PhotonNetwork.Instantiate("Bullet", firePoint.position, firePoint.rotation);
+            //GameObject bullet = PhotonNetwork.Instantiate("Bullet", firePoint.position, firePoint.rotation);
 
-            float randomAngle = Random.Range(-spreadAngle / 2, spreadAngle / 2);
-            Quaternion rotation = Quaternion.Euler(0, 0, firePoint.rotation.eulerAngles.z + randomAngle);
+            //bullet.GetComponent<BulletPhysics>().direction = direction;
+            //float randomAngle = Random.Range(-spreadAngle / 2, spreadAngle / 2);
+            //Quaternion rotation = Quaternion.Euler(0, 0, firePoint.rotation.eulerAngles.z + randomAngle);
 
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            //Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-            float randomForce = Random.Range(bulletForce * 0.4f, bulletForce);
-            rb.AddForce(rotation * Vector2.right * randomForce, ForceMode2D.Impulse);
+            //float randomForce = Random.Range(bulletForce * 0.4f, bulletForce);
+            //rb.AddForce(rotation * Vector2.right * randomForce, ForceMode2D.Impulse);
         }
 
         playerAnim.Play("ShotgunPlayer");
