@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 
@@ -15,8 +12,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         if (isOfflineMode)
         {
             PhotonNetwork.OfflineMode = true;
-            PhotonNetwork.NickName = "OfflinePlayer";  // Offline modda kullanýcý adý
-            OnConnectedToMaster();  // Offline modda direk master'a baðlý gibi davran
+            PhotonNetwork.NickName = "OfflinePlayer";
+            OnConnectedToMaster();
         }
         else
         {

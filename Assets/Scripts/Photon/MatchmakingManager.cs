@@ -160,10 +160,9 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         {
             RoomOptions roomOptions = new RoomOptions()
             {
-                IsVisible = true,
                 MaxPlayers = 2
             };
-            PhotonNetwork.CreateRoom(null, roomOptions, TypedLobby.Default);
+            PhotonNetwork.JoinRandomOrCreateRoom(null, 2, MatchmakingMode.RandomMatching, TypedLobby.Default, null, null, roomOptions);
         }
     }
 
@@ -345,9 +344,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         isMatching=true;
         RoomOptions roomOptions = new RoomOptions()
         {
-            IsVisible = true,
             MaxPlayers = 2,
-            PublishUserId = true
         };
         PhotonNetwork.JoinOrCreateRoom(roomName,roomOptions,TypedLobby.Default); 
     }
@@ -357,6 +354,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 
     private void SetFeedback(string message)
     {
+
+#if UNITY_STANDALONE || UNITY_EDITOR
         if (warningMessageManager != null)
         {
             warningMessageManager.SetMessage(message);
@@ -365,5 +364,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         {
             Debug.LogError("WarningMessageManager is not set.");
         }
+#endif
     }
 }

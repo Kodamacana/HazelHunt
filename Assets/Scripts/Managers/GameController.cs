@@ -50,7 +50,7 @@ public class GameController : MonoBehaviour
     PhotonView view;
 
     [Header("Animators")]
-    [SerializeField] Animator bloodOverlayAnimator;
+    [SerializeField] public Animator bloodOverlayAnimator;
 
     [Header("Audio Clips")]
     public AudioClip sound_Bomb;
@@ -144,13 +144,12 @@ public class GameController : MonoBehaviour
     {
         if (player.GetComponent<PlayerBase>() != null)
         {
-            bloodOverlayAnimator.SetTrigger("Blood");
             int healthValue = player.GetComponent<PlayerBase>().currentHealth;
             if (healthValue <= 0)
             {
                 healthText.text = "0";
             }
-            healthText.text = healthValue.ToString();
+            healthText.text = healthValue.ToString();                
         }
     }
 
@@ -165,7 +164,10 @@ public class GameController : MonoBehaviour
 
     public void ShakeCamera()
     {
+        #if UNITY_IOS || UNITY_ANDROID
         Handheld.Vibrate();
+        #endif
+
         cameraNoise.AmplitudeGain = shakeAmplitude;
         cameraNoise.FrequencyGain = shakeFrequency;
         shakeTimer = shakeDuration;

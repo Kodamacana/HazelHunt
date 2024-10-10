@@ -1000,6 +1000,7 @@ MonoBehaviour:
   score: 0
   authManager: {fileID: 291175745}
   firestoreManager: {fileID: 828430889}
+  ConnectToServer: {fileID: 286280699}
 --- !u!4 &1491285920
 Transform:
   m_ObjectHideFlags: 0
