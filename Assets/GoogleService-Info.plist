@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>282691685592-88mbkjikl5hakfg9phr6olua44frlf6k.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.282691685592-88mbkjikl5hakfg9phr6olua44frlf6k</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>282691685592-t7hv774fqls65svu2bv74mkhnplc5k24.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDiBP7TtrE0aQRCSGH61xDFNuaH62BNL0M</string>
+	<key>GCM_SENDER_ID</key>
+	<string>282691685592</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.SilverGlobeCorporation.HazelHunt</string>
+	<key>PROJECT_ID</key>
+	<string>hazel-hunt</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hazel-hunt.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:282691685592:ios:3c26034e46500cc74ddbad</string>
+</dict>
+</plist>

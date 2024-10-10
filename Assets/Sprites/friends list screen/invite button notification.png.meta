@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      invite button notification_0: -8267397791481512962
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

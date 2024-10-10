@@ -224,7 +224,7 @@ public void AuthenticateToGameCenter()
                 UserId = user.UserId;
                 DisplayName = user.DisplayName;
                 Email = user.Email;
-                PhotoUrl = user.PhotoUrl.ToString();
+                PhotoUrl = "ios_null";
 
                 long dateValue = long.Parse(user.Metadata.CreationTimestamp.ToString());
                 var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(dateValue).UtcDateTime;
