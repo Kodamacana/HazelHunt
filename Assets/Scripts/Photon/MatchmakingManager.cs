@@ -158,12 +158,10 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     {
         if (isMatching)
         {
-            // If failed to join a random room, create a new room
             RoomOptions roomOptions = new RoomOptions()
             {
                 IsVisible = true,
-                MaxPlayers = 2,
-                PublishUserId = true
+                MaxPlayers = 2
             };
             PhotonNetwork.CreateRoom(null, roomOptions, TypedLobby.Default);
         }
@@ -196,7 +194,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                     break;
                 }
             }
-            //view.RPC("StartMatch", RpcTarget.All);
         }
     }
     #endregion

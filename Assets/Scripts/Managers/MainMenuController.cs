@@ -63,6 +63,7 @@ public class MainMenuController : MonoBehaviour
         nuts_txt.text = firebaseManager.Nut.ToString();
         score_txt.text = firebaseManager.Score.ToString();
         myUsername.text = firebaseManager.DisplayName;
+        mainMenuMyUsername.text = firebaseManager.DisplayName;
         mySquirrelObject.SetActive(true);
 
         huntButton.onClick.AddListener(delegate { matchmakingManager.BeginMatchmaking(); });

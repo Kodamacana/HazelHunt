@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4b51153c3732541bba9fc590a7e156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOfflineMode: 1
+  isOfflineMode: 0
 --- !u!4 &286280700
 Transform:
   m_ObjectHideFlags: 0
@@ -992,7 +992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userName: 
-  displayName: 
+  displayName: test
   mail: 
   photoUrl: 
   isOnline: 0
