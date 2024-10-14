@@ -24,7 +24,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     private float matchTimeout = 30f;
 
     FirebaseManager firebaseManager;
-    FirestoreManager firestoreManager;
     PhotonView view;
 
     bool isLeaveRoom = false;
@@ -57,10 +56,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         if (view == null)
             view = GetComponent<PhotonView>();
 
-
         firebaseManager = FirebaseManager.Instance;
-        firestoreManager = FirestoreManager.Instance;
-        playerName = firebaseManager.DisplayName;
     }
 
     // Onclick -> playButton
@@ -78,6 +74,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 #region FindRandomMatch
     private void StartMatchmaking()
     {
+        playerName = firebaseManager.DisplayName;
         if (string.IsNullOrEmpty(playerName))
         {
             playerName = firebaseManager.DisplayName;
@@ -141,7 +138,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                     isRematch = false;
                     opponentNickname = player.NickName;
 
-                    MainMenuController.instance.FindMatch(opponentNickname);
+                    MainMenuController.instance.FoundMatch(opponentNickname);
 
                     if (isFriend)
                     {
@@ -183,7 +180,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                 if (!player.NickName.Equals(playerName))
                 {
                     opponentNickname = player.NickName;
-                    MainMenuController.instance.FindMatch(opponentNickname);
+                    MainMenuController.instance.FoundMatch(opponentNickname);
 
                     if (isFriend)
                     {

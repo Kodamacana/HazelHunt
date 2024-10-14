@@ -147,7 +147,7 @@ public class FirestoreManager : MonoBehaviour
     private async Task CreateNewUser(string UserId)
     {
         var authManager = AuthManager.Instance;
-        Dictionary<string, object> userData = new Dictionary<string, object>
+        Dictionary<string, object> userDataForUpdates = new Dictionary<string, object>
     {
         { "personal_data", new Dictionary<string, object>
             {
@@ -171,7 +171,19 @@ public class FirestoreManager : MonoBehaviour
         try
         {
             // SetAsync işlemini await ile bekleyerek kullanıcı belgesini oluşturuyoruz
-            await docRef.SetAsync(userData);
+            await docRef.SetAsync(userDataForUpdates);
+
+            UserData userData = new()
+            {
+                UserName = userDataForUpdates["name"].ToString(),
+                Mail = userDataForUpdates["mail"].ToString(),
+                LoginList = userDataForUpdates["login_list"] as List<object>,
+                PhotoUrl = userDataForUpdates["photo"].ToString(),
+                OnlineStatus = userDataForUpdates.ContainsKey("online_status") ? ConvertToBool(userDataForUpdates["online_status"]) : false,
+                Created = new Timestamp()
+            };
+
+            await FirebaseManager.Instance.SaveLocalFromFirestoreInUserDatas(UserId, userData.UserName, userData.Mail, userData.LoginList, userData.PhotoUrl, userData.OnlineStatus);
 
             // Başarılı bir şekilde kullanıcı oluşturulduktan sonra işlemler
             PlayerPrefs.SetInt("isFirstGame", 0);
@@ -215,7 +227,7 @@ public class FirestoreManager : MonoBehaviour
             Created = new Timestamp()
         };
 
-        FirebaseManager.Instance.SaveLocalFromFirestoreInUserDatas(UserId, userData.UserName, userData.Mail, userData.LoginList, userData.PhotoUrl, userData.OnlineStatus);
+        await FirebaseManager.Instance.SaveLocalFromFirestoreInUserDatas(UserId, userData.UserName, userData.Mail, userData.LoginList, userData.PhotoUrl, userData.OnlineStatus);
 
         userData.LoginList.Add(Timestamp.FromDateTime(DateTime.UtcNow));
         personalData["created"] = FirebaseManager.Instance.UserRegisterDate;
@@ -238,7 +250,7 @@ public class FirestoreManager : MonoBehaviour
     }
 
 
-    private void GetProgressData(Dictionary<string, object> progressData)
+    private async void GetProgressData(Dictionary<string, object> progressData)
     {
         progress = new()
         {
@@ -248,7 +260,7 @@ public class FirestoreManager : MonoBehaviour
             Friendship_invites_list = progressData["friendship_invites_list"] as List<object>
         };
 
-        FirebaseManager.Instance.SaveLocalFromFirestoreInProgressDatas(progress.Nut, progress.Score, progress.Friendship_invites_list, progress.Friends_user_list);
+        await FirebaseManager.Instance.SaveLocalFromFirestoreInProgressDatas(progress.Nut, progress.Score, progress.Friendship_invites_list, progress.Friends_user_list);
     }
     
     public void SetNut(int value)
@@ -468,7 +480,7 @@ public class FirestoreManager : MonoBehaviour
     {
         FirebaseManager firebaseManager = FirebaseManager.Instance;
 
-        string timestamp = DateTime.UtcNow.ToString("o");
+       // string timestamp = DateTime.UtcNow.ToString("o");
 
         DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
         docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
@@ -476,43 +488,43 @@ public class FirestoreManager : MonoBehaviour
         { "fromId", UserId },
         { "fromName", firebaseManager.DisplayName },
         { "status", "pending" },
-        { "roomId", "" },
-        { "timestamp", timestamp }
+        { "roomId", "" }
+        //{ "timestamp", timestamp }
     }));
 
         string roomName = UserId + "_" + opponentUserId + "_room";
 
         MatchmakingManager.Instance.AcceptFriendMatchRequest(roomName);
 
-        StartCoroutine(MatchRequestTimeoutCheck(opponentUserId, timestamp));
+       // StartCoroutine(MatchRequestTimeoutCheck(opponentUserId, timestamp));
     }
 
-    IEnumerator MatchRequestTimeoutCheck(string opponentUserId, string timestamp)
-    {
-        yield return new WaitForSeconds(100);
+    //IEnumerator MatchRequestTimeoutCheck(string opponentUserId, string timestamp)
+    //{
+    //    yield return new WaitForSeconds(100);
 
-        DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
+    //    DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
 
-        docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.Result.Exists)
-            {
-                List<Dictionary<string, object>> matchRequests = task.Result.GetValue<List<Dictionary<string, object>>>("match_requests");
+    //    docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+    //    {
+    //        if (task.Result.Exists)
+    //        {
+    //            List<Dictionary<string, object>> matchRequests = task.Result.GetValue<List<Dictionary<string, object>>>("match_requests");
 
-                foreach (var request in matchRequests)
-                {
-                    if (request["timestamp"].ToString() == timestamp && request["status"].ToString() == "pending")
-                    {
-                        docRef.UpdateAsync("match_requests", FieldValue.ArrayRemove(request));
-                        request["status"] = "timeout";
-                        docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(request));
+    //            foreach (var request in matchRequests)
+    //            {
+    //                if (request["timestamp"].ToString() == timestamp && request["status"].ToString() == "pending")
+    //                {
+    //                    docRef.UpdateAsync("match_requests", FieldValue.ArrayRemove(request));
+    //                    request["status"] = "timeout";
+    //                    docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(request));
 
-                        Debug.Log("Maç isteği zaman aşımına uğradı.");
-                    }
-                }
-            }
-        });
-    }
+    //                    Debug.Log("Maç isteği zaman aşımına uğradı.");
+    //                }
+    //            }
+    //        }
+    //    });
+    //}
 
     public void RecordMatchResult(string opponentUsername, string opponentUserId, string result)
     {
@@ -610,6 +622,28 @@ public class FirestoreManager : MonoBehaviour
         invitePopUp.gameObject.SetActive(false);
     }
 
+    private void NoAnswerMatchRequest(DocumentReference docRef, Dictionary<string, object> match_request)
+    {
+        docRef.UpdateAsync(new Dictionary<string, object>
+    {
+        { "match_request", FieldValue.ArrayRemove(new Dictionary<string, object>
+        {
+            { "fromId", match_request["fromId"] },
+            { "fromName", match_request["fromName"] },
+            { "status", "pending" },
+            { "roomId", match_request["roomId"] }
+        }) },
+        { "match_request", FieldValue.ArrayUnion(new Dictionary<string, object>
+        {
+            { "fromId", match_request["fromId"] },
+            { "fromName", match_request["fromName"] },
+            { "status", "no_answer" },
+            { "roomId", match_request["roomId"] }
+        }) }
+    });
+    }
+
+
     private void ListenForMatchRequests()
     {
         DocumentReference docRef = firestore.Collection("Users").Document(UserId);
@@ -623,6 +657,7 @@ public class FirestoreManager : MonoBehaviour
                 {
                     if (request["status"].ToString() == "pending")
                     {
+                        NoAnswerMatchRequest(docRef, request);
                         invitePopUp.ShowMatchRequestPopup(request["fromName"].ToString(), request["fromId"].ToString());
                     }
                 }

@@ -103,6 +103,18 @@ public class FirebaseManager : MonoBehaviour
         DisplayName = "EDITOR TEST";
         ConnectToServer.ConnectToTheServer();
 
+        Firebase.FirebaseApp.CheckDependenciesAsync().ContinueWithOnMainThread(task => {
+            if (task.Result == Firebase.DependencyStatus.Available)
+            {
+                authManager.gameObject.SetActive(true);
+                firestoreManager.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
+            }
+        });
+
 #elif UNITY_STANDALONE
 
         DisplayName = "PC TEST";
@@ -124,29 +136,48 @@ Firebase.FirebaseApp.CheckDependenciesAsync().ContinueWithOnMainThread(task => {
     }
 
 
-    public void SaveLocalFromFirestoreInUserDatas(string userName, string displayName, string mail, List<object> loginList, string photoUrl, bool isOnline)
+    public Task SaveLocalFromFirestoreInUserDatas(string userName, string displayName, string mail, List<object> loginList, string photoUrl, bool isOnline)
     {
-        AuthManager authManager = AuthManager.Instance;
-        FirebaseUser user = authManager.Auth.CurrentUser;
+        try
+        {
+            AuthManager authManager = AuthManager.Instance;
+            FirebaseUser user = authManager.Auth.CurrentUser;
 
-        UserName = userName;
-        DisplayName = displayName;
-        Mail = mail;
-        LoginList = loginList;
-        PhotoUrl = photoUrl;
-        OnlineStatus = isOnline;
+            UserName = userName;
+            DisplayName = displayName;
+            Mail = mail;
+            LoginList = loginList;
+            PhotoUrl = photoUrl;
+            OnlineStatus = isOnline;
 
-        long dateValue = long.Parse(user.Metadata.CreationTimestamp.ToString());
-        var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(dateValue).UtcDateTime;
-        Timestamp timestamp = Timestamp.FromDateTime(dateTime);
-        UserRegisterDate = timestamp;
+            long dateValue = long.Parse(user.Metadata.CreationTimestamp.ToString());
+            var dateTime = DateTimeOffset.FromUnixTimeMilliseconds(dateValue).UtcDateTime;
+            Timestamp timestamp = Timestamp.FromDateTime(dateTime);
+            UserRegisterDate = timestamp;
+
+            return Task.CompletedTask;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
     }
 
-    public void SaveLocalFromFirestoreInProgressDatas(int nut, int score, List<object> friendship_invites_list, List<object> friends_user_list)
+    public Task SaveLocalFromFirestoreInProgressDatas(int nut, int score, List<object> friendship_invites_list, List<object> friends_user_list)
     {
-        Nut = nut;
-        Score = score;
-        Friendship_invites_list = friendship_invites_list;
-        Friends_user_list = friends_user_list;
+        try
+        {
+            Nut = nut;
+            Score = score;
+            Friendship_invites_list = friendship_invites_list;
+            Friends_user_list = friends_user_list;
+
+            return Task.CompletedTask;
+        }
+        catch (Exception)
+        {
+            throw;
+        }       
     }
 }

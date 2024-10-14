@@ -177,7 +177,7 @@ public void AuthenticateToGameCenter()
 
     private void SignInEmail()
     {
-        Auth.SignInWithEmailAndPasswordAsync("test1@silverglobegames.com", "Test123@#").ContinueWithOnMainThread(task =>
+        Auth.SignInWithEmailAndPasswordAsync("test1@silverglobegames.com", "Test123@#").ContinueWithOnMainThread(async task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
@@ -199,7 +199,7 @@ public void AuthenticateToGameCenter()
                 Timestamp timestamp = Timestamp.FromDateTime(dateTime);
                 CreatedDate = timestamp;
 
-                FirestoreManager.Instance.GetFirestoreDatas(UserId, true);
+                await FirestoreManager.Instance.GetFirestoreDatas(UserId, true);
             }
         });
     }
@@ -207,7 +207,7 @@ public void AuthenticateToGameCenter()
 
     private void SignInWithCredential(Credential credential)
     {
-        Auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
+        Auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(async task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
@@ -231,7 +231,7 @@ public void AuthenticateToGameCenter()
                 Timestamp timestamp = Timestamp.FromDateTime(dateTime);
                 CreatedDate = timestamp;
 
-                FirestoreManager.Instance.GetFirestoreDatas(user.UserId, true);
+                await FirestoreManager.Instance.GetFirestoreDatas(user.UserId, true);
             }
         });
     }
