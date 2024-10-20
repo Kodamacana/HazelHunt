@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     //[SerializeField] private GameObject crosshairSpriteObject; // Fare sprite'ý için oluþturulan nesne
     [Header("Panels & Managers")]
     [SerializeField] EndGamePanel endGamePanel;
+    [SerializeField] GameObject onGamePanel;
     [SerializeField] MatchFoundPanelController matchFoundPanel;
     [SerializeField] ScoreManager scoreManager;
 
@@ -77,7 +78,7 @@ public class GameController : MonoBehaviour
 
     private void MatchReady()
     {
-        view.RPC("MatchFound", RpcTarget.AllBuffered);
+        view.RPC("MatchFound", RpcTarget.AllBufferedViaServer);
     }
 
     [PunRPC]
@@ -96,6 +97,7 @@ public class GameController : MonoBehaviour
         cameraNoise = virtualCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
         healthText.text = "100";
         endGamePanel.gameObject.SetActive(false);
+        onGamePanel.SetActive(true);
 
         if (cloneObject == null && view.IsMine)
         {

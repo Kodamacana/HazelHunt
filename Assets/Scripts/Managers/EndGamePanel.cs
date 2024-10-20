@@ -14,10 +14,8 @@ public class EndGamePanel : MonoBehaviour
         Lose
     }
 
-    string[] WinLoseDrawText_EN = 
-    {
-        "Draw!", "You Win!", "Loser hA hA"
-    };
+    [SerializeField]
+    Sprite[] WinLoseDrawText_EN;
 
     string[] WinLoseDrawText_TR =
     {
@@ -26,10 +24,10 @@ public class EndGamePanel : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI txtMasterUsername;
     [SerializeField] TextMeshProUGUI txtGuestUsername;
-    [SerializeField] TextMeshProUGUI txtEarnedCoins;
+    //[SerializeField] TextMeshProUGUI txtEarnedCoins;
     [SerializeField] TextMeshProUGUI txtEarnedNuts;
     [SerializeField] TextMeshProUGUI txtScore;
-    [SerializeField] TextMeshProUGUI txtWinLose;
+    [SerializeField] Image winLoseImg;
     [SerializeField] ScoreManager scoreManager;
 
     [SerializeField] RawImage guestPlayerRawImg;
@@ -57,8 +55,7 @@ public class EndGamePanel : MonoBehaviour
 
         WinLoseDraw winLoseDrawEnum = (WinLoseDraw)scoreManager.GetWinnerScore();
 
-        txtWinLose.text = "";
-        txtWinLose.text = WinLoseDrawText_EN[(int)winLoseDrawEnum];
+        winLoseImg.sprite = WinLoseDrawText_EN[(int)winLoseDrawEnum];
 
         txtMasterUsername.text = gameController.masterNickname;
         txtGuestUsername.text = gameController.guestNickname;

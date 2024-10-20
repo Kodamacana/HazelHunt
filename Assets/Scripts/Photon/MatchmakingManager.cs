@@ -214,7 +214,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             }
             else if (readyRequestReceived)
             {
-                view.RPC("StartMatch", RpcTarget.All);
+                closeTime = PhotonNetwork.Time + delay;
+                view.RPC("StartMatch", RpcTarget.AllBufferedViaServer, closeTime);
             }
         }
     }
@@ -229,25 +230,38 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            view.RPC("StartMatch", RpcTarget.All);
+            closeTime = PhotonNetwork.Time + delay;
+            view.RPC("StartMatch", RpcTarget.AllBufferedViaServer, closeTime);
         }
     }
-    public IEnumerator StartingMatch()
+
+
+    public float delay = 3f;
+    private double closeTime;
+
+
+    public IEnumerator StartingMatch(float delay)
     {        
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSecondsRealtime(delay);
         PhotonNetwork.LoadLevel("GameScene");
     }
 
-#endregion
+    #endregion
 
     [PunRPC]
-    private void StartMatch()
+    private void StartMatch(double closeAt)
     {
-        MainMenuController.instance.StartMatch();
+        closeTime = closeAt;
+        double timeRemaining = closeTime - PhotonNetwork.Time;
         isMatching = false;
         readyRequestSent = false;
         readyRequestReceived = false;
-        StartCoroutine(StartingMatch());
+
+        if (timeRemaining > 0)
+        {
+            StartCoroutine(StartingMatch((float)timeRemaining));
+        }
+        MainMenuController.instance.StartMatch();
     }
 
 
