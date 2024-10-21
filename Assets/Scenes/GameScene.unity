@@ -1079,10 +1079,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
+  m_ScaleFactor: 0.5
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1166,6 +1166,7 @@ MonoBehaviour:
   onGamePanel: {fileID: 1026259067}
   matchFoundPanel: {fileID: 2018284525}
   scoreManager: {fileID: 97386841}
+  source: {fileID: 1568269040}
   targetGroup: {fileID: 3384465}
   virtualCamera: {fileID: 1919997613}
   minX1Y1: {x: -7.21, y: -2.27}
@@ -3223,7 +3224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1026259068
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4079,6 +4080,51 @@ MonoBehaviour:
   sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!1 &1568269039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1568269041}
+  - component: {fileID: 1568269040}
+  m_Layer: 0
+  m_Name: RichtapEffectSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1568269040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568269039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734d62696a358f14191ceaad469ff607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBuiltInEffect: 1
+--- !u!4 &1568269041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568269039}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1636365726
 GameObject:
   m_ObjectHideFlags: 0
@@ -5688,6 +5734,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MatchFound
       objectReference: {fileID: 0}
+    - target: {fileID: 319687635899748513, guid: d6960465457feaa46b6705c6c64b9b46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1351169016642911111, guid: d6960465457feaa46b6705c6c64b9b46, type: 3}
       propertyPath: sceneViewId
       value: 335
@@ -6093,6 +6143,7 @@ SceneRoots:
   - {fileID: 1636755907}
   - {fileID: 1748761669}
   - {fileID: 322077766}
+  - {fileID: 1568269041}
   - {fileID: 1919997614}
   - {fileID: 3384466}
   - {fileID: 2020253455}

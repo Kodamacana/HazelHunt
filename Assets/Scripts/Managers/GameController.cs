@@ -7,12 +7,13 @@ using Unity.Cinemachine;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
-    //[SerializeField] private GameObject crosshairSpriteObject; // Fare sprite'ý için oluþturulan nesne
+    //[SerializeField] private GameObject crosshairSpriteObject; // Fare sprite'ï¿½ iï¿½in oluï¿½turulan nesne
     [Header("Panels & Managers")]
     [SerializeField] EndGamePanel endGamePanel;
     [SerializeField] GameObject onGamePanel;
     [SerializeField] MatchFoundPanelController matchFoundPanel;
     [SerializeField] ScoreManager scoreManager;
+    [SerializeField] private RichtapEffectSource source;
 
     [Header("Camera & Camera Groups")]
     [SerializeField] public CinemachineTargetGroup targetGroup;
@@ -139,7 +140,7 @@ public class GameController : MonoBehaviour
 
     Vector2 GetRandomPosition(float minX, float maxX, float minY, float maxY)
     {
-        return new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+        return new Vector2(UnityEngine.Random.Range(minX, maxX), UnityEngine.Random.Range(minY, maxY));
     }
 
     public void DamagePlayer()
@@ -164,11 +165,10 @@ public class GameController : MonoBehaviour
         else player.transform.position = GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y);
     }
 
-    public void ShakeCamera()
+    public void ShakeCamera(int sourceIndex = 0)
     {
-        #if UNITY_IOS || UNITY_ANDROID
-        Handheld.Vibrate();
-        #endif
+        source.SelectEffect(sourceIndex, -1);
+        source.Play();
 
         cameraNoise.AmplitudeGain = shakeAmplitude;
         cameraNoise.FrequencyGain = shakeFrequency;

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      match nut background_0: 6557811698880547421
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

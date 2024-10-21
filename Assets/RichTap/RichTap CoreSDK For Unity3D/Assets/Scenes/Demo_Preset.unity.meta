@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 72bb5b340bcf20641a3151a8b97d2082
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 254735
+  packageName: RichTap CoreSDK For Unity
+  packageVersion: 2023.1.0
+  assetPath: Assets/RichTap/RichTap CoreSDK For Unity3D/Assets/Scenes/Demo_Preset.unity
+  uploadId: 601497

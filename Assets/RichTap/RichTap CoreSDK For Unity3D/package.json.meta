@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 96aeba034312a4f41994677b7c3eb6b4
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 254735
+  packageName: RichTap CoreSDK For Unity
+  packageVersion: 2023.1.0
+  assetPath: Assets/RichTap/RichTap CoreSDK For Unity3D/package.json
+  uploadId: 601497
