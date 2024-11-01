@@ -7,7 +7,9 @@
     "includePlatforms": [
         "Android",
         "Editor",
-        "iOS"
+        "iOS",
+        "WindowsStandalone32",
+        "WindowsStandalone64"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
