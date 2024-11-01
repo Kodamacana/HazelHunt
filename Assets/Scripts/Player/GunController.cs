@@ -221,7 +221,7 @@ public class GunController : MonoBehaviour
         else
         {
             view.RPC("FireBullet", RpcTarget.AllBuffered, direction);
-            GameController.Instance.ShakeCamera();
+            GameController.Instance.ShakeCamera(0);
         }
     }
 
@@ -270,9 +270,9 @@ public class GunController : MonoBehaviour
     }
 
 
-    public int pelletsCount = 5; // Saçma sayýsý
-    public float spreadAngle = 30f; // Saçmalarýn yayýlma açýsý
-    public float bulletForce = 10f; // Mermi hýzý
+    public int pelletsCount = 5; // Saï¿½ma sayï¿½sï¿½
+    public float spreadAngle = 30f; // Saï¿½malarï¿½n yayï¿½lma aï¿½ï¿½sï¿½
+    public float bulletForce = 10f; // Mermi hï¿½zï¿½
 
 
     [PunRPC]

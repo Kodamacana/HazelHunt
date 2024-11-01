@@ -87,8 +87,8 @@ public class Bomb : MonoBehaviour
             }
         }
 
-        GameController.Instance.ShakeCamera();
-        Debug.Log("Bomba patladý ve alan hasarý verildi.");
+        GameController.Instance.ShakeCamera(2);
+        Debug.Log("Bomba patladï¿½ ve alan hasarï¿½ verildi.");
         GetComponent<SpriteRenderer>().color = Color.clear;
         StartCoroutine(DestroyObject(gameObject,6f));
     }

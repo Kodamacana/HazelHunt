@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0262cb0bf748d1343999bfe29cf11bd4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 254735
+  packageName: RichTap CoreSDK For Unity
+  packageVersion: 2023.1.0
+  assetPath: Assets/RichTap/RichTap CoreSDK For Unity3D/Runtime/Internal/Reflections.cs
+  uploadId: 601497

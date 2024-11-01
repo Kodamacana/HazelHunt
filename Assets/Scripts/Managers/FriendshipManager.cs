@@ -71,6 +71,7 @@ public class FriendshipManager : MonoBehaviour
     { 
         try
         {
+            firestoreManager = FirestoreManager.Instance;
             ResetPanel();
             friendsList = await firestoreManager.GetFriendsData(false);
 

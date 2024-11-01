@@ -1,0 +1,19 @@
+{
+    "name": "RichTap.Editor",
+    "rootNamespace": "RichTap.Editor",
+    "references": [
+        "RichTap",
+        "RichTap.ADB"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

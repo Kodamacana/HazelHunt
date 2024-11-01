@@ -78,7 +78,7 @@ public class MainMenuController : MonoBehaviour
         obj.SetActive(true);
     }
 
-    public void FindMatch(string opponentUsername)
+    public void FoundMatch(string opponentUsername)
     {
         OpenPanel(matchmakingPanel);
         this.opponentUsername.text = opponentUsername;

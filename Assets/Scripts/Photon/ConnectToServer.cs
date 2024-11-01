@@ -1,4 +1,5 @@
 using Photon.Pun;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
@@ -8,6 +9,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public void ConnectToTheServer()
     {
+        Application.targetFrameRate = 60;
         // Offline mode ayarý
         if (isOfflineMode)
         {

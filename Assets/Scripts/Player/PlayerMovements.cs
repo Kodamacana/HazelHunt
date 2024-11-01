@@ -23,6 +23,9 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] ParticleSystem dustParticle;
     [SerializeField] ParticleSystem grassParticle;
 
+    public float acceleration = 15f;  // Ývme, hýzlanma ve yavaþlamanýn ne kadar hýzlý olacaðýný belirler
+    public float deacceleration = 10f;
+
     private void Start()
     {
         view = GetComponent<PhotonView>();
@@ -46,7 +49,9 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
         }
         else if (!isTrueForceFeedback)
         {
-            rb.linearVelocity = moveDir * moveSpeed;
+            //rb.linearVelocity = moveDir * moveSpeed;
+
+            transform.Translate(moveDir * Time.deltaTime);
         }
     }
 
@@ -56,6 +61,11 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
         {
             return;
         }
+
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveY = Input.GetAxisRaw("Vertical");
+
+        Vector2 inputDirection = new Vector2(moveX, moveY).normalized;
 
         if (movementJoystick.Direction.y != 0)
         {
@@ -79,12 +89,12 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
                     squirrelWeapon.localScale = new(1, 1, 1);
                 }
             }
-            
-            moveDir = new Vector2(movementJoystick.Direction.x, movementJoystick.Direction.y).normalized;
+
+            inputDirection = new Vector2(movementJoystick.Direction.x, movementJoystick.Direction.y).normalized;
 
             anim.SetBool("Walk", true);
-           // dustParticle.Play();
             grassParticle.Play();
+            //dustParticle.Play();
         }
         else
         {
@@ -116,12 +126,21 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 anim.SetBool("Walk", true);
-                dustParticle.Play();
+               // dustParticle.Play();
                 grassParticle.Play();
             }
             
-            moveDir = new Vector2(horizontalInput, verticalInput).normalized;
-        }        
+            //moveDir = new Vector2(horizontalInput, verticalInput).normalized;                   
+        }
+
+        if (inputDirection.magnitude > 0)
+        {
+            moveDir = Vector2.MoveTowards(moveDir, inputDirection * moveSpeed, acceleration * Time.deltaTime);
+        }
+        else
+        {
+            moveDir = Vector2.MoveTowards(moveDir, Vector2.zero, deacceleration * Time.deltaTime);
+        }
     }
        
 

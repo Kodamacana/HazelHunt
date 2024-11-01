@@ -1,55 +1,60 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimerManager : MonoBehaviour
+public class TimerManager : MonoBehaviourPun
 {
-    [SerializeField, Range(0,600)] float duration = 180f;
-
-    [SerializeField]  private Image image;
+    [SerializeField, Range(0, 600)] float duration = 180f;
+    [SerializeField] private Image image;
     [SerializeField] EndGamePanel endGamePanel;
+    [SerializeField] GameObject onGamePanel;
 
     private PhotonView view;
-    private float timer = 0f;
-    [HideInInspector] public bool isGameOver = true;
+    private double startTime;
+    [HideInInspector] public bool isGameOver = false;
 
     private void Awake()
     {
         view = GetComponent<PhotonView>();
     }
 
-    [PunRPC]
-    private void Timer(float fillAmount)
+    public void StartGame()
     {
-        image.fillAmount = fillAmount;
+        isGameOver = false;
+        startTime = PhotonNetwork.Time;
+        view.RPC("SyncStartTime", RpcTarget.AllBufferedViaServer, startTime);
     }
-       
+
     [PunRPC]
-    private void FinishGame()
+    private void SyncStartTime(double syncedStartTime)
     {
-        endGamePanel.gameObject.SetActive(true);
+        startTime = syncedStartTime;
+        isGameOver = false;
     }
 
     private void Update()
     {
         if (!isGameOver)
         {
-            float fillAmount;
-            if (timer < duration)
+            double elapsedTime = PhotonNetwork.Time - startTime;
+            if (elapsedTime < duration)
             {
-                timer += Time.deltaTime; 
-                fillAmount = 1f - (timer / duration);
+                float fillAmount = 1f - (float)(elapsedTime / duration);
                 image.fillAmount = fillAmount;
-                view.RPC("Timer", RpcTarget.AllBuffered, fillAmount);
             }
             else
-            {                
+            {
                 isGameOver = true;
                 image.fillAmount = 0f;
-                view.RPC("FinishGame", RpcTarget.AllBuffered);
-            }            
+                view.RPC("FinishGame", RpcTarget.AllBufferedViaServer);
+            }
         }
-    }    
+    }
+
+    [PunRPC]
+    private void FinishGame()
+    {
+        endGamePanel.gameObject.SetActive(true);
+        onGamePanel.SetActive(false);
+    }
 }

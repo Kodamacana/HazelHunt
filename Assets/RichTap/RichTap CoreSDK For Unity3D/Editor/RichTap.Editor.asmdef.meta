@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c1ac68d57b5ca6c448239e1ef7790b12
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 254735
+  packageName: RichTap CoreSDK For Unity
+  packageVersion: 2023.1.0
+  assetPath: Assets/RichTap/RichTap CoreSDK For Unity3D/Editor/RichTap.Editor.asmdef
+  uploadId: 601497

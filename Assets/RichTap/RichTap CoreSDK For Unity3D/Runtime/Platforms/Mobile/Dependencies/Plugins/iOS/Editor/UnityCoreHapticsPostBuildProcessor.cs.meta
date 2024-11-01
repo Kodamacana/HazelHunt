@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 91d89382638c71c419e0c09c842fdc2a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 254735
+  packageName: RichTap CoreSDK For Unity
+  packageVersion: 2023.1.0
+  assetPath: Assets/RichTap/RichTap CoreSDK For Unity3D/Runtime/Platforms/Mobile/Dependencies/Plugins/iOS/Editor/UnityCoreHapticsPostBuildProcessor.cs
+  uploadId: 601497

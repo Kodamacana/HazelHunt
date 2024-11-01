@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -14,34 +15,45 @@ public class MatchFoundPanelController : MonoBehaviour
 
     GameController gameController;
 
+    PhotonView view;
+
+    public float delay = 3f;
+    private double closeTime;
+
     private void OnEnable()
     {
         gameController = GameController.Instance;
+        view = GetComponent<PhotonView>();
 
         txtMasterUsername.text = gameController.masterNickname;
         txtGuestUsername.text = gameController.guestNickname;
 
-        StartCoroutine(ClosePanel());
+        closeTime = PhotonNetwork.Time + delay;
+        view.RPC("ClosePanel", RpcTarget.AllBufferedViaServer, closeTime);
     }
 
-    IEnumerator ClosePanel()
+    [PunRPC]
+    void ClosePanel(double closeAt)
     {
-        yield return new WaitForSecondsRealtime(1f);
+        closeTime = closeAt;
+        double timeRemaining = closeTime - PhotonNetwork.Time;
+        if (timeRemaining > 0)
+        {
+            StartCoroutine(ClosePanelAfterDelay((float)timeRemaining));
+        }
+        else gameObject.SetActive(false);
+    }
+
+    private IEnumerator ClosePanelAfterDelay(float delay)
+    {
         txtMasterUsername.text = gameController.masterNickname;
         txtGuestUsername.text = gameController.guestNickname;
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSeconds(delay * 0.5f);
         txtMasterUsername.text = gameController.masterNickname;
         txtGuestUsername.text = gameController.guestNickname;
-        yield return new WaitForSecondsRealtime(1f);
-        txtMasterUsername.text = gameController.masterNickname;
-        txtGuestUsername.text = gameController.guestNickname;
-        yield return new WaitForSecondsRealtime(1f);
-        txtMasterUsername.text = gameController.masterNickname;
-        txtGuestUsername.text = gameController.guestNickname;
-        yield return new WaitForSecondsRealtime(1f);
-        txtMasterUsername.text = gameController.masterNickname;
-        txtGuestUsername.text = gameController.guestNickname;
-        timerManager.isGameOver = false;
+        yield return new WaitForSeconds(delay * 0.5f);
+
         gameObject.SetActive(false);
+        timerManager.StartGame();
     }
 }

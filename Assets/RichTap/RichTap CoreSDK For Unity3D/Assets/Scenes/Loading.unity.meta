@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a051c9703e00af1469cf5855639d1dc8
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 254735
+  packageName: RichTap CoreSDK For Unity
+  packageVersion: 2023.1.0
+  assetPath: Assets/RichTap/RichTap CoreSDK For Unity3D/Assets/Scenes/Loading.unity
+  uploadId: 601497

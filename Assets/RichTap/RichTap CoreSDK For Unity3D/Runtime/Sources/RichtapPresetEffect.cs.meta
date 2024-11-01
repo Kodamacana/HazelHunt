@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7b0cde6eb1e261442a1a085af1ac2949
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 254735
+  packageName: RichTap CoreSDK For Unity
+  packageVersion: 2023.1.0
+  assetPath: Assets/RichTap/RichTap CoreSDK For Unity3D/Runtime/Sources/RichtapPresetEffect.cs
+  uploadId: 601497

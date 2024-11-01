@@ -24,7 +24,6 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     private float matchTimeout = 30f;
 
     FirebaseManager firebaseManager;
-    FirestoreManager firestoreManager;
     PhotonView view;
 
     bool isLeaveRoom = false;
@@ -57,10 +56,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         if (view == null)
             view = GetComponent<PhotonView>();
 
-
         firebaseManager = FirebaseManager.Instance;
-        firestoreManager = FirestoreManager.Instance;
-        playerName = firebaseManager.DisplayName;
     }
 
     // Onclick -> playButton
@@ -78,6 +74,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
 #region FindRandomMatch
     private void StartMatchmaking()
     {
+        playerName = firebaseManager.DisplayName;
         if (string.IsNullOrEmpty(playerName))
         {
             playerName = firebaseManager.DisplayName;
@@ -141,7 +138,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                     isRematch = false;
                     opponentNickname = player.NickName;
 
-                    MainMenuController.instance.FindMatch(opponentNickname);
+                    MainMenuController.instance.FoundMatch(opponentNickname);
 
                     if (isFriend)
                     {
@@ -183,7 +180,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
                 if (!player.NickName.Equals(playerName))
                 {
                     opponentNickname = player.NickName;
-                    MainMenuController.instance.FindMatch(opponentNickname);
+                    MainMenuController.instance.FoundMatch(opponentNickname);
 
                     if (isFriend)
                     {
@@ -217,7 +214,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             }
             else if (readyRequestReceived)
             {
-                view.RPC("StartMatch", RpcTarget.All);
+                closeTime = PhotonNetwork.Time + delay;
+                view.RPC("StartMatch", RpcTarget.AllBufferedViaServer, closeTime);
             }
         }
     }
@@ -232,25 +230,38 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            view.RPC("StartMatch", RpcTarget.All);
+            closeTime = PhotonNetwork.Time + delay;
+            view.RPC("StartMatch", RpcTarget.AllBufferedViaServer, closeTime);
         }
     }
-    public IEnumerator StartingMatch()
+
+
+    public float delay = 3f;
+    private double closeTime;
+
+
+    public IEnumerator StartingMatch(float delay)
     {        
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSecondsRealtime(delay);
         PhotonNetwork.LoadLevel("GameScene");
     }
 
-#endregion
+    #endregion
 
     [PunRPC]
-    private void StartMatch()
+    private void StartMatch(double closeAt)
     {
-        MainMenuController.instance.StartMatch();
+        closeTime = closeAt;
+        double timeRemaining = closeTime - PhotonNetwork.Time;
         isMatching = false;
         readyRequestSent = false;
         readyRequestReceived = false;
-        StartCoroutine(StartingMatch());
+
+        if (timeRemaining > 0)
+        {
+            StartCoroutine(StartingMatch((float)timeRemaining));
+        }
+        MainMenuController.instance.StartMatch();
     }
 
 
