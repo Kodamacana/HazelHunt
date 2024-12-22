@@ -99,10 +99,28 @@ public class FirebaseManager : MonoBehaviour
 
     private void Start()
     {
-#if UNITY_EDITOR
-        DisplayName = "EDITOR TEST";
-        ConnectToServer.ConnectToTheServer();
+        //#if UNITY_EDITOR
+        //        DisplayName = "EDITOR TEST";
+        //        ConnectToServer.ConnectToTheServer();
 
+        //#elif UNITY_STANDALONE
+
+        //                DisplayName = "PC TEST";
+        //                ConnectToServer.ConnectToTheServer();
+        //#else
+        //        Firebase.FirebaseApp.CheckDependenciesAsync().ContinueWithOnMainThread(task => {
+        //                    if (task.Result == Firebase.DependencyStatus.Available)
+        //                    {
+        //                        authManager.gameObject.SetActive(true);
+        //                        firestoreManager.gameObject.SetActive(true);
+        //                    }
+        //                    else
+        //                    {
+        //                        Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
+        //                    }
+        //                });
+        //#endif
+       
         Firebase.FirebaseApp.CheckDependenciesAsync().ContinueWithOnMainThread(task => {
             if (task.Result == Firebase.DependencyStatus.Available)
             {
@@ -114,24 +132,6 @@ public class FirebaseManager : MonoBehaviour
                 Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
             }
         });
-
-#elif UNITY_STANDALONE
-
-        DisplayName = "PC TEST";
-        ConnectToServer.ConnectToTheServer();
-#else
-Firebase.FirebaseApp.CheckDependenciesAsync().ContinueWithOnMainThread(task => {
-            if (task.Result == Firebase.DependencyStatus.Available)
-            {
-                authManager.gameObject.SetActive(true);
-                firestoreManager.gameObject.SetActive(true);
-            }
-            else
-            {
-                Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
-            }
-        });
-#endif
 
     }
 

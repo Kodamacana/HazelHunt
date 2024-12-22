@@ -13,7 +13,7 @@ public class PlayerDetector : MonoBehaviour
     {
         if (collision.name.Contains("Player"))
         {
-            sr.color = Color.red;
+            sr.color = new Color(1,0,0, sr.color.a);
         }        
     }
 
@@ -21,7 +21,7 @@ public class PlayerDetector : MonoBehaviour
     {
         if (collision.name.Contains("Player"))
         {
-            sr.color = Color.white; 
+            sr.color = new Color(1, 1, 1, sr.color.a);
         }
     }
 }
