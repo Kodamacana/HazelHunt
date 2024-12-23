@@ -23,13 +23,11 @@ public class KillPlayer : MonoBehaviour
             limbs.Add(limbsPool.transform.GetChild(i).GetComponent<Rigidbody2D>());
         }
 
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        limbsPool.transform.eulerAngles = new Vector3(0, 0, angle);
+
         ThrowingTheLimb(direction);
        // StartBleeding();
-    }
-
-    private void StartBleeding()
-    {
-
     }
 
     private void ThrowingTheLimb(Vector2 direction)
