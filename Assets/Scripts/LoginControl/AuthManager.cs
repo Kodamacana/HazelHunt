@@ -53,7 +53,10 @@ public class AuthManager : MonoBehaviour
 
     string authCode;
     [SerializeField] public FirebaseAuth Auth { get; set; }
-
+    void OnDestroy()
+    {
+        Auth.Dispose();
+    }
     private void Awake()
     {
         if (Instance == null)
@@ -76,12 +79,12 @@ public class AuthManager : MonoBehaviour
     {
         Auth = FirebaseAuth.DefaultInstance;
 
-#if UNITY_ANDROID
+#if UNITY_STANDALONE || UNITY_EDITOR
+        SignInEmail();
+#elif UNITY_ANDROID
         GooglePlayLogin();
 #elif UNITY_IOS || UNITY_TVOS
         AuthenticateToGameCenter();
-#elif UNITY_STANDALONE
-        SignInEmail();
 #endif
     }
 

@@ -22,7 +22,7 @@ dependencyResolutionManagement {
             url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Assets/Firebase/Editor/AppDependencies.xml:22, Assets/Firebase/Editor/AuthDependencies.xml:20, Assets/Firebase/Editor/FirestoreDependencies.xml:20
         }
         maven {
-            url (unityProjectPath + "/Assets/GeneratedLocalRepo/GooglePlayGames/com.google.play.games/Editor/m2repository") // Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml:11
+            url (unityProjectPath + "/Assets/GooglePlayGames/com.google.play.games/Editor/m2repository") // Assets/GooglePlayGames/com.google.play.games/Editor/GooglePlayGamesPluginDependencies.xml:11
         }
         maven {
             url "https://android-sdk.is.com/" // Assets/LevelPlay/Editor/IronSourceSDKDependencies.xml:8, Assets/LevelPlay/Editor/ISUnityAdsAdapterDependencies.xml:8

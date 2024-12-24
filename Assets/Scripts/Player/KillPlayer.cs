@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.IK;
 
 public class KillPlayer : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class KillPlayer : MonoBehaviour
         poolManager = PoolManager.Instance;
     }
 
-    public void KilledThePlayer(Vector2 direction, Transform playerPosition)
+    public void KilledThePlayer(Vector2 direction, Transform playerPosition, bool isMine)
     {
         limbs = new List<Rigidbody2D>();
 
@@ -27,17 +28,20 @@ public class KillPlayer : MonoBehaviour
         limbsPool.transform.eulerAngles = new Vector3(0, 0, angle);
 
         ThrowingTheLimb(direction);
-       // StartBleeding();
+
+        if (!isMine)
+            StartCoroutine(GameController.Instance.IncreaseKillScore());
     }
 
     private void ThrowingTheLimb(Vector2 direction)
     {
-        foreach (var limb in limbs)
+        var randomSpawnedLimbCount = Random.Range(0, limbs.Count-1);
+        for (int i = 0;i < limbs.Count- randomSpawnedLimbCount; i++)
         {
-            limb.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0.0f, 360.0f));
-            limb.gameObject.SetActive(true);
+            limbs[i].transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0.0f, 360.0f));
+            limbs[i].gameObject.SetActive(true);
             Vector2 newDirection = new Vector2(Random.Range(direction.x - 1.0f, direction.x + 1.0f), Random.Range(direction.y - 1.0f, direction.y + 1.0f));
-            limb.linearVelocity = newDirection * Random.Range(1,6f);
+            limbs[i].linearVelocity = newDirection * Random.Range(0.2f, 1.4f);
         }
     }
 

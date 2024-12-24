@@ -1,3 +1,4 @@
+using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
@@ -133,6 +134,10 @@ public class FirebaseManager : MonoBehaviour
             }
         });
 
+    }
+    void OnDestroy()
+    {
+        FirebaseApp.DefaultInstance.Dispose();
     }
 
 

@@ -21,7 +21,7 @@ public class PlayerDetector : MonoBehaviour
     {
         if (collision.name.Contains("Player"))
         {
-            sr.color = new Color(1, 1, 1, sr.color.a);
+            sr.color = new Color(0.63f, 0.53f, 0.53f, 0.4f);
         }
     }
 }

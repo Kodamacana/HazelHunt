@@ -16,11 +16,13 @@ public class Bomb : MonoBehaviour
 
     PhotonView view;
     Vector3 explosionAreaCoordinate;
+    GlobalVolumeAnimator depthOfFieldAnimator;
 
     private void Awake()
     {
         Instance = this;
         view = GetComponent<PhotonView>();
+        depthOfFieldAnimator = GlobalVolumeAnimator.Instance;
     }
 
     public void ThrowingBomb(Vector3 characterPosition, Vector3 direction)
@@ -65,6 +67,7 @@ public class Bomb : MonoBehaviour
     [PunRPC]
     private void ExplosionBomb()
     {
+        depthOfFieldAnimator.StartChromaticAberrationAnimation();
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(explosionAreaCoordinate, radius);
         List<PhotonView> arr = new();
 
@@ -80,6 +83,9 @@ public class Bomb : MonoBehaviour
 
                 if (targetPhotonView != null)
                 {
+                    if(targetPhotonView.IsMine)
+                        BombDamageSFX.Instance.StartLowPassAdjustment();
+
                     targetPhotonView.RPC("TakeDamage", RpcTarget.All, RandomVector2(3.1415f, 3.1415f));
 
                     arr.Add(targetPhotonView);

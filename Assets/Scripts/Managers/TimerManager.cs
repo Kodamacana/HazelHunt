@@ -8,6 +8,7 @@ public class TimerManager : MonoBehaviourPun
     [SerializeField] private Image image;
     [SerializeField] EndGamePanel endGamePanel;
     [SerializeField] GameObject onGamePanel;
+    [SerializeField] GlobalVolumeAnimator depthOfFieldAnimator;
 
     private PhotonView view;
     private double startTime;
@@ -56,5 +57,6 @@ public class TimerManager : MonoBehaviourPun
     {
         endGamePanel.gameObject.SetActive(true);
         onGamePanel.SetActive(false);
+        depthOfFieldAnimator.StartDepthOfFieldAnimation();
     }
 }

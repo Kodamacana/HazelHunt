@@ -42,6 +42,9 @@ public class GameController : MonoBehaviour
 
     [Header("Text Mesh")]
     [SerializeField] TextMeshProUGUI healthText;
+    [SerializeField] TextMeshProUGUI killCountText;
+    int killCount = 0;
+    [SerializeField] GameObject killCounterImg;
 
     public string masterNickname;
     public string guestNickname;
@@ -53,6 +56,7 @@ public class GameController : MonoBehaviour
 
     [Header("Animators")]
     [SerializeField] public Animator bloodOverlayAnimator;
+    [SerializeField] private GameObject killFeedBack;
 
     [Header("Audio Clips")]
     public AudioClip sound_Bomb;
@@ -154,6 +158,15 @@ public class GameController : MonoBehaviour
             }
             healthText.text = healthValue.ToString();                
         }
+    }
+    public IEnumerator IncreaseKillScore()
+    {
+        killFeedBack.SetActive(true);
+        yield return new WaitForSecondsRealtime(3);
+        killCount++;
+        killCountText.text = killCount.ToString();
+        killCounterImg.SetActive(true);
+        killFeedBack.SetActive(false);
     }
 
     public void SpawnPosition(GameObject player)

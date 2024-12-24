@@ -9,7 +9,6 @@ using Unity.Cinemachine;
 public class PlayerBase : MonoBehaviourPunCallbacks
 {
     [SerializeField] ParticleSystem blood;
-    [SerializeField] Animator bloodAnimator;
     [SerializeField] TextMeshProUGUI usernameText;
 
     [SerializeField] Camera playerCamera;
@@ -81,15 +80,15 @@ public class PlayerBase : MonoBehaviourPunCallbacks
     {
         SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 1f);
 
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        blood.transform.eulerAngles = new Vector3(0, 0, angle);
         blood.Play();
-        int bloodValue = UnityEngine.Random.Range(1, 4);
-        bloodAnimator.SetTrigger("Blood"+ bloodValue);
 
         currentHealth -= 8;
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            killPlayer.KilledThePlayer(direction, transform);
+            killPlayer.KilledThePlayer(direction, transform, view.IsMine);
             Respawn();
         }
         gameController.ShakeCamera(3);
@@ -106,10 +105,14 @@ public class PlayerBase : MonoBehaviourPunCallbacks
 
     private void Respawn()
     {
-        foreach(Transform child in transform)
+        for (int i = 0; i < transform.childCount-1; i++)
         {
-            child.gameObject.SetActive(false);
+            transform.GetChild(i).gameObject.SetActive(false);
         }
+        GetComponent<PlayerMovements>().enabled = false;
+        GetComponent<GunController>().enabled = false;
+        GetComponent<NutsCollect>().enabled = false;
+        GetComponent<CapsuleCollider2D>().enabled = false;
 
         StartCoroutine(Respawn(2f));
     }
@@ -131,7 +134,11 @@ public class PlayerBase : MonoBehaviourPunCallbacks
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
-        }       
+        }
+        GetComponent<PlayerMovements>().enabled = true;
+        GetComponent<GunController>().enabled = true;
+        GetComponent<NutsCollect>().enabled = true;
+        GetComponent<CapsuleCollider2D>().enabled = true;
     }
 
     [PunRPC]

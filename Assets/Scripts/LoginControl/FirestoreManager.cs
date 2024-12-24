@@ -59,6 +59,7 @@ public class FirestoreManager : MonoBehaviour
 
     public List<object> Friendship_invites_list { get; private set; }
 
+
     private void Awake()
     {
         if (Instance == null)
@@ -75,6 +76,10 @@ public class FirestoreManager : MonoBehaviour
     private void Start()
     {
         firestore = FirebaseFirestore.DefaultInstance;
+    }
+    void OnDestroy()
+    {
+        firestore.DisableNetworkAsync();
     }
 
     private async void UpdateOnlineUsersList()
