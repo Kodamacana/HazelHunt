@@ -23,6 +23,10 @@ public class PlayerMovements : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] ParticleSystem dustParticle;
     [SerializeField] ParticleSystem grassParticle;
 
+    [SerializeField] AudioSource footStepSFX;
+    [SerializeField] AudioClip walkStepSFX;
+    [SerializeField] AudioClip runStepSFX;
+
     public float acceleration = 15f;  // Ývme, hýzlanma ve yavaþlamanýn ne kadar hýzlý olacaðýný belirler
     public float deacceleration = 10f;
 

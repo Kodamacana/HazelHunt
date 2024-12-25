@@ -76,15 +76,25 @@ public class PlayerBase : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void TakeDamage(Vector2 direction)
+    public void TakeDamage(Vector2 direction, bool isBomb)
     {
-        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 1f);
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         blood.transform.eulerAngles = new Vector3(0, 0, angle);
         blood.Play();
 
-        currentHealth -= 8;
+        if (isBomb)
+        {
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 0.4f);
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_ImpactSplat1, transform.position, 0.2f);
+            currentHealth -= 70;
+        }
+        else {
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 0.4f);
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_ImpactSplat2, transform.position, .2f);
+            currentHealth -= 8;
+        }
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;

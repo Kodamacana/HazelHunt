@@ -5244,6 +5244,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1198817490}
   - component: {fileID: 1198817489}
+  - component: {fileID: 1198817492}
+  - component: {fileID: 1198817491}
   m_Layer: 0
   m_Name: AudioSource
   m_TagString: Untagged
@@ -5363,6 +5365,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1198817491
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198817488}
+  m_Enabled: 1
+--- !u!165 &1198817492
+AudioHighPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198817488}
+  m_Enabled: 1
+  m_CutoffFrequency: 1000
+  m_HighpassResonanceQ: 1
 --- !u!1 &1226528107
 GameObject:
   m_ObjectHideFlags: 0
@@ -6283,7 +6303,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: b6b94b7de6ec66b4aa00945133e51af3, type: 3}
   m_Resource: {fileID: 8300000, guid: b6b94b7de6ec66b4aa00945133e51af3, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0

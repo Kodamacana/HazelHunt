@@ -62,10 +62,13 @@ public class GameController : MonoBehaviour
     public AudioClip sound_Bomb;
     public AudioClip sound_Shotgun;
     public AudioClip sound_Button;
-    public AudioClip sound_Lose;
-    public AudioClip sound_Win;
     public AudioClip sound_GettingShot;
     public AudioClip sound_NutCollect;
+
+    public AudioClip sound_ImpactSplat1;
+    public AudioClip sound_ImpactSplat2;
+    public AudioClip sound_Lose;
+    public AudioClip sound_Win;
 
     private void Awake()
     {

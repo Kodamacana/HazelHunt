@@ -71,7 +71,7 @@ public class BaseCollect : MonoBehaviour
             if (isCollectNut)
             {
                 GameController.Instance.UpdateScore();
-                SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 1f);
+                SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 0.6f);
 
                 collision.GetComponent<PhotonView>().RPC("ResetCollectObj", RpcTarget.AllBuffered);
             }

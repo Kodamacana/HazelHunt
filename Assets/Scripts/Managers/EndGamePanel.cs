@@ -53,9 +53,18 @@ public class EndGamePanel : MonoBehaviour
 
         txtScore.text = scoreManager.GetEndGameScore();
 
-        WinLoseDraw winLoseDrawEnum = (WinLoseDraw)scoreManager.GetWinnerScore();
+        int winLoseDrawEnum = scoreManager.GetWinnerScore();
 
-        winLoseImg.sprite = WinLoseDrawText_EN[(int)winLoseDrawEnum];
+        winLoseImg.sprite = WinLoseDrawText_EN[winLoseDrawEnum];
+
+        if (winLoseDrawEnum == 1)
+        {
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Win, transform.position, 1f);
+        }
+        else
+        {
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Lose, transform.position, 1f);
+        }
 
         txtMasterUsername.text = gameController.masterNickname;
         txtGuestUsername.text = gameController.guestNickname;

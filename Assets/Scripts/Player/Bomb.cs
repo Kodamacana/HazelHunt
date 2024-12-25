@@ -86,7 +86,7 @@ public class Bomb : MonoBehaviour
                     if(targetPhotonView.IsMine)
                         BombDamageSFX.Instance.StartLowPassAdjustment();
 
-                    targetPhotonView.RPC("TakeDamage", RpcTarget.All, RandomVector2(3.1415f, 3.1415f));
+                    targetPhotonView.RPC("TakeDamage", RpcTarget.All, RandomVector2(3.1415f, 3.1415f), true);
 
                     arr.Add(targetPhotonView);
                 }

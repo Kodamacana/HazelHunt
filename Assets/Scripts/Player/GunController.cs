@@ -266,7 +266,7 @@ public class GunController : MonoBehaviour
 
         Bomb.Instance.ThrowingBomb(characterPosition, direction);
 
-        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Bomb, direction, 1f);
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Bomb, direction, 0.6f);
     }
 
 
@@ -300,7 +300,7 @@ public class GunController : MonoBehaviour
         bulletCase.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
         StartCoroutine(ReturnBulletCasePool(bulletCase));
 
-        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, transform.position, 1f);
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_Shotgun, transform.position, 0.8f);
         StartCoroutine("ResetForceFeedback");
         GetComponent<Rigidbody2D>().AddForce(-direction * recoilForce, ForceMode2D.Impulse);
     }

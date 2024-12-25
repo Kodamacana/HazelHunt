@@ -39,7 +39,7 @@ public class BulletPhysics : MonoBehaviourPun
             PhotonView targetPhotonView = collision.transform.GetComponent<PhotonView>();
             if (targetPhotonView != null && !targetPhotonView.IsMine)
             {
-                targetPhotonView.RPC("TakeDamage", RpcTarget.All, direction);
+                targetPhotonView.RPC("TakeDamage", RpcTarget.All, direction, false);
             }
         }
         else PhotonNetwork.Destroy(gameObject);

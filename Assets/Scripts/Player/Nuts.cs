@@ -12,7 +12,7 @@ public class Nuts : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 1f);
+        SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 0.6f);
 
         rb = GetComponent<Rigidbody2D>();
         view = GetComponent<PhotonView>();
@@ -38,7 +38,7 @@ public class Nuts : MonoBehaviourPunCallbacks
     {
         if (view.IsMine || PhotonNetwork.IsMasterClient)
         {
-            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 1f);
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 0.6f);
 
             PhotonNetwork.Destroy(gameObject);
         }

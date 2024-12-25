@@ -34,7 +34,7 @@ public class NutsCollect : MonoBehaviour
 
         if (collision.gameObject.name.Contains("NutsPool") && !isCollectNut)
         {
-            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 1f);
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_NutCollect, transform.position, 0.6f);
 
             view.RPC("CollectNutsOnPool", RpcTarget.AllBufferedViaServer);
             view.RPC("ShowAndHideWeapon", RpcTarget.AllBufferedViaServer);
