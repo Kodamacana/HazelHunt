@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "282691685592",
     "project_id": "hazel-hunt",
-    "storage_bucket": "hazel-hunt.appspot.com"
+    "storage_bucket": "hazel-hunt.firebasestorage.app"
   },
   "client": [
     {

@@ -19,17 +19,17 @@
 	<key>PROJECT_ID</key>
 	<string>hazel-hunt</string>
 	<key>STORAGE_BUCKET</key>
-	<string>hazel-hunt.appspot.com</string>
+	<string>hazel-hunt.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:282691685592:ios:3c26034e46500cc74ddbad</string>
 </dict>
