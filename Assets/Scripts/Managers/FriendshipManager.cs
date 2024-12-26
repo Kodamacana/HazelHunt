@@ -44,6 +44,7 @@ public class FriendshipManager : MonoBehaviour
         sendFriendInvitationButton.onClick.AddListener(delegate { SendFriendInvitation(); });
         friendListOpenButton.onClick.AddListener(delegate { CreateFriendObjectAsync(); });
         inviteCloseButton.onClick.AddListener(delegate { CreateFriendObjectAsync(); });
+        firestoreManager.ListenForMatchRequests();
     }
 
     private void ResetPanel()

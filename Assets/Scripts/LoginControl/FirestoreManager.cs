@@ -6,6 +6,7 @@ using System;
 using Firebase.Auth;
 using System.Threading.Tasks;
 using System.Collections;
+using UnityEngine.Networking;
 
 [FirestoreData]
 public struct UserData
@@ -77,11 +78,6 @@ public class FirestoreManager : MonoBehaviour
     {
         firestore = FirebaseFirestore.DefaultInstance;
     }
-    void OnDestroy()
-    {
-        firestore.DisableNetworkAsync();
-    }
-
     private async void UpdateOnlineUsersList()
     {
         await GetOnlineUsers();
@@ -375,7 +371,6 @@ public class FirestoreManager : MonoBehaviour
 
     public async Task<List<FriendData>> GetFriendsData(bool isInviteList)
     {
-        ListenForMatchRequests();
         await GetFirestoreDatas(UserId, false);
 
         List<FriendData> friendData = new List<FriendData>();
@@ -450,86 +445,60 @@ public class FirestoreManager : MonoBehaviour
 
     //return friendData;
     //}      
-
-    private void SetOnlineStatus(bool isOnline)
-    {
-        DocumentReference docRef = firestore.Collection("Users").Document(this.UserId);
-
-        Dictionary<string, object> personalData = new Dictionary<string, object>
-    {
-        { "online_status", isOnline } 
-    };
-
-        Dictionary<string, object> updatedUserData = new Dictionary<string, object>
-    {
-        { "personal_data", personalData } 
-    };
-
-        // Veriyi Firestore'a kaydetme işlemi
-        docRef.SetAsync(updatedUserData, SetOptions.MergeAll).ContinueWith(task =>
-        {
-            if (task.IsCompleted)
-            {
-                Debug.Log("Online durumu Firestore'a başarıyla kaydedildi.");
-            }
-            else
-            {
-                Debug.LogError("Online durumu Firestore'a kaydedilemedi: " + task.Exception);
-            }
-        });
-    }
-
-
+       
     #region FriendsMatch
     public void SendMatchRequest(string opponentUserId)
     {
         FirebaseManager firebaseManager = FirebaseManager.Instance;
 
-       // string timestamp = DateTime.UtcNow.ToString("o");
+        RealDateTimeManager.Instance.GetCurrentDateTime((dateTime) =>
+        {
+            string timestamp = dateTime.ToString("o");
 
-        DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
-        docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
+            DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
+            docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
     {
         { "fromId", UserId },
         { "fromName", firebaseManager.DisplayName },
         { "status", "pending" },
-        { "roomId", "" }
-        //{ "timestamp", timestamp }
+        { "roomId", "" },
+        { "timestamp", timestamp }
     }));
 
-        string roomName = UserId + "_" + opponentUserId + "_room";
+            string roomName = UserId + "_" + opponentUserId + "_room";
 
-        MatchmakingManager.Instance.AcceptFriendMatchRequest(roomName);
+            MatchmakingManager.Instance.AcceptFriendMatchRequest(roomName);
 
-       // StartCoroutine(MatchRequestTimeoutCheck(opponentUserId, timestamp));
+            StartCoroutine(MatchRequestTimeoutCheck(opponentUserId, timestamp));
+        });
     }
 
-    //IEnumerator MatchRequestTimeoutCheck(string opponentUserId, string timestamp)
-    //{
-    //    yield return new WaitForSeconds(100);
+    IEnumerator MatchRequestTimeoutCheck(string opponentUserId, string timestamp)
+    {
+        yield return new WaitForSecondsRealtime(10);
 
-    //    DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
+        DocumentReference docRef = firestore.Collection("Users").Document(opponentUserId);
 
-    //    docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
-    //    {
-    //        if (task.Result.Exists)
-    //        {
-    //            List<Dictionary<string, object>> matchRequests = task.Result.GetValue<List<Dictionary<string, object>>>("match_requests");
+        docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.Result.Exists)
+            {
+                List<Dictionary<string, object>> matchRequests = task.Result.GetValue<List<Dictionary<string, object>>>("match_requests");
 
-    //            foreach (var request in matchRequests)
-    //            {
-    //                if (request["timestamp"].ToString() == timestamp && request["status"].ToString() == "pending")
-    //                {
-    //                    docRef.UpdateAsync("match_requests", FieldValue.ArrayRemove(request));
-    //                    request["status"] = "timeout";
-    //                    docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(request));
+                foreach (var request in matchRequests)
+                {
+                    if (request["timestamp"].ToString() == timestamp && request["status"].ToString() == "pending")
+                    {
+                        docRef.UpdateAsync("match_requests", FieldValue.ArrayRemove(request));
+                        request["status"] = "timeout";
+                        docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(request));
 
-    //                    Debug.Log("Maç isteği zaman aşımına uğradı.");
-    //                }
-    //            }
-    //        }
-    //    });
-    //}
+                        Debug.Log("Maç isteği zaman aşımına uğradı.");
+                    }
+                }
+            }
+        });
+    }
 
     public void RecordMatchResult(string opponentUsername, string opponentUserId, string result)
     {
@@ -627,6 +596,51 @@ public class FirestoreManager : MonoBehaviour
         invitePopUp.gameObject.SetActive(false);
     }
 
+    public void RejectMatchRequest()
+    {
+        string fromUserId = invitePopUp.fromUserId;
+        string fromUsername = invitePopUp.fromUsername;
+
+        string roomName = fromUserId + "_" + UserId + "_room";
+
+        DocumentReference docRef = firestore.Collection("Users").Document(fromUserId);
+
+        docRef.UpdateAsync("match_requests", FieldValue.ArrayRemove(new Dictionary<string, object>
+    {
+        { "fromId", fromUserId },
+        { "fromName", fromUsername},
+        { "status", "pending" },
+        { "roomId", "" }
+    }));
+
+        docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
+    {
+        { "fromId", fromUserId },
+        { "fromName", fromUsername},
+        { "status", "rejected" },
+        { "roomId", roomName }
+    }));
+
+
+        firestore.Collection("Users").Document(UserId).UpdateAsync("match_requests", FieldValue.ArrayRemove(new Dictionary<string, object>
+    {
+        { "fromId", fromUserId },
+        { "fromName", fromUsername},
+        { "status", "pending" },
+        { "roomId", "" }
+    }));
+
+        firestore.Collection("Users").Document(UserId).UpdateAsync("match_requests", FieldValue.ArrayUnion(new Dictionary<string, object>
+    {
+        { "fromId", fromUserId },
+        { "fromName", fromUsername},
+        { "status", "rejected" },
+        { "roomId", roomName }
+    }));
+
+        invitePopUp.gameObject.SetActive(false);
+    }
+
     private void NoAnswerMatchRequest(DocumentReference docRef, Dictionary<string, object> match_request)
     {
         docRef.UpdateAsync(new Dictionary<string, object>
@@ -636,20 +650,22 @@ public class FirestoreManager : MonoBehaviour
             { "fromId", match_request["fromId"] },
             { "fromName", match_request["fromName"] },
             { "status", "pending" },
-            { "roomId", match_request["roomId"] }
+            { "roomId", match_request["roomId"] },
+            { "timestamp", match_request["timestamp"] }
         }) },
         { "match_request", FieldValue.ArrayUnion(new Dictionary<string, object>
         {
             { "fromId", match_request["fromId"] },
             { "fromName", match_request["fromName"] },
             { "status", "no_answer" },
-            { "roomId", match_request["roomId"] }
+            { "roomId", match_request["roomId"] },
+            { "timestamp", match_request["timestamp"] }
         }) }
     });
     }
+        
 
-
-    private void ListenForMatchRequests()
+    public void ListenForMatchRequests()
     {
         DocumentReference docRef = firestore.Collection("Users").Document(UserId);
         docRef.Listen(snapshot =>
@@ -662,9 +678,34 @@ public class FirestoreManager : MonoBehaviour
                 {
                     if (request["status"].ToString() == "pending")
                     {
-                        NoAnswerMatchRequest(docRef, request);
-                        invitePopUp.ShowMatchRequestPopup(request["fromName"].ToString(), request["fromId"].ToString());
+                        RealDateTimeManager.Instance.GetCurrentDateTime((timestamp) =>
+                        {
+                            DateTime date;
+
+                            if (DateTime.TryParse(request["timestamp"].ToString(), out date))
+                            {
+                                // date değişkeni timestamp'ten küçükse aşağıdaki kod çalışsın
+                                if (date.AddMinutes(5) >= timestamp)
+                                {
+                                    invitePopUp.ShowMatchRequestPopup(request["fromName"].ToString(), request["fromId"].ToString());
+                                    NoAnswerMatchRequest(docRef, request);
+                                }
+                                else
+                                {
+                                    docRef.UpdateAsync("match_requests", FieldValue.ArrayRemove(request));
+                                    request["status"] = "timeout";
+                                    docRef.UpdateAsync("match_requests", FieldValue.ArrayUnion(request));
+
+                                    Debug.Log("Maç isteği zaman aşımına uğradı.");
+                                }
+                            }
+                            else
+                            {
+                                Debug.LogError("Tarih formatı geçerli değil.");
+                            }
+                        });                        
                     }
+
                 }
 
                 List<object> friendship_invites_list = snapshot.GetValue<List<object>>("friendship_invites_list");
@@ -689,8 +730,37 @@ public class FirestoreManager : MonoBehaviour
         ConnectToServer.ConnectToTheServer();
     }
 
-    private void OnApplicationQuit()
+    private async void OnApplicationQuit()
     {
-        SetOnlineStatus(false);
+        await SetOnlineStatus(UserId, false);
+        // Uygulamanın tamamen kapanmadan önce 2 saniye bekleyin
+        await Task.Delay(2000);
+        Application.Quit();
     }
+
+    private async Task SetOnlineStatus(string userId, bool isOnline)
+    {
+        DocumentReference docRef = firestore.Collection("Users").Document(userId);
+
+        Dictionary<string, object> personalData = new Dictionary<string, object>
+    {
+        { "online_status", isOnline }
+    };
+
+        Dictionary<string, object> updatedUserData = new Dictionary<string, object>
+    {
+        { "personal_data", personalData }
+    };
+
+        try
+        {
+            await docRef.SetAsync(updatedUserData, SetOptions.MergeAll);
+            Debug.Log("Online durumu Firestore'a başarıyla kaydedildi.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Online durumu Firestore'a kaydedilemedi: " + ex.Message);
+        }
+    }
+
 }

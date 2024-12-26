@@ -66,6 +66,11 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.JoinOrCreateRoom("OfflineModeTest", new RoomOptions(), TypedLobby.Default);
         }
+        else if (PhotonNetwork.CurrentRoom != null)
+        {
+            PhotonNetwork.LeaveRoom();
+            StartMatchmaking();
+        }
         else StartMatchmaking();
     }
     #endregion
@@ -99,7 +104,8 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             yield return null;
         }
 
-        PhotonNetwork.JoinRandomRoom();
+        if (PhotonNetwork.CurrentRoom != null)
+            PhotonNetwork.JoinRandomRoom();
 
         while (isMatching && Time.time - startTime < matchTimeout)
         {

@@ -3,6 +3,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InvitePopUp : MonoBehaviour
@@ -17,7 +18,7 @@ public class InvitePopUp : MonoBehaviour
     private void Awake()
     {
         acceptButton.onClick.AddListener(delegate { FirestoreManager.Instance.AcceptMatchRequest(); });
-        declineButton.onClick.AddListener(delegate { OnHide(); });
+        declineButton.onClick.AddListener(delegate { FirestoreManager.Instance.RejectMatchRequest(); });
     }
 
     public void ShowMatchRequestPopup(string fromUsername, string fromUserId)
@@ -26,11 +27,9 @@ public class InvitePopUp : MonoBehaviour
         this.fromUsername = fromUsername;
 
         usernameText.text = fromUsername;
-        gameObject.SetActive(true);
+
+        if (!SceneManager.GetActiveScene().name.Contains("Game"))
+         gameObject.SetActive(true);
     }
 
-    private void OnHide()
-    {
-        gameObject.SetActive(false);
-    }
 }
