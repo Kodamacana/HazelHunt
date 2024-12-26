@@ -85,13 +85,13 @@ public class PlayerBase : MonoBehaviourPunCallbacks
 
         if (isBomb)
         {
-            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 0.4f);
-            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_ImpactSplat1, transform.position, 0.2f);
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 0.2f);
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_ImpactSplat1, transform.position, 0.05f);
             currentHealth -= 70;
         }
         else {
-            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 0.4f);
-            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_ImpactSplat2, transform.position, .2f);
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_GettingShot, transform.position, 0.2f);
+            SoundManagerSO.PlaySoundFXClip(GameController.Instance.sound_ImpactSplat2, transform.position, .05f);
             currentHealth -= 8;
         }
 
