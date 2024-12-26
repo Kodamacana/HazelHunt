@@ -33,8 +33,8 @@ public class RealDateTimeManager : MonoBehaviour
     private IEnumerator InitializeDateTime(Action<DateTime> onCompleted)
     {
         int retryCount = 0;
-        int maxRetries = 50; // En fazla 5 kez dene
-        float retryDelay = 0.5f; // Her deneme arasýnda 2 saniye bekle
+        int maxRetries = 60; // En fazla 5 kez dene
+        float retryDelay = 2f; // Her deneme arasýnda 2 saniye bekle
 
         while (retryCount < maxRetries)
         {

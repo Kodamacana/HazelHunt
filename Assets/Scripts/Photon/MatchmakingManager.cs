@@ -104,7 +104,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
             yield return null;
         }
 
-        if (PhotonNetwork.CurrentRoom != null)
+        if (PhotonNetwork.CurrentRoom == null)
             PhotonNetwork.JoinRandomRoom();
 
         while (isMatching && Time.time - startTime < matchTimeout)

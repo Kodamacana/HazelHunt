@@ -76,20 +76,33 @@ public class Bomb : MonoBehaviour
             if (hitCollider != null && hitCollider.name.Contains("Player"))
             {
                 PhotonView targetPhotonView = hitCollider.GetComponent<PhotonView>();
-                var photonList = arr.Where(x => x.ViewID.Equals(targetPhotonView.ViewID)).ToList();
-
-                if (photonList.Count > 0)
-                    continue;
-
-                if (targetPhotonView != null)
+                try
                 {
-                    if(targetPhotonView.IsMine)
-                        BombDamageSFX.Instance.StartLowPassAdjustment();
+                    var photonList = arr.Where(x => x.ViewID.Equals(targetPhotonView.ViewID)).ToList();
 
-                    targetPhotonView.RPC("TakeDamage", RpcTarget.All, RandomVector2(3.1415f, 3.1415f), true);
+                    if (photonList.Count > 0)
+                        continue;
 
-                    arr.Add(targetPhotonView);
+                    if (targetPhotonView != null)
+                    {
+                        if (targetPhotonView.IsMine)
+                            BombDamageSFX.Instance.StartLowPassAdjustment();
+
+                        targetPhotonView.RPC("TakeDamage", RpcTarget.All, RandomVector2(3.1415f, 3.1415f), true);
+
+                        arr.Add(targetPhotonView);
+                    }
+
                 }
+                catch (System.Exception)
+                {
+                    GameController.Instance.ShakeCamera(2);
+                    GetComponent<SpriteRenderer>().color = Color.clear;
+                    StartCoroutine(DestroyObject(gameObject, 6f));
+
+                    throw;
+                }
+               
             }
         }
 

@@ -116,14 +116,16 @@ public class GameController : MonoBehaviour
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y), Quaternion.identity);
+                //player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y), Quaternion.identity);
+                player = PhotonNetwork.Instantiate(playerPrefab.name, new(5.6f, 0,0), Quaternion.identity);
                
                 chosenTree = PhotonNetwork.Instantiate(baseTreePrefab.name, new Vector3(-7.79f, 1.75f, 0), Quaternion.identity);
                 StartCoroutine(GoBaseCollect(chosenTree));
             }
             else
             {
-                player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y), Quaternion.identity);
+                //player = PhotonNetwork.Instantiate(playerPrefab.name, GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y), Quaternion.identity);
+                player = PhotonNetwork.Instantiate(playerPrefab.name, new(-5.6f, 0, 0), Quaternion.identity);
                 
                 chosenTree = PhotonNetwork.Instantiate(baseTreePrefab.name, new Vector3(7.759f, 1.75f, 0), Quaternion.identity);
                 StartCoroutine(GoBaseCollect( chosenTree));
@@ -177,8 +179,11 @@ public class GameController : MonoBehaviour
         if (!view.IsMine)
             return;
 
-        if (PhotonNetwork.IsMasterClient) player.transform.position = GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y);
-        else player.transform.position = GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y);
+        //if (PhotonNetwork.IsMasterClient) player.transform.position = GetRandomPosition(minX2Y2.x, maxX2Y2.x, minX2Y2.y, maxX2Y2.y);
+        //else player.transform.position = GetRandomPosition(minX1Y1.x, maxX1Y1.x, minX1Y1.y, maxX1Y1.y);
+
+        if (PhotonNetwork.IsMasterClient) player.transform.position = new(5.6f, 0, 0);
+        else player.transform.position = new(-5.6f, 0, 0);
     }
 
     public void ShakeCamera(int sourceIndex = 0)
