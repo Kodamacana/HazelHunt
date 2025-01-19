@@ -12,10 +12,11 @@ public class RealDateTimeManager : MonoBehaviour
 
     public void GetCurrentDateTime(Action<DateTime> onDateTimeReceived)
     {
-        StartCoroutine(InitializeDateTime((dateTime) =>
-        {
-            onDateTimeReceived?.Invoke(dateTime);
-        }));
+        onDateTimeReceived?.Invoke(DateTime.UtcNow);
+        //StartCoroutine(InitializeDateTime((dateTime) =>
+        //{
+        //    onDateTimeReceived?.Invoke(dateTime);
+        //}));
     }
 
     private void Awake()

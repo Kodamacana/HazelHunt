@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id">
   <string name="gcm_defaultSenderId" translatable="false">282691685592</string>
-  <string name="google_storage_bucket" translatable="false">hazel-hunt.appspot.com</string>
+  <string name="google_storage_bucket" translatable="false">hazel-hunt.firebasestorage.app</string>
   <string name="project_id" translatable="false">hazel-hunt</string>
   <string name="google_api_key" translatable="false">AIzaSyB07XmDU1U0b5xBZ5x_UOz_5vSJkCGYz80</string>
   <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB07XmDU1U0b5xBZ5x_UOz_5vSJkCGYz80</string>
   <string name="google_app_id" translatable="false">1:282691685592:android:4ee35705442a4ea94ddbad</string>
+  <string name="default_android_client_id" translatable="false">282691685592-kuk4reitepv8vq0bmm2s5ioiroa8cjpi.apps.googleusercontent.com</string>
+  <string name="default_web_client_id" translatable="false">282691685592-6d59opr6ucoj0rqa1oqnua60ngihsj5m.apps.googleusercontent.com</string>
 </resources>

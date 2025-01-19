@@ -1,5 +1,14 @@
 # ninja log v5
-3	129	7481445166936023	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	24d3c56cb27ea486
-129	351	7481445169077142	C:/Users/ahmet/OneDrive/Documents/GitHub/HazelHunt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/x2z6i6n6/obj/armeabi-v7a/libswappywrapper.so	167b4514fb928db2
-4	242	7481446850539685	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	24d3c56cb27ea486
-243	492	7481446853013696	C:/Users/ahmet/OneDrive/Documents/GitHub/HazelHunt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/x2z6i6n6/obj/armeabi-v7a/libswappywrapper.so	167b4514fb928db2
+3104	3365	7568822444535695	C:/Users/ahmet/OneDrive/Documents/GitHub/HazelHunt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/x2z6i6n6/obj/armeabi-v7a/libgame.so	828d0c475bb03af9
+295	747	7573016136693092	C:/Users/ahmet/OneDrive/Documents/GitHub/HazelHunt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/x2z6i6n6/obj/armeabi-v7a/libswappywrapper.so	167b4514fb928db2
+32	3103	7568822442225728	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	eaf5323929b40f21
+3	294	7573016132263396	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	24d3c56cb27ea486
+13	2251	7568822432948065	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	16f06841e6d7c5ec
+1	2407	7568822434692116	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	617d81a9f47ffbdd
+79	2756	7568822438707079	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	478c72ce61ee2e8d
+53	2495	7568822435282825	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	d3115aab107f4d32
+22	2823	7568822439335866	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	af5e7e7b8f99747c
+64	2637	7568822437565047	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	9b9cc1499081339f
+42	3056	7568822441755286	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	cee3fa7e1847c37b
+2	288	7573020485373145	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	24d3c56cb27ea486
+288	623	7573020488649138	C:/Users/ahmet/OneDrive/Documents/GitHub/HazelHunt/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/x2z6i6n6/obj/armeabi-v7a/libswappywrapper.so	167b4514fb928db2

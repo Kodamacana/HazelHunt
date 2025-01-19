@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "282691685592",
     "project_id": "hazel-hunt",
-    "storage_bucket": "hazel-hunt.appspot.com"
+    "storage_bucket": "hazel-hunt.firebasestorage.app"
   },
   "client": [
     {
@@ -12,7 +12,28 @@
           "package_name": "com.SilverGlobeCorporation.HazelHunt"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "282691685592-kuk4reitepv8vq0bmm2s5ioiroa8cjpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.SilverGlobeCorporation.HazelHunt",
+            "certificate_hash": "8df2aa4e1ac463c35cd9f2bd936bfdba2d6cc570"
+          }
+        },
+        {
+          "client_id": "282691685592-t7hv774fqls65svu2bv74mkhnplc5k24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.SilverGlobeCorporation.HazelHunt",
+            "certificate_hash": "00c4c7a84b03df8cf1b69f2831ba32a3b6b736b5"
+          }
+        },
+        {
+          "client_id": "282691685592-6d59opr6ucoj0rqa1oqnua60ngihsj5m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB07XmDU1U0b5xBZ5x_UOz_5vSJkCGYz80"
@@ -20,7 +41,20 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282691685592-6d59opr6ucoj0rqa1oqnua60ngihsj5m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "282691685592-88mbkjikl5hakfg9phr6olua44frlf6k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.SilverGlobeCorporation.HazelHunt",
+                "app_store_id": "6736599274"
+              }
+            }
+          ]
         }
       }
     }
